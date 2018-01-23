@@ -48,6 +48,7 @@ public:
     int id;
     int NbIN;
     vector<int> idRegistered;
+    vector<bool> isRegistered;
     double frequency;
     bool discovered;
     double old_phase;

@@ -47,7 +47,7 @@ class IsoN : public cSimpleModule
 
   private:
     int id,time,data;
-    bool discovered;
+    bool discovered,registered;
     double frequency,old_phase;
     int slot;
   protected:

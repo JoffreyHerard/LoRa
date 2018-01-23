@@ -57,3 +57,11 @@ int messageLoRA::getSlots() const {
 void messageLoRA::setSlots(int slots) {
     this->slots = slots;
 }
+
+long int messageLoRA::getIdDest() const {
+    return id_dest;
+}
+
+void messageLoRA::setIdDest(long int idDest) {
+    id_dest = idDest;
+}

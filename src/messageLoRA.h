@@ -30,6 +30,7 @@ class messageLoRA: public omnetpp::cMessage {
         double frequency;
         int slots;
         long int id_src;
+        long int id_dest;
     public:
         messageLoRA();
         virtual ~messageLoRA();
@@ -42,6 +43,8 @@ class messageLoRA: public omnetpp::cMessage {
         void setIdSrc(long int idSrc);
         int getSlots() const;
         void setSlots(int slots);
+        long int getIdDest() const;
+        void setIdDest(long int idDest);
 };
 
 #endif /* MESSAGELORA_H_ */

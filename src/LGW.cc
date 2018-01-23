@@ -1,18 +1,3 @@
-//
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-// 
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Lesser General Public License for more details.
-// 
-// You should have received a copy of the GNU Lesser General Public License
-// along with this program.  If not, see http://www.gnu.org/licenses/.
-// 
-
 #include "LGW.h"
 
 Define_Module(LGW);
@@ -21,10 +6,13 @@ void LGW::initialize()
 {
 
    EV << "LoRA Gateway started"<< endl;
+   this->slot=5;
    this->frequency=0;
-   messageLoRA *m = new messageLoRA();
    this->id = par("id").longValue();
+   this->idRegistered =  vector<int>();
+   this->isRegistered =  vector<bool>();
 
+   messageLoRA *m = new messageLoRA();
    char numstr[21];
    sprintf(numstr, "%d", this->id);
    string tmp = "Join request";
@@ -63,6 +51,7 @@ void LGW::notListeningHandleMessage(messageLoRA *msg){
     if(msg->isSelfMessage()){
         messageLoRA *m = new messageLoRA();
         m->setIdSrc(this->id);
+        m->setIdDest(msg->getIdSrc());
         switch(choose){
             case 15:{
                 /*LoRaGateway is required to harvest data*/
@@ -72,6 +61,7 @@ void LGW::notListeningHandleMessage(messageLoRA *msg){
                 messageLoRA *m1 = new messageLoRA();
                 m1->setName("Data request");
                 m1->setKind(4);
+                m1->setIdDest(msg->getIdSrc());
                 send(m1,"LGWtoIN");
                 EV << "Data request Message sent from: " << this->id  << endl;
 
@@ -112,10 +102,14 @@ void LGW::setSlot(int slot) {
 }
 
 void LGW::isListeningHandleMessage(messageLoRA *msg){
+
+    EV <<  "LGW: received: " << msg->getName() << " kind " << msg->getKind() << endl;
+
     messageLoRA *m = new messageLoRA();
     m->setSlots(this->slot);
-    EV <<  "LGW: received: " << msg->getName() << " kind " << msg->getKind() << endl;
     m->setIdSrc(this->id);
+    m->setIdDest(msg->getIdSrc());
+
     if(msg->getKind() == 6 && !(this->discovered) )
     {
         /*There is a LoRaWAN Gateway Near and I'm not registered yet*/
@@ -123,6 +117,7 @@ void LGW::isListeningHandleMessage(messageLoRA *msg){
         this->slot=msg->getSlots();
         EV << "Slot receive: "<< msg->getSlots() <<endl;
     }
+
     if(msg->getKind() == 21 )
     {
         m->setName("Accept");
@@ -132,6 +127,7 @@ void LGW::isListeningHandleMessage(messageLoRA *msg){
         send(m,"LGWtoIN");
         EV << "Accept Message sent from: " << this->id  << endl;
     }
+
     if(msg->getKind() == 1 )
     {
         /*We received a Discover message and we attempt to register it to the LoRaWAN Gateway*/
@@ -140,7 +136,7 @@ void LGW::isListeningHandleMessage(messageLoRA *msg){
         mjoin->setKind(2);
         mjoin->setIdSrc(msg->getIdSrc());
         mjoin->setSlots(this->slot);
-
+        mjoin->setIdDest(msg->getIdSrc());
         send(mjoin,"LGWtoLWGW");
         EV << "Join Request LoRaWAN message sent from: " << this->id  << endl;
 

@@ -39,6 +39,7 @@ void LWGW::handleMessage(cMessage *msg)
 void LWGW::notListeningHandleMessage(messageLoRA *msg){
 
     short choose = msg->getKind();
+
     if(msg->isSelfMessage()){
         EV << "LoRaWAN Gateway has received a self message " << endl;
         messageLoRA *m = new messageLoRA();
@@ -77,6 +78,7 @@ void LWGW::setSlot(int slot) {
 void LWGW::isListeningHandleMessage(messageLoRA *msg){
    EV << "LoRaWAN Gateway has received message during a listening Phase" << endl;
    messageLoRA *m = new messageLoRA();
+   m->setIdDest(msg->getIdSrc());
    if(msg->getKind() == 0 )
    {
        m->setName("Join Accept");
