@@ -45,7 +45,7 @@ public:
     void setSlot(int slot);
 
   private:
-    int id;
+    int id,time;
     int NbIN;
     vector<int> idRegistered;
     vector<bool> isRegistered;

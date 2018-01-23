@@ -131,8 +131,6 @@ void IsoN::notListeningHandleMessage(messageLoRA *msg){
             case 17:{
                 /*I am registered???*/
                 /*We are not already discovered*/
-
-
                 if(!this->registered){
                     m->setName("Register");
                     m->setKind(3);

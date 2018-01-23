@@ -12,6 +12,9 @@ void LGW::initialize()
    this->idRegistered =  vector<int>();
    this->isRegistered =  vector<bool>();
 
+   /* generate number between 1 and 100: */
+   this->time = this->slot +1;
+
    messageLoRA *m = new messageLoRA();
    char numstr[21];
    sprintf(numstr, "%d", this->id);
@@ -24,8 +27,13 @@ void LGW::initialize()
    m->setIdSrc(this->id);
    send(m,"LGWtoLWGW");
    EV << "Join Request LoRaWAN message sent from: " << this->id  << endl;
+   this->old_phase =2;
    this->frequency=2;
-   this->old_phase =this->frequency;
+   messageLoRA *mDiscover = new messageLoRA();
+   mDiscover->setIdSrc(this->id);
+   mDiscover->setName("Hibernate__discover");
+   mDiscover->setKind(16);
+   scheduleAt(simTime()+this->time, mDiscover);
 }
 
 const vector<int>& LGW::getIdRegistered() const {
@@ -43,10 +51,17 @@ void LGW::handleMessage(cMessage *msg)
     else{
         notListeningHandleMessage((messageLoRA*)msg);
     }
+    if( ( !((messageLoRA*)msg)->isSelfMessage() ) && (this->frequency == 0) && !(this->discovered)){
+        /*There is a LoRaWAN Gateway Near and I'm not registered yet*/
+        EV << "LoRa Gateway has received the Join request Message with timeout process " << endl;
+        this->discovered=true;
+        this->slot=((messageLoRA*)msg)->getSlots();
+        EV << "Slot receive: "<< ((messageLoRA*)msg)->getSlots() <<endl;
+        this->frequency=2;
+    }
 }
 
 void LGW::notListeningHandleMessage(messageLoRA *msg){
-    EV << "LoRa Gateway has received a message " << endl;
     short choose = msg->getKind();
     if(msg->isSelfMessage()){
         messageLoRA *m = new messageLoRA();
@@ -68,6 +83,28 @@ void LGW::notListeningHandleMessage(messageLoRA *msg){
                 break;
             }
             case 16:{
+                if(this->discovered){
+                    /*We are already discovered*/
+                }else{
+                    messageLoRA *m = new messageLoRA();
+                    char numstr[21];
+                    sprintf(numstr, "%d", this->id);
+                    string tmp = "Join request";
+                    string tmp2 =tmp+numstr;
+                    const char * c = tmp2.c_str();
+
+                    m->setName(c);
+                    m->setKind(0);
+                    m->setIdSrc(this->id);
+                    send(m,"LGWtoLWGW");
+                    EV << "Join Request LoRaWAN message sent from: " << this->id  << endl;
+
+                    messageLoRA *mDiscover = new messageLoRA();
+                    mDiscover->setIdSrc(this->id);
+                    mDiscover->setName("Hibernate__discover");
+                    mDiscover->setKind(16);
+                    scheduleAt(simTime()+this->time, mDiscover);
+                }
                 break;
             }
             case 17:{
