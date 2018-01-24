@@ -115,7 +115,6 @@ void IsoN::notListeningHandleMessage(messageLoRA *msg){
                     m->setName("Discover");
                     m->setKind(1);
                     m->setFrequency(1);
-                    m->setIdSrc(this->id);
                     send(m,"INtoLGW");
                     EV << "Discovery Message sent from: " << this->id <<" number: "<< data << endl;
 
@@ -174,7 +173,7 @@ void IsoN::setSlot(int slot) {
 void IsoN::isListeningHandleMessage(messageLoRA *msg){
     messageLoRA *m = new messageLoRA();
     m->setIdSrc(this->id);
-    m->setIdDest(msg->getIdSrc());
+    m->setIdDest(this->myLoRa);
     EV <<  "received: " << msg->getName() << " kind " << msg->getKind() << endl;
 
     if(msg->getKind() == 2 && !(this->discovered)){
@@ -210,7 +209,7 @@ void IsoN::isListeningHandleMessage(messageLoRA *msg){
         m->setFrequency(2);
         m->setName(c);
         m->setKind(5);
-        m->setIdDest(msg->getIdSrc());
+        m->setIdDest(this->myLoRa);
         send(m,"INtoLGW");
         EV << "Data Response sent from: " << this->id << endl;
 

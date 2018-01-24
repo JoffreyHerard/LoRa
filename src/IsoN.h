@@ -50,6 +50,7 @@ class IsoN : public cSimpleModule
     bool discovered,registered;
     double frequency,old_phase;
     int slot;
+    int myLoRa;
   protected:
     virtual void initialize();
     virtual void handleMessage(cMessage *msg);

@@ -23,6 +23,7 @@ void LWGW::initialize()
     EV << "LoRaWAN Gateway Started"<< endl;
     this->frequency=1;
     this->slot=5;
+    this->id = par("id").longValue();
 }
 
 void LWGW::handleMessage(cMessage *msg)
@@ -111,6 +112,7 @@ void LWGW::isListeningHandleMessage(messageLoRA *msg){
        mHibernate->setKind(15);
        scheduleAt(simTime()+this->slot, mHibernate);
    }
+
 }
 
 bool LWGW::isDiscovered() const {

@@ -53,6 +53,7 @@ public:
     bool discovered;
     double old_phase;
     int slot;
+    int MyLW;
   protected:
     virtual void initialize();
     virtual void handleMessage(cMessage *msg);

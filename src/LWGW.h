@@ -46,7 +46,7 @@ public:
     double old_phase;
     vector<int> idRegistered;
     vector<int> idRegisteredLGW;
-    int slot;
+    int slot,id;
   protected:
     virtual void initialize();
     virtual void handleMessage(cMessage *msg);

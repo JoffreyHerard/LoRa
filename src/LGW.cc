@@ -55,6 +55,7 @@ void LGW::handleMessage(cMessage *msg)
         /*There is a LoRaWAN Gateway Near and I'm not registered yet*/
         EV << "LoRa Gateway has received the Join request Message with timeout process " << endl;
         this->discovered=true;
+        this->MyLW=((messageLoRA*)msg)->getIdSrc();
         this->slot=((messageLoRA*)msg)->getSlots();
         EV << "Slot receive: "<< ((messageLoRA*)msg)->getSlots() <<endl;
         this->frequency=2;
@@ -76,7 +77,7 @@ void LGW::notListeningHandleMessage(messageLoRA *msg){
                 messageLoRA *m1 = new messageLoRA();
                 m1->setName("Data request");
                 m1->setKind(4);
-                m1->setIdDest(msg->getIdSrc());
+                m1->setIdDest(this->idRegistered[0]);
                 send(m1,"LGWtoIN");
                 EV << "Data request Message sent from: " << this->id  << endl;
 
@@ -96,6 +97,7 @@ void LGW::notListeningHandleMessage(messageLoRA *msg){
                     m->setName(c);
                     m->setKind(0);
                     m->setIdSrc(this->id);
+                    m->setIdDest(-1);
                     send(m,"LGWtoLWGW");
                     EV << "Join Request LoRaWAN message sent from: " << this->id  << endl;
 
@@ -155,6 +157,20 @@ void LGW::isListeningHandleMessage(messageLoRA *msg){
         EV << "Slot receive: "<< msg->getSlots() <<endl;
     }
 
+    if(msg->getKind() == 1 )
+    {
+        /*We received a Discover message and we attempt to register it to the LoRaWAN Gateway*/
+        messageLoRA *mjoin = new messageLoRA();
+        mjoin->setName("Registering isolated node");
+        mjoin->setKind(2);
+        mjoin->setIdSrc(msg->getIdSrc());
+        mjoin->setSlots(this->slot);
+        mjoin->setIdDest(this->MyLW);
+        send(mjoin,"LGWtoLWGW");
+        EV << "Join Request LoRaWAN message sent from: " << this->id  << endl;
+
+    }
+
     if(msg->getKind() == 21 )
     {
         m->setName("Accept");
@@ -165,25 +181,16 @@ void LGW::isListeningHandleMessage(messageLoRA *msg){
         EV << "Accept Message sent from: " << this->id  << endl;
     }
 
-    if(msg->getKind() == 1 )
-    {
-        /*We received a Discover message and we attempt to register it to the LoRaWAN Gateway*/
-        messageLoRA *mjoin = new messageLoRA();
-        mjoin->setName("Registering isolated node");
-        mjoin->setKind(2);
-        mjoin->setIdSrc(msg->getIdSrc());
-        mjoin->setSlots(this->slot);
-        mjoin->setIdDest(msg->getIdSrc());
-        send(mjoin,"LGWtoLWGW");
-        EV << "Join Request LoRaWAN message sent from: " << this->id  << endl;
-
-     }
 
     if(msg->getKind() == 3 )
     {
         /*We received a Register message*/
-        //idRegistered.push_back (NbIN);
-        NbIN++;
+        if(find(idRegistered.begin(), idRegistered.end(), msg->getIdSrc()) != idRegistered.end()) {
+            /* We had  registered this Node yet, but it's possible he don't know yet */
+        } else {
+            /* v does not contain x */
+            idRegistered.push_back (msg->getIdSrc());
+        }
         m->setName("Data request");
         m->setKind(4);
         send(m,"LGWtoIN");
@@ -195,6 +202,7 @@ void LGW::isListeningHandleMessage(messageLoRA *msg){
         /*We received a Data message*/
         m->setName(msg->getName());
         m->setKind(7);
+        m->setIdDest(this->MyLW);
         send(m,"LGWtoLWGW");
         EV << "Data Message sent from: " << this->id << endl;
         /*On va faire hiberner le tout .*/
@@ -206,6 +214,7 @@ void LGW::isListeningHandleMessage(messageLoRA *msg){
 
         scheduleAt(simTime()+this->slot, mHibernate);
     }
+
     delete msg;
 }
 
