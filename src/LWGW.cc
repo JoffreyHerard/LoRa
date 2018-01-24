@@ -103,15 +103,19 @@ void LWGW::isListeningHandleMessage(messageLoRA *msg){
            break;
        }
        case 7 :{
-           EV <<  "received data : " << msg->getName() << " " << endl;
-           this->discovered=true;
-           /*On va faire hiberner le tout .*/
-           this->frequency=0;
-           messageLoRA *mHibernate = new messageLoRA();
-           mHibernate->setName("Hibernate_deactivate");
-           mHibernate->setKind(15);
-           scheduleAt(simTime()+this->slot, mHibernate);
-           break;
+           if(msg->getIdDest() == this->id){
+               EV <<  "received data : " << msg->getName() << " " << endl;
+               this->discovered=true;
+               /*On va faire hiberner le tout .*/
+               this->frequency=0;
+               messageLoRA *mHibernate = new messageLoRA();
+               mHibernate->setName("Hibernate_deactivate");
+               mHibernate->setKind(15);
+               scheduleAt(simTime()+this->slot, mHibernate);
+               break;
+           }else{
+               EV << "I received a message that was not destined to me"<< endl;
+           }
        }
    }
 

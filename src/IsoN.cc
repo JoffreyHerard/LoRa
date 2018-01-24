@@ -118,6 +118,7 @@ void IsoN::notListeningHandleMessage(messageLoRA *msg){
                     /*We are already discovered*/
                 }else{
                     /*We are not already discovered*/
+                    this->myLoRa=((messageLoRA*)msg)->getIdSrc();
                     m->setName("Discover");
                     m->setKind(1);
                     m->setFrequency(1);
@@ -208,32 +209,33 @@ void IsoN::isListeningHandleMessage(messageLoRA *msg){
             break;
         }
         case 4: {
-            /*There is a LoRa Gateway Near and this one want my data*/
-            if (!this->registered)
-                this->registered=true;
-            char numstr[21];
-            sprintf(numstr, "%d", this->data);
-            string tmp =numstr;
-            const char * c = tmp.c_str();
+            if(msg->getIdDest() == this->id){ /*There is a LoRa Gateway Near and this one want my data*/
+                if (!this->registered)
+                    this->registered=true;
+                char numstr[21];
+                sprintf(numstr, "%d", this->data);
+                string tmp =numstr;
+                const char * c = tmp.c_str();
 
 
-            m->setFrequency(2);
-            m->setName(c);
-            m->setKind(5);
-            m->setIdDest(this->myLoRa);
-            m->setIdSrc(this->id);
-            send(m,"INtoLGW");
-            EV << "Data Response sent from: " << this->id << endl;
+                m->setFrequency(2);
+                m->setName(c);
+                m->setKind(5);
+                m->setIdDest(this->myLoRa);
+                m->setIdSrc(this->id);
+                send(m,"INtoLGW");
+                EV << "Data Response sent from: " << this->id << endl;
 
-            /*Everybody will sleep right now .*/
-            this->frequency=0;
-            messageLoRA *mHibernate = new messageLoRA();
-            mHibernate->setIdSrc(this->id);
-            mHibernate->setName("Hibernate_deactivate");
-            mHibernate->setKind(15);
-            scheduleAt(simTime()+this->slot, mHibernate);
-            break;
-            }
+                /*Everybody will sleep right now .*/
+                this->frequency=0;
+                messageLoRA *mHibernate = new messageLoRA();
+                mHibernate->setIdSrc(this->id);
+                mHibernate->setName("Hibernate_deactivate");
+                mHibernate->setKind(15);
+                scheduleAt(simTime()+this->slot, mHibernate);
+                break;
+                }
+        }
     }
     this->data++;
     delete msg;

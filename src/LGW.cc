@@ -97,7 +97,7 @@ void LGW::notListeningHandleMessage(messageLoRA *msg){
                     string tmp = "Join request";
                     string tmp2 =tmp+numstr;
                     const char * c = tmp2.c_str();
-
+                    this->MyLW=((messageLoRA*)msg)->getIdSrc();
                     m->setName(c);
                     m->setKind(0);
                     m->setIdSrc(this->id);
@@ -184,22 +184,24 @@ void LGW::isListeningHandleMessage(messageLoRA *msg){
 
             break;
         }
-        case 5: {
-            /*We received a Data message*/
-            m->setName(msg->getName());
-            m->setKind(7);
-
-            m->setIdSrc(msg->getIdSrc());
-            m->setIdDest(this->MyLW);
-            send(m,"LGWtoLWGW");
-            EV << "Forwarding Data Message sent from: " << msg->getIdSrc()<< endl;
-            /*On va faire hiberner le tout .*/
-            this->frequency=0;
-            messageLoRA *mHibernate = new messageLoRA();
-            mHibernate->setName("Hibernate_deactivate");
-            mHibernate->setKind(15);
-            mHibernate->setIdSrc(this->id);
-            scheduleAt(simTime()+this->slot, mHibernate);
+        case 5:{
+            if(msg->getIdDest() == this->id){
+                /*We received a Data message*/
+                m->setName(msg->getName());
+                m->setKind(7);
+                EV << "myLW: " << this->MyLW << endl;
+                m->setIdSrc(msg->getIdSrc());
+                m->setIdDest(this->MyLW);
+                send(m,"LGWtoLWGW");
+                EV << "Forwarding Data Message sent from: " << msg->getIdSrc()<< endl;
+                /*On va faire hiberner le tout .*/
+                this->frequency=0;
+                messageLoRA *mHibernate = new messageLoRA();
+                mHibernate->setName("Hibernate_deactivate");
+                mHibernate->setKind(15);
+                mHibernate->setIdSrc(this->id);
+                scheduleAt(simTime()+this->slot, mHibernate);
+            }
             break;
         }
         case 6: {
@@ -207,6 +209,7 @@ void LGW::isListeningHandleMessage(messageLoRA *msg){
                 /*There is a LoRaWAN Gateway Near and I'm not registered yet*/
                 this->discovered=true;
                 this->slot=msg->getSlots();
+                this->MyLW=msg->getIdSrc();
                 EV << "Slot receive: "<< msg->getSlots() <<endl;
             }
             break;
