@@ -20,7 +20,7 @@ using namespace std;
 
 void IsoN::initialize()
 {
-
+    this->myLoRa=-1;
     this->frequency=1;
     this->data = 0 ;
     this->discovered=false;
@@ -39,6 +39,7 @@ void IsoN::initialize()
     m->setKind(1);
     m->setFrequency(1);
     m->setIdSrc(this->id);
+    m->setIdDest(-1);
     send(m,"INtoLGW");
     EV << "Discovery Message sent from: " << this->id <<" number: "<< data << endl;
 
@@ -54,6 +55,9 @@ void IsoN::initialize()
 
 
 void IsoN::handleMessage(cMessage *msg){
+    EV << "MSG ID SOURCE: "<<((messageLoRA*)msg)->getIdSrc() << "MSG ID DEST: "<<((messageLoRA*)msg)->getIdDest() << endl;
+    EV << "Mon id de LoRaGATEWAY c'est: " <<this->myLoRa << endl;
+
     if(this->frequency > 0){
          isListeningHandleMessage((messageLoRA*)msg);
 
@@ -68,6 +72,7 @@ void IsoN::handleMessage(cMessage *msg){
         /* I receive a data request*/
         if(msg->getKind() == 4)
         {
+            this->myLoRa=((messageLoRA*)msg)->getIdSrc();
             /*There is a LoRa Gateway Near and this one want my data*/
             if (!this->registered)
                 this->registered=true;
@@ -80,6 +85,7 @@ void IsoN::handleMessage(cMessage *msg){
             m->setName(c);
             m->setKind(5);
             m->setIdDest(((messageLoRA*)msg)->getIdSrc());
+
             send(m,"INtoLGW");
             EV << "Data Response sent from: " << this->id << endl;
 
@@ -133,6 +139,8 @@ void IsoN::notListeningHandleMessage(messageLoRA *msg){
                 if(!this->registered){
                     m->setName("Register");
                     m->setKind(3);
+                    m->setIdDest(this->myLoRa);
+                    m->setIdSrc(this->id);
                     send(m,"INtoLGW");
                     EV << "NotListeningPhase : Register Message sent from: " << this->id << endl;
                     mDiscover->setIdSrc(this->id);
@@ -172,54 +180,60 @@ void IsoN::setSlot(int slot) {
 
 void IsoN::isListeningHandleMessage(messageLoRA *msg){
     messageLoRA *m = new messageLoRA();
-    m->setIdSrc(this->id);
-    m->setIdDest(this->myLoRa);
     EV <<  "received: " << msg->getName() << " kind " << msg->getKind() << endl;
 
-    if(msg->getKind() == 2 && !(this->discovered)){
-        /*There is a LoRa Gateway Near and I'm not registered yet*/
-        this->frequency= msg->getFrequency();
-        this->old_phase =this->frequency;
-        m->setName("Register");
-        m->setKind(3);
-        send(m,"INtoLGW");
-        EV << "Register Message sent from: " << this->id << endl;
-        this->discovered=true;
-        this->slot=msg->getSlots();
+    switch(msg->getKind()){
+        case 2: {
+            if(!(this->discovered)){
+                /*There is a LoRa Gateway Near and I'm not registered yet*/
+                this->myLoRa=((messageLoRA*)msg)->getIdSrc();
+                this->frequency= msg->getFrequency();
+                this->old_phase =this->frequency;
+                m->setName("Register");
+                m->setKind(3);
+                m->setIdDest(this->myLoRa);
+                m->setIdSrc(this->id);
+                send(m,"INtoLGW");
+                EV << "Register Message sent from: " << this->id << endl;
+                this->discovered=true;
+                this->slot=msg->getSlots();
 
-        messageLoRA *mHibernate = new messageLoRA();
-        mHibernate->setIdSrc(this->id);
-        mHibernate->setName("Hibernate_registered?");
-        mHibernate->setKind(17);
-        scheduleAt(simTime()+this->slot, mHibernate);
-        this->frequency =0 ;
-    }
+                messageLoRA *mHibernate = new messageLoRA();
+                mHibernate->setIdSrc(this->id);
+                mHibernate->setName("Hibernate_registered?");
+                mHibernate->setKind(17);
+                scheduleAt(simTime()+this->slot, mHibernate);
+                this->frequency =0 ;
+            }
+            break;
+        }
+        case 4: {
+            /*There is a LoRa Gateway Near and this one want my data*/
+            if (!this->registered)
+                this->registered=true;
+            char numstr[21];
+            sprintf(numstr, "%d", this->data);
+            string tmp =numstr;
+            const char * c = tmp.c_str();
 
-    /* I receive a data request*/
-    if(msg->getKind() == 4 )
-    {
-        /*There is a LoRa Gateway Near and this one want my data*/
-        if (!this->registered)
-            this->registered=true;
-        char numstr[21];
-        sprintf(numstr, "%d", this->data);
-        string tmp =numstr;
-        const char * c = tmp.c_str();
 
-        m->setFrequency(2);
-        m->setName(c);
-        m->setKind(5);
-        m->setIdDest(this->myLoRa);
-        send(m,"INtoLGW");
-        EV << "Data Response sent from: " << this->id << endl;
+            m->setFrequency(2);
+            m->setName(c);
+            m->setKind(5);
+            m->setIdDest(this->myLoRa);
+            m->setIdSrc(this->id);
+            send(m,"INtoLGW");
+            EV << "Data Response sent from: " << this->id << endl;
 
-        /*Everybody will sleep right now .*/
-        this->frequency=0;
-        messageLoRA *mHibernate = new messageLoRA();
-        mHibernate->setIdSrc(this->id);
-        mHibernate->setName("Hibernate_deactivate");
-        mHibernate->setKind(15);
-        scheduleAt(simTime()+this->slot, mHibernate);
+            /*Everybody will sleep right now .*/
+            this->frequency=0;
+            messageLoRA *mHibernate = new messageLoRA();
+            mHibernate->setIdSrc(this->id);
+            mHibernate->setName("Hibernate_deactivate");
+            mHibernate->setKind(15);
+            scheduleAt(simTime()+this->slot, mHibernate);
+            break;
+            }
     }
     this->data++;
     delete msg;

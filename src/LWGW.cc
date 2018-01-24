@@ -28,6 +28,7 @@ void LWGW::initialize()
 
 void LWGW::handleMessage(cMessage *msg)
 {
+    EV << "MSG ID SOURCE: "<<((messageLoRA*)msg)->getIdSrc() << "MSG ID DEST: "<<((messageLoRA*)msg)->getIdDest() << endl;
     if(this->frequency > 0){
         isListeningHandleMessage((messageLoRA*)msg);
     }
@@ -80,38 +81,40 @@ void LWGW::isListeningHandleMessage(messageLoRA *msg){
    EV << "LoRaWAN Gateway has received message during a listening Phase" << endl;
    messageLoRA *m = new messageLoRA();
    m->setIdDest(msg->getIdSrc());
-   if(msg->getKind() == 0 )
-   {
-       m->setName("Join Accept");
-       m->setKind(6);
-       m->setSlots(this->slot);
-       send(m,"LWGWtoLGW");
-       EV << "LoRaWAN Gateway registered a LoRa Gateway" << endl;
-       this->discovered=true;
-       this->idRegistered.push_back(msg->getIdSrc());
+   m->setIdSrc(this->id);
+   switch(msg->getKind()){
+       case 0 :{
+           m->setName("Join Accept");
+           m->setKind(6);
+           m->setSlots(this->slot);
+           send(m,"LWGWtoLGW");
+           EV << "LoRaWAN Gateway registered a LoRa Gateway" << endl;
+           this->discovered=true;
+           this->idRegistered.push_back(msg->getIdSrc());
+           break;
+       }
+       case 2 :{
+           m->setName("Join Accept isolated node");
+           m->setKind(21);
+           this->idRegisteredLGW.push_back(msg->getIdSrc());
+           send(m,"LWGWtoLGW");
+           EV << "LoRaWAN Gateway registered a isolated node from LoRa Gateway" << endl;
+           this->discovered=true;
+           break;
+       }
+       case 7 :{
+           EV <<  "received data : " << msg->getName() << " " << endl;
+           this->discovered=true;
+           /*On va faire hiberner le tout .*/
+           this->frequency=0;
+           messageLoRA *mHibernate = new messageLoRA();
+           mHibernate->setName("Hibernate_deactivate");
+           mHibernate->setKind(15);
+           scheduleAt(simTime()+this->slot, mHibernate);
+           break;
+       }
    }
 
-   if(msg->getKind() == 2 )
-   {
-          m->setName("Join Accept isolated node");
-          m->setKind(21);
-          this->idRegisteredLGW.push_back(msg->getIdSrc());
-          send(m,"LWGWtoLGW");
-          EV << "LoRaWAN Gateway registered a isolated node from LoRa Gateway" << endl;
-          this->discovered=true;
-   }
-
-   if(msg->getKind() == 7 )
-   {
-       EV <<  "received data : " << msg->getName() << " " << endl;
-       this->discovered=true;
-       /*On va faire hiberner le tout .*/
-       this->frequency=0;
-       messageLoRA *mHibernate = new messageLoRA();
-       mHibernate->setName("Hibernate_deactivate");
-       mHibernate->setKind(15);
-       scheduleAt(simTime()+this->slot, mHibernate);
-   }
 
 }
 

@@ -11,7 +11,7 @@ void LGW::initialize()
    this->id = par("id").longValue();
    this->idRegistered =  vector<int>();
    this->isRegistered =  vector<bool>();
-
+   this->MyLW=-1;
    /* generate number between 1 and 100: */
    this->time = this->slot +1;
 
@@ -25,6 +25,7 @@ void LGW::initialize()
    m->setName(c);
    m->setKind(0);
    m->setIdSrc(this->id);
+   m->setIdDest(-1);
    send(m,"LGWtoLWGW");
    EV << "Join Request LoRaWAN message sent from: " << this->id  << endl;
    this->old_phase =2;
@@ -45,6 +46,8 @@ void LGW::setIdRegistered(const vector<int>& idRegistered) {
 }
 void LGW::handleMessage(cMessage *msg)
 {
+    EV << "MSG ID SOURCE: "<<((messageLoRA*)msg)->getIdSrc() << "MSG ID DEST: "<<((messageLoRA*)msg)->getIdDest() << endl;
+
     if(this->frequency > 0){
         isListeningHandleMessage((messageLoRA*)msg);
     }
@@ -77,6 +80,7 @@ void LGW::notListeningHandleMessage(messageLoRA *msg){
                 messageLoRA *m1 = new messageLoRA();
                 m1->setName("Data request");
                 m1->setKind(4);
+                m1->setIdSrc(this->id);
                 m1->setIdDest(this->idRegistered[0]);
                 send(m1,"LGWtoIN");
                 EV << "Data request Message sent from: " << this->id  << endl;
@@ -148,71 +152,75 @@ void LGW::isListeningHandleMessage(messageLoRA *msg){
     m->setSlots(this->slot);
     m->setIdSrc(this->id);
     m->setIdDest(msg->getIdSrc());
-
-    if(msg->getKind() == 6 && !(this->discovered) )
-    {
-        /*There is a LoRaWAN Gateway Near and I'm not registered yet*/
-        this->discovered=true;
-        this->slot=msg->getSlots();
-        EV << "Slot receive: "<< msg->getSlots() <<endl;
-    }
-
-    if(msg->getKind() == 1 )
-    {
-        /*We received a Discover message and we attempt to register it to the LoRaWAN Gateway*/
-        messageLoRA *mjoin = new messageLoRA();
-        mjoin->setName("Registering isolated node");
-        mjoin->setKind(2);
-        mjoin->setIdSrc(msg->getIdSrc());
-        mjoin->setSlots(this->slot);
-        mjoin->setIdDest(this->MyLW);
-        send(mjoin,"LGWtoLWGW");
-        EV << "Join Request LoRaWAN message sent from: " << this->id  << endl;
-
-    }
-
-    if(msg->getKind() == 21 )
-    {
-        m->setName("Accept");
-        m->setKind(2);
-        m->setFrequency(2);
-        idRegistered.push_back(msg->getIdSrc());
-        send(m,"LGWtoIN");
-        EV << "Accept Message sent from: " << this->id  << endl;
-    }
-
-
-    if(msg->getKind() == 3 )
-    {
-        /*We received a Register message*/
-        if(find(idRegistered.begin(), idRegistered.end(), msg->getIdSrc()) != idRegistered.end()) {
-            /* We had  registered this Node yet, but it's possible he don't know yet */
-        } else {
-            /* v does not contain x */
-            idRegistered.push_back (msg->getIdSrc());
+    switch(msg->getKind()){
+        case 1: {
+            /*We received a Discover message and we attempt to register it to the LoRaWAN Gateway*/
+            messageLoRA *mjoin = new messageLoRA();
+            mjoin->setName("Registering isolated node");
+            mjoin->setKind(2);
+            mjoin->setIdSrc(msg->getIdSrc());
+            mjoin->setSlots(this->slot);
+            mjoin->setIdDest(this->MyLW);
+            send(mjoin,"LGWtoLWGW");
+            EV << "Join Request LoRaWAN message sent from: " << this->id  << endl;
+            break;
         }
-        m->setName("Data request");
-        m->setKind(4);
-        send(m,"LGWtoIN");
-        EV << "Data request Message sent from: " << this->id  << endl;
-    }
+        case 3: {
+            /*We received a Register message*/
+            /*Check if we are the gateway of the device.*/
+            if(find(idRegistered.begin(), idRegistered.end(), msg->getIdSrc()) != idRegistered.end()) {
+                    /* We had  registered this Node yet, but it's possible he don't know yet */
+            }else{
+                    /* v does not contain x */
+                    idRegistered.push_back (msg->getIdSrc());
+                   // for (unsigned i=0; i<this->idRegistered.size(); ++i)
+                   //     EV <<"Id registered ARRAY i:"<< i << " : "<< this->idRegistered[i] <<endl;
 
-    if(msg->getKind() == 5 )
-    {
-        /*We received a Data message*/
-        m->setName(msg->getName());
-        m->setKind(7);
-        m->setIdDest(this->MyLW);
-        send(m,"LGWtoLWGW");
-        EV << "Data Message sent from: " << this->id << endl;
-        /*On va faire hiberner le tout .*/
-        this->frequency=0;
-        messageLoRA *mHibernate = new messageLoRA();
-        mHibernate->setName("Hibernate_deactivate");
-        mHibernate->setKind(15);
-        mHibernate->setIdSrc(this->id);
+            }
+            m->setName("Data request");
+            m->setKind(4);
+            send(m,"LGWtoIN");
+            EV << "Data request Message sent from: " << this->id  << endl;
 
-        scheduleAt(simTime()+this->slot, mHibernate);
+            break;
+        }
+        case 5: {
+            /*We received a Data message*/
+            m->setName(msg->getName());
+            m->setKind(7);
+
+            m->setIdSrc(msg->getIdSrc());
+            m->setIdDest(this->MyLW);
+            send(m,"LGWtoLWGW");
+            EV << "Forwarding Data Message sent from: " << msg->getIdSrc()<< endl;
+            /*On va faire hiberner le tout .*/
+            this->frequency=0;
+            messageLoRA *mHibernate = new messageLoRA();
+            mHibernate->setName("Hibernate_deactivate");
+            mHibernate->setKind(15);
+            mHibernate->setIdSrc(this->id);
+            scheduleAt(simTime()+this->slot, mHibernate);
+            break;
+        }
+        case 6: {
+            if(!(this->discovered)){
+                /*There is a LoRaWAN Gateway Near and I'm not registered yet*/
+                this->discovered=true;
+                this->slot=msg->getSlots();
+                EV << "Slot receive: "<< msg->getSlots() <<endl;
+            }
+            break;
+        }
+        case 21: {
+            m->setIdSrc(this->id);
+            m->setIdDest(msg->getIdDest());
+            m->setName("Accept");
+            m->setKind(2);
+            m->setFrequency(2);
+            send(m,"LGWtoIN");
+            EV << "Accept Message sent from: " << this->id  << endl;
+            break;
+        }
     }
 
     delete msg;
