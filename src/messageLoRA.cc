@@ -65,3 +65,11 @@ long int messageLoRA::getIdDest() const {
 void messageLoRA::setIdDest(long int idDest) {
     id_dest = idDest;
 }
+
+bool messageLoRA::isIsolated() const {
+    return isolated;
+}
+
+void messageLoRA::setIsolated(bool isolated) {
+    this->isolated = isolated;
+}

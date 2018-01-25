@@ -31,6 +31,7 @@ class messageLoRA: public omnetpp::cMessage {
         int slots;
         long int id_src;
         long int id_dest;
+        bool isolated;
     public:
         messageLoRA();
         virtual ~messageLoRA();
@@ -45,6 +46,8 @@ class messageLoRA: public omnetpp::cMessage {
         void setSlots(int slots);
         long int getIdDest() const;
         void setIdDest(long int idDest);
+        bool isIsolated() const;
+        void setIsolated(bool isolated);
 };
 
 #endif /* MESSAGELORA_H_ */

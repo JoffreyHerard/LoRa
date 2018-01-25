@@ -93,19 +93,32 @@ void LWGW::isListeningHandleMessage(messageLoRA *msg){
            this->idRegistered.push_back(msg->getIdSrc());
            break;
        }
-       case 2 :{
-           m->setName("Join Accept isolated node");
-           m->setKind(21);
-           this->idRegisteredLGW.push_back(msg->getIdSrc());
-           send(m,"LWGWtoLGW");
-           LOG EV << "LoRaWAN Gateway registered a isolated node from LoRa Gateway" << endl;
-           this->discovered=true;
+       case 20 :{
+           if(msg->getIdDest() == this->id){
+               if(find(idRegistered.begin(), idRegistered.end(), msg->getIdSrc()) != idRegistered.end()) {
+                   /* We had  registered this Node yet, but it's possible he don't know yet */
+               }else{
+                   /* v does not contain x */
+                   idRegistered.push_back (msg->getIdSrc());
+                   LOG for (unsigned i=0; i<this->idRegistered.size(); ++i)
+                   LOG      EV <<"Id registered ARRAY i:"<< i << " : "<< this->idRegistered[i] <<endl;
+
+               }
+           }
            break;
        }
        case 7 :{
            if(msg->getIdDest() == this->id){
                LOG EV <<  "received data : " << msg->getName() << " " << endl;
-               this->discovered=true;
+               if(msg->isIsolated() && find(idRegistered.begin(), idRegistered.end(), msg->getIdSrc()) != idRegistered.end()) {
+                  /* We had  registered this Node yet, but it's possible he don't know yet */
+               }else{
+                  /* v does not contain x */
+                  idRegistered.push_back (msg->getIdSrc());
+                  LOG for (unsigned i=0; i<this->idRegistered.size(); ++i)
+                  LOG      EV <<"Id registered ARRAY i:"<< i << " : "<< this->idRegistered[i] <<endl;
+
+               }
                /*On va faire hiberner le tout .*/
                this->frequency=0;
                messageLoRA *mHibernate = new messageLoRA();

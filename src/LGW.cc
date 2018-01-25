@@ -157,15 +157,13 @@ void LGW::isListeningHandleMessage(messageLoRA *msg){
     switch(msg->getKind()){
         case 1: {
             if(this->discovered==true){
-                /*We received a Discover message and we attempt to register it to the LoRaWAN Gateway*/
-                messageLoRA *mjoin = new messageLoRA();
-                mjoin->setName("Registering isolated node");
-                mjoin->setKind(2);
-                mjoin->setIdSrc(msg->getIdSrc());
-                mjoin->setSlots(this->slot);
-                mjoin->setIdDest(this->MyLW);
-                send(mjoin,"LGWtoLWGW");
-                LOG EV << "Join Request LoRaWAN message sent from: " << this->id  << endl;
+                m->setIdSrc(this->id);
+                m->setIdDest(msg->getIdDest());
+                m->setName("Accept");
+                m->setKind(2);
+                m->setFrequency(2);
+                send(m,"LGWtoIN");
+                LOG EV << "Accept Message sent from: " << this->id  << endl;
             }
             break;
         }
@@ -178,14 +176,22 @@ void LGW::isListeningHandleMessage(messageLoRA *msg){
                 }else{
                         /* v does not contain x */
                         idRegistered.push_back (msg->getIdSrc());
-                       // for (unsigned i=0; i<this->idRegistered.size(); ++i)
-                       //     EV <<"Id registered ARRAY i:"<< i << " : "<< this->idRegistered[i] <<endl;
+                       LOG for (unsigned i=0; i<this->idRegistered.size(); ++i)
+                        LOG  EV <<"Id registered ARRAY i:"<< i << " : "<< this->idRegistered[i] <<endl;
 
                 }
                 m->setName("Data request");
                 m->setKind(4);
                 send(m,"LGWtoIN");
                 LOG EV << "Data request Message sent from: " << this->id  << endl;
+
+                messageLoRA *m_ACK_J_IN = new messageLoRA();
+                m_ACK_J_IN->setSlots(this->slot);
+                m_ACK_J_IN->setIdSrc(msg->getIdSrc());
+                m_ACK_J_IN->setIdDest(this->MyLW);
+                m_ACK_J_IN->setName("Confirmed pairing with an IN");
+                m_ACK_J_IN->setKind(20);
+                send(m_ACK_J_IN,"LGWtoLWGW");
             }
 
             break;
@@ -198,6 +204,7 @@ void LGW::isListeningHandleMessage(messageLoRA *msg){
                 LOG EV << "myLW: " << this->MyLW << endl;
                 m->setIdSrc(msg->getIdSrc());
                 m->setIdDest(this->MyLW);
+                m->setIsolated(true);
                 send(m,"LGWtoLWGW");
                 LOG EV << "Forwarding Data Message sent from: " << msg->getIdSrc()<< endl;
                 /*On va faire hiberner le tout .*/
@@ -221,15 +228,7 @@ void LGW::isListeningHandleMessage(messageLoRA *msg){
             break;
         }
         case 21: {
-            if(this->discovered==true){
-                m->setIdSrc(this->id);
-                m->setIdDest(msg->getIdDest());
-                m->setName("Accept");
-                m->setKind(2);
-                m->setFrequency(2);
-                send(m,"LGWtoIN");
-                LOG EV << "Accept Message sent from: " << this->id  << endl;
-            }
+
             break;
         }
     }
