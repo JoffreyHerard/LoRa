@@ -20,7 +20,7 @@ Define_Module(LWGW);
 void LWGW::initialize()
 {
     // TODO - Generated method body
-    EV << "LoRaWAN Gateway Started"<< endl;
+    LOG EV << "LoRaWAN Gateway Started"<< endl;
     this->frequency=1;
     this->slot=5;
     this->id = par("id").longValue();
@@ -28,7 +28,7 @@ void LWGW::initialize()
 
 void LWGW::handleMessage(cMessage *msg)
 {
-    EV << "MSG ID SOURCE: "<<((messageLoRA*)msg)->getIdSrc() << "MSG ID DEST: "<<((messageLoRA*)msg)->getIdDest() << endl;
+    LOG EV << "MSG ID SOURCE: "<<((messageLoRA*)msg)->getIdSrc() << "MSG ID DEST: "<<((messageLoRA*)msg)->getIdDest() << endl;
     if(this->frequency > 0){
         isListeningHandleMessage((messageLoRA*)msg);
     }
@@ -43,12 +43,12 @@ void LWGW::notListeningHandleMessage(messageLoRA *msg){
     short choose = msg->getKind();
 
     if(msg->isSelfMessage()){
-        EV << "LoRaWAN Gateway has received a self message " << endl;
+        LOG EV << "LoRaWAN Gateway has received a self message " << endl;
         messageLoRA *m = new messageLoRA();
         switch(choose){
             case 15:{
                 /*LoRaWANGATEWAY is required to harvest data*/
-                EV << "LoRaWAN Gateway is waking up " << endl;
+                LOG EV << "LoRaWAN Gateway is waking up " << endl;
                 this->frequency = this->old_phase ;
 
                 break;
@@ -65,7 +65,7 @@ void LWGW::notListeningHandleMessage(messageLoRA *msg){
         }
     }
     else{
-        EV << "LoRaWAN Gateway has received a message but is sleeping and waiting a self-message " << endl;
+        LOG EV << "LoRaWAN Gateway has received a message but is sleeping and waiting a self-message " << endl;
     }
 }
 
@@ -78,7 +78,7 @@ void LWGW::setSlot(int slot) {
 }
 
 void LWGW::isListeningHandleMessage(messageLoRA *msg){
-   EV << "LoRaWAN Gateway has received message during a listening Phase" << endl;
+   LOG EV << "LoRaWAN Gateway has received message during a listening Phase" << endl;
    messageLoRA *m = new messageLoRA();
    m->setIdDest(msg->getIdSrc());
    m->setIdSrc(this->id);
@@ -88,7 +88,7 @@ void LWGW::isListeningHandleMessage(messageLoRA *msg){
            m->setKind(6);
            m->setSlots(this->slot);
            send(m,"LWGWtoLGW");
-           EV << "LoRaWAN Gateway registered a LoRa Gateway" << endl;
+           LOG EV << "LoRaWAN Gateway registered a LoRa Gateway" << endl;
            this->discovered=true;
            this->idRegistered.push_back(msg->getIdSrc());
            break;
@@ -98,13 +98,13 @@ void LWGW::isListeningHandleMessage(messageLoRA *msg){
            m->setKind(21);
            this->idRegisteredLGW.push_back(msg->getIdSrc());
            send(m,"LWGWtoLGW");
-           EV << "LoRaWAN Gateway registered a isolated node from LoRa Gateway" << endl;
+           LOG EV << "LoRaWAN Gateway registered a isolated node from LoRa Gateway" << endl;
            this->discovered=true;
            break;
        }
        case 7 :{
            if(msg->getIdDest() == this->id){
-               EV <<  "received data : " << msg->getName() << " " << endl;
+               LOG EV <<  "received data : " << msg->getName() << " " << endl;
                this->discovered=true;
                /*On va faire hiberner le tout .*/
                this->frequency=0;
@@ -114,7 +114,7 @@ void LWGW::isListeningHandleMessage(messageLoRA *msg){
                scheduleAt(simTime()+this->slot, mHibernate);
                break;
            }else{
-               EV << "I received a message that was not destined to me"<< endl;
+               LOG EV << "I received a message that was not destined to me"<< endl;
            }
        }
    }

@@ -21,7 +21,7 @@ using namespace std;
 void IsoN::initialize()
 {
     this->myLoRa=-1;
-    this->frequency=1;
+    this->frequency=0;
     this->data = 0 ;
     this->discovered=false;
     this->registered=false;
@@ -32,7 +32,7 @@ void IsoN::initialize()
     /* generate number between 1 and 100: */
     this->time = this->slot +1;
 
-    EV << "Isolated Node Starting: " << id << endl;
+    LOG EV << "Isolated Node Starting: " << id << endl;
 
     messageLoRA *m = new messageLoRA();
     m->setName("Discover");
@@ -41,7 +41,7 @@ void IsoN::initialize()
     m->setIdSrc(this->id);
     m->setIdDest(-1);
     send(m,"INtoLGW");
-    EV << "Discovery Message sent from: " << this->id <<" number: "<< data << endl;
+    LOG EV << "Discovery Message sent from: " << this->id <<" number: "<< data << endl;
 
 
     messageLoRA *mDiscover = new messageLoRA();
@@ -55,21 +55,50 @@ void IsoN::initialize()
 
 
 void IsoN::handleMessage(cMessage *msg){
-    EV << "MSG ID SOURCE: "<<((messageLoRA*)msg)->getIdSrc() << "MSG ID DEST: "<<((messageLoRA*)msg)->getIdDest() << endl;
-    EV << "Mon id de LoRaGATEWAY c'est: " <<this->myLoRa << endl;
+    DEBUG EV << "MSG ID SOURCE: "<<((messageLoRA*)msg)->getIdSrc() << "MSG ID DEST: "<<((messageLoRA*)msg)->getIdDest() << "MSG kind: "<<((messageLoRA*)msg)->getKind() << endl;
+    DEBUG EV << "Mon id de LoRaGATEWAY c'est: " <<this->myLoRa << endl;
 
     if(this->frequency > 0){
+         DEBUG EV << "Je vais la 1" << endl;
          isListeningHandleMessage((messageLoRA*)msg);
 
     }
     else{
+         DEBUG EV << "Je vais la 2" << endl;
          notListeningHandleMessage((messageLoRA*)msg);
+
     }
     if( ( !((messageLoRA*)msg)->isSelfMessage() ) && (this->frequency == 0) && !(this->registered)){
         /*special section dedicate to managed special thing like timeOut on registering*/
+        DEBUG EV << "Je vais la 3" << endl;
         messageLoRA *m = new messageLoRA();
         m->setIdSrc(this->id);
-        /* I receive a data request*/
+        /* I receive an accept request*/
+
+        if(msg->getKind() == 2)
+        {
+            if(!(this->discovered)){
+                /*There is a LoRa Gateway Near and I'm not registered yet*/
+                this->myLoRa=((messageLoRA*)msg)->getIdSrc();
+                this->frequency= ((messageLoRA*)msg)->getFrequency();
+                this->old_phase =this->frequency;
+                m->setName("Register");
+                m->setKind(3);
+                m->setIdDest(this->myLoRa);
+                m->setIdSrc(this->id);
+                send(m,"INtoLGW");
+                LOG EV << "Register Message sent from: " << this->id << endl;
+                this->discovered=true;
+                this->slot=((messageLoRA*)msg)->getSlots();
+
+                messageLoRA *mHibernate = new messageLoRA();
+                mHibernate->setIdSrc(this->id);
+                mHibernate->setName("Hibernate_registered?");
+                mHibernate->setKind(17);
+                scheduleAt(simTime()+this->slot, mHibernate);
+                this->frequency =0 ;
+            }
+        }
         if(msg->getKind() == 4)
         {
             this->myLoRa=((messageLoRA*)msg)->getIdSrc();
@@ -87,7 +116,7 @@ void IsoN::handleMessage(cMessage *msg){
             m->setIdDest(((messageLoRA*)msg)->getIdSrc());
 
             send(m,"INtoLGW");
-            EV << "Data Response sent from: " << this->id << endl;
+            LOG EV << "Data Response sent from: " << this->id << endl;
 
             /*Everybody will sleep right now .*/
             this->frequency=0;
@@ -109,7 +138,7 @@ void IsoN::notListeningHandleMessage(messageLoRA *msg){
         switch(choose){
             case 15:{
                 /*LoRaGateway is required to harvest data*/
-                EV << "Isolated Node is waking up " << endl;
+                LOG EV << "Isolated Node is waking up " << endl;
                 this->frequency = this->old_phase ;
                 break;
             }
@@ -118,12 +147,12 @@ void IsoN::notListeningHandleMessage(messageLoRA *msg){
                     /*We are already discovered*/
                 }else{
                     /*We are not already discovered*/
-                    this->myLoRa=((messageLoRA*)msg)->getIdSrc();
+                    //this->myLoRa=((messageLoRA*)msg)->getIdSrc();
                     m->setName("Discover");
                     m->setKind(1);
                     m->setFrequency(1);
                     send(m,"INtoLGW");
-                    EV << "Discovery Message sent from: " << this->id <<" number: "<< data << endl;
+                    LOG EV << "Discovery Message sent from: " << this->id <<" number: "<< data << endl;
 
 
                     messageLoRA *mDiscover = new messageLoRA();
@@ -136,17 +165,17 @@ void IsoN::notListeningHandleMessage(messageLoRA *msg){
             }
             case 17:{
                 /*I am registered???*/
-                /*We are not already discovered*/
+                /*We are not already registered*/
                 if(!this->registered){
                     m->setName("Register");
                     m->setKind(3);
                     m->setIdDest(this->myLoRa);
                     m->setIdSrc(this->id);
                     send(m,"INtoLGW");
-                    EV << "NotListeningPhase : Register Message sent from: " << this->id << endl;
+                    LOG EV << "NotListeningPhase : Register Message sent from: " << this->id << endl;
                     mDiscover->setIdSrc(this->id);
                     mDiscover->setName("Hibernate_registered");
-                    mDiscover->setKind(16);
+                    mDiscover->setKind(17);
                     scheduleAt(simTime()+this->time, mDiscover);
 
                 }else{
@@ -160,6 +189,7 @@ void IsoN::notListeningHandleMessage(messageLoRA *msg){
         }
     }
     else{
+        LOG EV <<"Not a self message"<<endl;
     }
 }
 
@@ -181,7 +211,7 @@ void IsoN::setSlot(int slot) {
 
 void IsoN::isListeningHandleMessage(messageLoRA *msg){
     messageLoRA *m = new messageLoRA();
-    EV <<  "received: " << msg->getName() << " kind " << msg->getKind() << endl;
+    LOG EV <<  "received: " << msg->getName() << " kind " << msg->getKind() << endl;
 
     switch(msg->getKind()){
         case 2: {
@@ -195,7 +225,7 @@ void IsoN::isListeningHandleMessage(messageLoRA *msg){
                 m->setIdDest(this->myLoRa);
                 m->setIdSrc(this->id);
                 send(m,"INtoLGW");
-                EV << "Register Message sent from: " << this->id << endl;
+                LOG EV << "Register Message sent from: " << this->id << endl;
                 this->discovered=true;
                 this->slot=msg->getSlots();
 
@@ -224,7 +254,7 @@ void IsoN::isListeningHandleMessage(messageLoRA *msg){
                 m->setIdDest(this->myLoRa);
                 m->setIdSrc(this->id);
                 send(m,"INtoLGW");
-                EV << "Data Response sent from: " << this->id << endl;
+                LOG EV << "Data Response sent from: " << this->id << endl;
 
                 /*Everybody will sleep right now .*/
                 this->frequency=0;
