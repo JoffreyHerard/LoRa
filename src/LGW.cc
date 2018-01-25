@@ -221,7 +221,7 @@ void LGW::isListeningHandleMessage(messageLoRA *msg){
             break;
         }
         case 21: {
-            if(this->discovered==true){
+            if(this->discovered==true) {
                 m->setIdSrc(this->id);
                 m->setIdDest(msg->getIdDest());
                 m->setName("Accept");

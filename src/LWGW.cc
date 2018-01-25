@@ -94,12 +94,14 @@ void LWGW::isListeningHandleMessage(messageLoRA *msg){
            break;
        }
        case 2 :{
-           m->setName("Join Accept isolated node");
-           m->setKind(21);
-           this->idRegisteredLGW.push_back(msg->getIdSrc());
-           send(m,"LWGWtoLGW");
-           LOG EV << "LoRaWAN Gateway registered a isolated node from LoRa Gateway" << endl;
-           this->discovered=true;
+           if(msg->getIdDest() == this->id){
+               m->setName("Join Accept isolated node");
+               m->setKind(21);
+               this->idRegisteredLGW.push_back(msg->getIdSrc());
+               send(m,"LWGWtoLGW");
+               LOG EV << "LoRaWAN Gateway registered a isolated node from LoRa Gateway" << endl;
+               this->discovered=true;
+           }
            break;
        }
        case 7 :{
