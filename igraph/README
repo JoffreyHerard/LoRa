@@ -1,0 +1,5 @@
+Command used :
+
+sudo python loraGraph.py 1 4 9
+
+dot -Tjpeg loraGraph.dot  -o LoRaGraph.jpg
