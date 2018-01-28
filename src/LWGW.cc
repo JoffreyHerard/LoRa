@@ -87,7 +87,12 @@ void LWGW::isListeningHandleMessage(messageLoRA *msg){
            m->setName("Join Accept");
            m->setKind(6);
            m->setSlots(this->slot);
-           send(m,"LWGWtoLGW");
+           int i;
+           for (i = 0; i < this->gateSize("channelsO"); i++)
+           {
+              messageLoRA *copy = m->dup();
+              send(copy, "channelsO", i);
+           }
            LOG EV << "LoRaWAN Gateway registered a LoRa Gateway" << endl;
            this->discovered=true;
            this->idRegistered.push_back(msg->getIdSrc());

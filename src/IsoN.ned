@@ -22,6 +22,6 @@ simple IsoN
         int id;
         @display("i=old/bwcomp");
     gates:
-        input LGWtoIN;
-        output INtoLGW;
+        input channelsI[];
+        output channelsO[];
 }

@@ -28,7 +28,13 @@ void LGW::initialize()
    m->setKind(0);
    m->setIdSrc(this->id);
    m->setIdDest(-1);
-   send(m,"LGWtoLWGW");
+   int i;
+   for (i = 0; i < this->gateSize("channelsO"); i++)
+   {
+       messageLoRA *copy = m->dup();
+       send(copy, "channelsO", i);
+   }
+   delete m;
    LOG EV << "Join Request LoRaWAN message sent from: " << this->id  << endl;
    this->old_phase =2;
    this->frequency=2;
@@ -84,7 +90,13 @@ void LGW::notListeningHandleMessage(messageLoRA *msg){
                 m1->setKind(4);
                 m1->setIdSrc(this->id);
                 m1->setIdDest(this->idRegistered[0]);
-                send(m1,"LGWtoIN");
+                int i;
+                for (i = 0; i < this->gateSize("channelsO"); i++)
+                {
+                    messageLoRA *copy = m1->dup();
+                    send(copy, "channelsO", i);
+                }
+                delete m1;
                 LOG EV << "Data request Message sent from: " << this->id  << endl;
 
                 break;
@@ -104,7 +116,13 @@ void LGW::notListeningHandleMessage(messageLoRA *msg){
                     m->setKind(0);
                     m->setIdSrc(this->id);
                     m->setIdDest(-1);
-                    send(m,"LGWtoLWGW");
+                    int i;
+                    for (i = 0; i < this->gateSize("channelsO"); i++)
+                    {
+                        messageLoRA *copy = m->dup();
+                        send(copy, "channelsO", i);
+                    }
+                    delete m;
                     LOG EV << "Join Request LoRaWAN message sent from: " << this->id  << endl;
 
                     messageLoRA *mDiscover = new messageLoRA();
@@ -162,7 +180,13 @@ void LGW::isListeningHandleMessage(messageLoRA *msg){
                 m->setName("Accept");
                 m->setKind(2);
                 m->setFrequency(2);
-                send(m,"LGWtoIN");
+                int i;
+                for (i = 0; i < this->gateSize("channelsO"); i++)
+                {
+                    messageLoRA *copy = m->dup();
+                    send(copy, "channelsO", i);
+                }
+                delete m;
                 LOG EV << "Accept Message sent from: " << this->id  << endl;
             }
             break;
@@ -182,7 +206,13 @@ void LGW::isListeningHandleMessage(messageLoRA *msg){
                 }
                 m->setName("Data request");
                 m->setKind(4);
-                send(m,"LGWtoIN");
+                int i;
+                for (i = 0; i < this->gateSize("channelsO"); i++)
+                {
+                    messageLoRA *copy = m->dup();
+                    send(copy, "channelsO", i);
+                }
+                delete m;
                 LOG EV << "Data request Message sent from: " << this->id  << endl;
 
                 messageLoRA *m_ACK_J_IN = new messageLoRA();
@@ -191,7 +221,12 @@ void LGW::isListeningHandleMessage(messageLoRA *msg){
                 m_ACK_J_IN->setIdDest(this->MyLW);
                 m_ACK_J_IN->setName("Confirmed pairing with an IN");
                 m_ACK_J_IN->setKind(20);
-                send(m_ACK_J_IN,"LGWtoLWGW");
+                for (i = 0; i < this->gateSize("channelsO"); i++)
+                {
+                    messageLoRA *copy = m_ACK_J_IN->dup();
+                    send(copy, "channelsO", i);
+                }
+                delete m_ACK_J_IN;
             }
 
             break;
@@ -205,7 +240,12 @@ void LGW::isListeningHandleMessage(messageLoRA *msg){
                 m->setIdSrc(msg->getIdSrc());
                 m->setIdDest(this->MyLW);
                 m->setIsolated(true);
-                send(m,"LGWtoLWGW");
+                int i;
+                for (i = 0; i < this->gateSize("channelsO"); i++)
+                {
+                   messageLoRA *copy = m->dup();
+                   send(copy, "channelsO", i);
+                }
                 LOG EV << "Forwarding Data Message sent from: " << msg->getIdSrc()<< endl;
                 /*On va faire hiberner le tout .*/
                 this->frequency=0;

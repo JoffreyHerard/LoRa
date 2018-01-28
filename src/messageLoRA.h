@@ -34,6 +34,8 @@ class messageLoRA: public omnetpp::cMessage {
         bool isolated;
     public:
         messageLoRA();
+        messageLoRA(const messageLoRA&);
+        virtual messageLoRA *dup() const {return new messageLoRA(*this);}
         virtual ~messageLoRA();
         
         double getFrequency() const;
@@ -48,6 +50,7 @@ class messageLoRA: public omnetpp::cMessage {
         void setIdDest(long int idDest);
         bool isIsolated() const;
         void setIsolated(bool isolated);
+
 };
 
 #endif /* MESSAGELORA_H_ */

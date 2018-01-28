@@ -21,7 +21,16 @@ messageLoRA::messageLoRA() {
     this->messageName="Not set yet";
     this->frequency=2;
 }
-
+messageLoRA::messageLoRA(const messageLoRA& f) {
+    this->setName(f.getName());
+    this->setKind(f.getKind());
+    this->messageName=f.messageName;
+    this->frequency=f.frequency;
+    this->slots=f.slots;
+    this->id_src=f.id_src;
+    this->id_dest=f.id_dest;
+    this->isolated=f.isolated;
+}
 double messageLoRA::getFrequency() const {
     return frequency;
 }
@@ -73,3 +82,5 @@ bool messageLoRA::isIsolated() const {
 void messageLoRA::setIsolated(bool isolated) {
     this->isolated = isolated;
 }
+
+

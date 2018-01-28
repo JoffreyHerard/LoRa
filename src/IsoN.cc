@@ -20,6 +20,7 @@ using namespace std;
 
 void IsoN::initialize()
 {
+    int i;
     this->myLoRa=-1;
     this->frequency=0;
     this->data = 0 ;
@@ -40,7 +41,14 @@ void IsoN::initialize()
     m->setFrequency(1);
     m->setIdSrc(this->id);
     m->setIdDest(-1);
-    send(m,"INtoLGW");
+
+    for (i = 0; i < this->gateSize("channelsO"); i++)
+    {
+        messageLoRA *copy = m->dup();
+        send(copy, "channelsO", i);
+    }
+    delete m;
+
     LOG EV << "Discovery Message sent from: " << this->id <<" number: "<< data << endl;
 
 
@@ -86,7 +94,13 @@ void IsoN::handleMessage(cMessage *msg){
                 m->setKind(3);
                 m->setIdDest(this->myLoRa);
                 m->setIdSrc(this->id);
-                send(m,"INtoLGW");
+                int i;
+                for (i = 0; i < this->gateSize("channelsO"); i++)
+                {
+                    messageLoRA *copy = m->dup();
+                    send(copy, "channelsO", i);
+                }
+                delete m;
                 LOG EV << "Register Message sent from: " << this->id << endl;
                 this->discovered=true;
                 this->slot=((messageLoRA*)msg)->getSlots();
@@ -114,8 +128,13 @@ void IsoN::handleMessage(cMessage *msg){
             m->setName(c);
             m->setKind(5);
             m->setIdDest(((messageLoRA*)msg)->getIdSrc());
-
-            send(m,"INtoLGW");
+            int i;
+            for (i = 0; i < this->gateSize("channelsO"); i++)
+            {
+                messageLoRA *copy = m->dup();
+                send(copy, "channelsO", i);
+            }
+            delete m;
             LOG EV << "Data Response sent from: " << this->id << endl;
 
             /*Everybody will sleep right now .*/
@@ -151,7 +170,13 @@ void IsoN::notListeningHandleMessage(messageLoRA *msg){
                     m->setName("Discover");
                     m->setKind(1);
                     m->setFrequency(1);
-                    send(m,"INtoLGW");
+                    int i;
+                    for (i = 0; i < this->gateSize("channelsO"); i++)
+                    {
+                        messageLoRA *copy = m->dup();
+                        send(copy, "channelsO", i);
+                    }
+                    delete m;
                     LOG EV << "Discovery Message sent from: " << this->id <<" number: "<< data << endl;
 
 
@@ -171,7 +196,13 @@ void IsoN::notListeningHandleMessage(messageLoRA *msg){
                     m->setKind(3);
                     m->setIdDest(this->myLoRa);
                     m->setIdSrc(this->id);
-                    send(m,"INtoLGW");
+                    int i;
+                    for (i = 0; i < this->gateSize("channelsO"); i++)
+                    {
+                        messageLoRA *copy = m->dup();
+                        send(copy, "channelsO", i);
+                    }
+                    delete m;
                     LOG EV << "NotListeningPhase : Register Message sent from: " << this->id << endl;
                     mDiscover->setIdSrc(this->id);
                     mDiscover->setName("Hibernate_registered");
@@ -224,7 +255,13 @@ void IsoN::isListeningHandleMessage(messageLoRA *msg){
                 m->setKind(3);
                 m->setIdDest(this->myLoRa);
                 m->setIdSrc(this->id);
-                send(m,"INtoLGW");
+                int i;
+                for (int i = 0; i < this->gateSize("channelsO"); i++)
+                {
+                    messageLoRA *copy = m->dup();
+                    send(copy, "channelsO", i);
+                }
+                delete m;
                 LOG EV << "Register Message sent from: " << this->id << endl;
                 this->discovered=true;
                 this->slot=msg->getSlots();
@@ -253,7 +290,13 @@ void IsoN::isListeningHandleMessage(messageLoRA *msg){
                 m->setKind(5);
                 m->setIdDest(this->myLoRa);
                 m->setIdSrc(this->id);
-                send(m,"INtoLGW");
+                int i;
+                for (int i = 0; i < this->gateSize("channelsO"); i++)
+                {
+                    messageLoRA *copy = m->dup();
+                    send(copy, "channelsO", i);
+                }
+                delete m;
                 LOG EV << "Data Response sent from: " << this->id << endl;
 
                 /*Everybody will sleep right now .*/
