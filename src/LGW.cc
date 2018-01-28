@@ -71,7 +71,7 @@ void LGW::handleMessage(cMessage *msg)
         LOG EV << "Slot receive: "<< ((messageLoRA*)msg)->getSlots() <<endl;
         this->frequency=2;
     }
-    delete msg;
+
 }
 
 void LGW::notListeningHandleMessage(messageLoRA *msg){

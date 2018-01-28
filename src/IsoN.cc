@@ -146,7 +146,7 @@ void IsoN::handleMessage(cMessage *msg){
             scheduleAt(simTime()+this->slot, mHibernate);
         }
     }
-    delete msg;
+
 }
 
 void IsoN::notListeningHandleMessage(messageLoRA *msg){
