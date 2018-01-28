@@ -35,6 +35,7 @@ void LWGW::handleMessage(cMessage *msg)
     else{
         notListeningHandleMessage((messageLoRA*)msg);
     }
+    delete msg;
 }
 
 
