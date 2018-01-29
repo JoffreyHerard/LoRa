@@ -216,7 +216,7 @@ void IsoN::handleMessage(cMessage *msg)
             dispStr.setTagArg("i", 0, "device/devicegreen");
         }
     }
-
+    delete msg;
 }
 
 void IsoN::notListeningHandleMessage(messageLoRA *msg)
@@ -418,7 +418,7 @@ void IsoN::isListeningHandleMessage(messageLoRA *msg)
         }
     }
     this->data++;
-    delete msg;
+
 }
 
 int IsoN::getData() const

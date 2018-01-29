@@ -85,7 +85,7 @@ void LGW::handleMessage(cMessage *msg)
         cDisplayString& dispStr = getDisplayString();
         dispStr.setTagArg("i", 0, "device/devicegreen");
     }
-
+    delete msg;
 }
 
 void LGW::notListeningHandleMessage(messageLoRA *msg)
@@ -337,7 +337,7 @@ void LGW::isListeningHandleMessage(messageLoRA *msg)
         }
     }
 
-    delete msg;
+
 }
 
 
