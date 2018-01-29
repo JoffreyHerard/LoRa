@@ -55,7 +55,8 @@ void LGW::setIdRegistered(const vector<int>& idRegistered) {
 void LGW::handleMessage(cMessage *msg)
 {
     DEBUG EV << "MSG ID SOURCE: "<<((messageLoRA*)msg)->getIdSrc() << " MSG ID DEST: "<<((messageLoRA*)msg)->getIdDest() << endl;
-
+    DEBUG for (unsigned i=0; i<this->idRegistered.size(); ++i)
+    DEBUG  EV <<"Id registered ARRAY i:"<< i << " : "<< this->idRegistered[i] <<endl;
     if(this->frequency > 0){
         isListeningHandleMessage((messageLoRA*)msg);
     }
@@ -196,7 +197,7 @@ void LGW::isListeningHandleMessage(messageLoRA *msg){
             break;
         }
         case 3: {
-            if(this->discovered==true){
+            if(this->discovered==true && msg->getIdDest()==this->id){
                 /*We received a Register message*/
                 /*Check if we are the gateway of the device.*/
                 if(find(idRegistered.begin(), idRegistered.end(), msg->getIdSrc()) != idRegistered.end()) {
@@ -204,7 +205,7 @@ void LGW::isListeningHandleMessage(messageLoRA *msg){
                 }else{
                         /* v does not contain x */
                         idRegistered.push_back (msg->getIdSrc());
-                       LOG for (unsigned i=0; i<this->idRegistered.size(); ++i)
+                        LOG for (unsigned i=0; i<this->idRegistered.size(); ++i)
                         LOG  EV <<"Id registered ARRAY i:"<< i << " : "<< this->idRegistered[i] <<endl;
 
                 }
