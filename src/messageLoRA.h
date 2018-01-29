@@ -19,7 +19,6 @@
 #include <omnetpp/cmessage.h>
 #include <vector> /*required for slots definition*/
 #include <ctime> /*required for slots definition*/
-
 #include "frequency.h"
 
 using namespace std;

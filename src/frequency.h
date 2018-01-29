@@ -9,7 +9,7 @@
 #define FREQUENCY_H_
 
 #define LOG if(0)
-#define DEBUG if(1)
+#define DEBUG if(0)
 
 /*EU 863-870MHz ISM Band*/
 #define EU_A_1 868.10   /* as 1 in receivePhase */

@@ -4,8 +4,6 @@ Define_Module(LGW);
 
 void LGW::initialize()
 {
-
-
    LOG  EV << "LoRA Gateway started"<< endl;
    this->slot=5;
    this->discovered=false;
@@ -16,6 +14,13 @@ void LGW::initialize()
    this->MyLW=-1;
    /* generate number between 1 and 100: */
    this->time = this->slot +1;
+
+
+   cDisplayString& dispStr = getDisplayString();
+
+   const char* foo= ("p="+to_string((this->id)*100)+",240;i=old/bwcomp").c_str();
+   dispStr.parse(foo);
+   dispStr.setTagArg("i", 0, "device/devicegreen");
 
    messageLoRA *m = new messageLoRA();
    char numstr[21];
@@ -43,6 +48,7 @@ void LGW::initialize()
    mDiscover->setName("Hibernate__discover");
    mDiscover->setKind(16);
    scheduleAt(simTime()+this->time, mDiscover);
+   dispStr.setTagArg("i", 0, "device/devicered");
 }
 
 const vector<int>& LGW::getIdRegistered() const
@@ -76,6 +82,8 @@ void LGW::handleMessage(cMessage *msg)
         this->slot=((messageLoRA*)msg)->getSlots();
         LOG EV << "Slot receive: "<< ((messageLoRA*)msg)->getSlots() <<endl;
         this->frequency=2;
+        cDisplayString& dispStr = getDisplayString();
+        dispStr.setTagArg("i", 0, "device/devicegreen");
     }
 
 }
@@ -92,7 +100,11 @@ void LGW::notListeningHandleMessage(messageLoRA *msg)
         {
             case 15:
             {
+
                 /*LoRaGateway is required to harvest data*/
+
+                cDisplayString& dispStr = getDisplayString();
+                dispStr.setTagArg("i", 0, "device/devicegreen");
                 LOG EV << "LoRa Gateway is waking up " << endl;
                 this->frequency = this->old_phase ;
 
@@ -123,6 +135,9 @@ void LGW::notListeningHandleMessage(messageLoRA *msg)
                 }
                 else
                 {
+
+                    cDisplayString& dispStr = getDisplayString();
+                    dispStr.setTagArg("i", 0, "device/devicegreen");
                     messageLoRA *m = new messageLoRA();
                     char numstr[21];
                     sprintf(numstr, "%d", this->id);
@@ -148,6 +163,8 @@ void LGW::notListeningHandleMessage(messageLoRA *msg)
                     mDiscover->setName("Hibernate__discover");
                     mDiscover->setKind(16);
                     scheduleAt(simTime()+this->time, mDiscover);
+
+                    dispStr.setTagArg("i", 0, "device/devicered");
                 }
                 break;
             }
@@ -201,6 +218,9 @@ void LGW::isListeningHandleMessage(messageLoRA *msg)
         {
             if(this->discovered==true)
             {
+
+                cDisplayString& dispStr = getDisplayString();
+                dispStr.setTagArg("i", 0, "device/devicegreen");
                 m->setIdSrc(this->id);
                 m->setIdDest(msg->getIdSrc());
                 m->setName("Accept");
@@ -222,6 +242,8 @@ void LGW::isListeningHandleMessage(messageLoRA *msg)
             {
                 /*We received a Register message*/
                 /*Check if we are the gateway of the device.*/
+                cDisplayString& dispStr = getDisplayString();
+                dispStr.setTagArg("i", 0, "device/devicegreen");
                 if(find(idRegistered.begin(), idRegistered.end(), msg->getIdSrc()) != idRegistered.end())
                 {
                         /* We had  registered this Node yet, but it's possible he don't know yet */
@@ -251,6 +273,8 @@ void LGW::isListeningHandleMessage(messageLoRA *msg)
                 m_ACK_J_IN->setIdDest(this->MyLW);
                 m_ACK_J_IN->setName("Confirmed pairing with an IN");
                 m_ACK_J_IN->setKind(20);
+
+                dispStr.setTagArg("i", 0, "device/devicered");
                 for (i = 0; i < this->gateSize("channelsO"); i++)
                 {
                     messageLoRA *copy = m_ACK_J_IN->dup();
@@ -266,6 +290,8 @@ void LGW::isListeningHandleMessage(messageLoRA *msg)
             if(this->discovered==true && msg->getIdDest() == this->id)
             {
                 /*We received a Data message*/
+                cDisplayString& dispStr = getDisplayString();
+                dispStr.setTagArg("i", 0, "device/devicegreen");
                 m->setName(msg->getName());
                 m->setKind(7);
                 LOG EV << "myLW: " << this->MyLW << endl;
@@ -286,6 +312,8 @@ void LGW::isListeningHandleMessage(messageLoRA *msg)
                 mHibernate->setKind(15);
                 mHibernate->setIdSrc(this->id);
                 scheduleAt(simTime()+this->slot, mHibernate);
+
+                dispStr.setTagArg("i", 0, "device/deviceblack");
             }
             break;
         }
@@ -298,6 +326,8 @@ void LGW::isListeningHandleMessage(messageLoRA *msg)
                 this->slot=msg->getSlots();
                 this->MyLW=msg->getIdSrc();
                 LOG EV << "Slot receive: "<< msg->getSlots() <<endl;
+                cDisplayString& dispStr = getDisplayString();
+                dispStr.setTagArg("i", 0, "device/devicegreen");
             }
             break;
         }

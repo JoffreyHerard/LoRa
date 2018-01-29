@@ -1,3 +1,5 @@
+CFLAGS= -std=c++11
+
 all: checkmakefiles
 	cd src && $(MAKE)
 

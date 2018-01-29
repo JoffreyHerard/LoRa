@@ -14,10 +14,9 @@
 // 
 
 #include "IsoN.h"
-
+#include <string.h>
 Define_Module(IsoN);
 using namespace std;
-
 void IsoN::initialize()
 {
     int i;
@@ -28,6 +27,67 @@ void IsoN::initialize()
     this->registered=false;
     this->id = par("id").longValue();
     this->slot=1;
+
+    cDisplayString& dispStr = getDisplayString();
+    if(this->id ==21)
+    {
+
+        dispStr.parse("p=40,350;i=device/devicegreen");
+    }
+    if(this->id ==22)
+    {
+
+        dispStr.parse("p=140,350;i=device/devicegreen");
+
+    }
+    if(this->id ==23)
+    {
+        dispStr.parse("p=240,350;i=device/devicegreen");
+    }
+    if(this->id ==24)
+    {
+        dispStr.parse("p=340,350;i=device/devicegreen");
+
+    }
+    if(this->id ==25)
+    {
+        dispStr.parse("p=440,350;i=device/devicegreen");
+
+    }
+    if(this->id ==26)
+    {
+        dispStr.parse("p=540,350;i=device/devicegreen");
+
+    }
+    if(this->id ==27)
+    {
+        dispStr.parse("p=640,350;i=device/devicegreen");
+    }
+    if(this->id ==28)
+    {
+        dispStr.parse("p=740,350;i=device/devicegreen");
+
+    }
+    if(this->id ==29)
+    {
+        dispStr.parse("p=840,350;i=device/devicegreen");
+    }
+
+    /*
+    if(this->id ==21)
+    {
+
+        dispStr.parse("p=40,350;i=old/bwcomp");
+    }
+    else
+    {
+        cDisplayString& dispStr = getDisplayString();
+        int posx =id*40;
+        const char* foo= ("p="+to_string(posx)+",350;i=old/bwcomp").c_str();
+        dispStr.parse(foo);
+        EV <<foo<<endl;
+    }*/
+    //EV <<foo <<endl;
 
 
     /* generate number between 1 and 100: */
@@ -90,6 +150,8 @@ void IsoN::handleMessage(cMessage *msg)
         if(msg->getKind() == 2)
         {
             if(!(this->discovered) && ((messageLoRA*)msg)->getIdDest()==this->id){
+                cDisplayString& dispStr = getDisplayString();
+                dispStr.setTagArg("i", 0, "device/devicegreen");
                 /*There is a LoRa Gateway Near and I'm not registered yet*/
                 this->myLoRa=((messageLoRA*)msg)->getIdSrc();
                 this->frequency= ((messageLoRA*)msg)->getFrequency();
@@ -109,6 +171,7 @@ void IsoN::handleMessage(cMessage *msg)
                 this->discovered=true;
                 this->slot=((messageLoRA*)msg)->getSlots();
 
+                dispStr.setTagArg("i", 0, "device/devicered");
                 messageLoRA *mHibernate = new messageLoRA();
                 mHibernate->setIdSrc(this->id);
                 mHibernate->setName("Hibernate_registered?");
@@ -119,6 +182,8 @@ void IsoN::handleMessage(cMessage *msg)
         }
         if(msg->getKind() == 4 && ((messageLoRA*)msg)->getIdDest()==this->id)
         {
+
+            cDisplayString& dispStr = getDisplayString();
             this->myLoRa=((messageLoRA*)msg)->getIdSrc();
             /*There is a LoRa Gateway Near and this one want my data*/
             if (!this->registered)
@@ -148,6 +213,7 @@ void IsoN::handleMessage(cMessage *msg)
             mHibernate->setName("Hibernate_deactivate");
             mHibernate->setKind(15);
             scheduleAt(simTime()+this->slot, mHibernate);
+            dispStr.setTagArg("i", 0, "device/devicegreen");
         }
     }
 
@@ -168,6 +234,8 @@ void IsoN::notListeningHandleMessage(messageLoRA *msg)
                 /*LoRaGateway is required to harvest data*/
                 LOG EV << "Isolated Node is waking up " << endl;
                 this->frequency = this->old_phase ;
+                cDisplayString& dispStr = getDisplayString();
+                dispStr.setTagArg("i", 0, "device/devicegreen");
                 break;
             }
             case 16:
@@ -180,6 +248,8 @@ void IsoN::notListeningHandleMessage(messageLoRA *msg)
                 {
                     /*We are not already discovered*/
                     //this->myLoRa=((messageLoRA*)msg)->getIdSrc();
+                    cDisplayString& dispStr = getDisplayString();
+                    dispStr.setTagArg("i", 0, "device/devicegreen");
                     m->setName("Discover");
                     m->setKind(1);
                     m->setFrequency(1);
@@ -198,6 +268,7 @@ void IsoN::notListeningHandleMessage(messageLoRA *msg)
                     mDiscover->setName("Hibernate__discover");
                     mDiscover->setKind(16);
                     scheduleAt(simTime()+this->time, mDiscover);
+                    dispStr.setTagArg("i", 0, "device/devicered");
                 }
                 break;
             }
@@ -207,6 +278,8 @@ void IsoN::notListeningHandleMessage(messageLoRA *msg)
                 /*We are not already registered*/
                 if(!this->registered)
                 {
+                    cDisplayString& dispStr = getDisplayString();
+                    dispStr.setTagArg("i", 0, "device/devicegreen");
                     m->setName("Register");
                     m->setKind(3);
                     m->setIdDest(this->myLoRa);
@@ -223,7 +296,7 @@ void IsoN::notListeningHandleMessage(messageLoRA *msg)
                     mDiscover->setName("Hibernate_registered");
                     mDiscover->setKind(17);
                     scheduleAt(simTime()+this->time, mDiscover);
-
+                    dispStr.setTagArg("i", 0, "device/devicered");
                 }
                 else
                 {
@@ -274,6 +347,8 @@ void IsoN::isListeningHandleMessage(messageLoRA *msg)
             if(!(this->discovered))
             {
                 /*There is a LoRa Gateway Near and I'm not registered yet*/
+                cDisplayString& dispStr = getDisplayString();
+                dispStr.setTagArg("i", 0, "device/devicegreen");
                 this->myLoRa=((messageLoRA*)msg)->getIdSrc();
                 this->frequency= msg->getFrequency();
                 this->old_phase =this->frequency;
@@ -298,6 +373,7 @@ void IsoN::isListeningHandleMessage(messageLoRA *msg)
                 mHibernate->setKind(17);
                 scheduleAt(simTime()+this->slot, mHibernate);
                 this->frequency =0 ;
+                dispStr.setTagArg("i", 0, "device/devicered");
             }
             break;
         }
@@ -311,6 +387,8 @@ void IsoN::isListeningHandleMessage(messageLoRA *msg)
                 string tmp =numstr;
                 const char * c = tmp.c_str();
 
+                cDisplayString& dispStr = getDisplayString();
+                dispStr.setTagArg("i", 0, "device/devicegreen");
 
                 m->setFrequency(2);
                 m->setName(c);
@@ -333,6 +411,8 @@ void IsoN::isListeningHandleMessage(messageLoRA *msg)
                 mHibernate->setName("Hibernate_deactivate");
                 mHibernate->setKind(15);
                 scheduleAt(simTime()+this->slot, mHibernate);
+
+                dispStr.setTagArg("i", 0, "device/deviceblack");
                 break;
                 }
         }
