@@ -62,21 +62,25 @@ void IsoN::initialize()
 }
 
 
-void IsoN::handleMessage(cMessage *msg){
+void IsoN::handleMessage(cMessage *msg)
+{
     DEBUG EV << "MSG ID SOURCE: "<<((messageLoRA*)msg)->getIdSrc() << " MSG ID DEST: "<<((messageLoRA*)msg)->getIdDest() << " MSG kind: "<<((messageLoRA*)msg)->getKind() << endl;
     DEBUG EV << "Mon id de LoRaGATEWAY c'est: " <<this->myLoRa << endl;
 
-    if(this->frequency > 0){
+    if(this->frequency > 0)
+    {
          DEBUG EV << "Je vais la 1" << endl;
          isListeningHandleMessage((messageLoRA*)msg);
 
     }
-    else{
+    else
+    {
          DEBUG EV << "Je vais la 2" << endl;
          notListeningHandleMessage((messageLoRA*)msg);
 
     }
-    if( ( !((messageLoRA*)msg)->isSelfMessage() ) && (this->frequency == 0) && !(this->registered)){
+    if( ( !((messageLoRA*)msg)->isSelfMessage() ) && (this->frequency == 0) && !(this->registered))
+    {
         /*special section dedicate to managed special thing like timeOut on registering*/
         DEBUG EV << "Je vais la 3" << endl;
         messageLoRA *m = new messageLoRA();
@@ -149,23 +153,31 @@ void IsoN::handleMessage(cMessage *msg){
 
 }
 
-void IsoN::notListeningHandleMessage(messageLoRA *msg){
+void IsoN::notListeningHandleMessage(messageLoRA *msg)
+{
     messageLoRA *mDiscover = new messageLoRA();
     short choose = msg->getKind();
-    if(msg->isSelfMessage()){
+    if(msg->isSelfMessage())
+    {
         messageLoRA *m = new messageLoRA();
         m->setIdSrc(this->id);
-        switch(choose){
-            case 15:{
+        switch(choose)
+        {
+            case 15:
+            {
                 /*LoRaGateway is required to harvest data*/
                 LOG EV << "Isolated Node is waking up " << endl;
                 this->frequency = this->old_phase ;
                 break;
             }
-            case 16:{
-                if(this->discovered){
+            case 16:
+            {
+                if(this->discovered)
+                {
                     /*We are already discovered*/
-                }else{
+                }
+                else
+                {
                     /*We are not already discovered*/
                     //this->myLoRa=((messageLoRA*)msg)->getIdSrc();
                     m->setName("Discover");
@@ -189,10 +201,12 @@ void IsoN::notListeningHandleMessage(messageLoRA *msg){
                 }
                 break;
             }
-            case 17:{
+            case 17:
+            {
                 /*I am registered???*/
                 /*We are not already registered*/
-                if(!this->registered){
+                if(!this->registered)
+                {
                     m->setName("Register");
                     m->setKind(3);
                     m->setIdDest(this->myLoRa);
@@ -210,7 +224,9 @@ void IsoN::notListeningHandleMessage(messageLoRA *msg){
                     mDiscover->setKind(17);
                     scheduleAt(simTime()+this->time, mDiscover);
 
-                }else{
+                }
+                else
+                {
                     this->frequency = this->old_phase ;
                 }
                 break;
@@ -220,34 +236,43 @@ void IsoN::notListeningHandleMessage(messageLoRA *msg){
             }
         }
     }
-    else{
+    else
+    {
         LOG EV <<"Not a self message"<<endl;
     }
 }
 
-double IsoN::getOldPhase() const {
+double IsoN::getOldPhase() const
+{
     return old_phase;
 }
 
-void IsoN::setOldPhase(double oldPhase) {
+void IsoN::setOldPhase(double oldPhase)
+{
     old_phase = oldPhase;
 }
 
-int IsoN::getSlot() const {
+int IsoN::getSlot() const
+{
     return slot;
 }
 
-void IsoN::setSlot(int slot) {
+void IsoN::setSlot(int slot)
+{
     this->slot = slot;
 }
 
-void IsoN::isListeningHandleMessage(messageLoRA *msg){
+void IsoN::isListeningHandleMessage(messageLoRA *msg)
+{
     messageLoRA *m = new messageLoRA();
     LOG EV <<  "received: " << msg->getName() << " kind " << msg->getKind() << endl;
 
-    switch(msg->getKind()){
-        case 2: {
-            if(!(this->discovered)){
+    switch(msg->getKind())
+    {
+        case 2:
+        {
+            if(!(this->discovered))
+            {
                 /*There is a LoRa Gateway Near and I'm not registered yet*/
                 this->myLoRa=((messageLoRA*)msg)->getIdSrc();
                 this->frequency= msg->getFrequency();
@@ -276,7 +301,8 @@ void IsoN::isListeningHandleMessage(messageLoRA *msg){
             }
             break;
         }
-        case 4: {
+        case 4:
+        {
             if(msg->getIdDest() == this->id){ /*There is a LoRa Gateway Near and this one want my data*/
                 if (!this->registered)
                     this->registered=true;
@@ -315,35 +341,43 @@ void IsoN::isListeningHandleMessage(messageLoRA *msg){
     delete msg;
 }
 
-int IsoN::getData() const {
+int IsoN::getData() const
+{
     return data;
 }
 
-void IsoN::setData(int data) {
+void IsoN::setData(int data)
+{
     this->data = data;
 }
 
-bool IsoN::isDiscovered() const {
+bool IsoN::isDiscovered() const
+{
     return discovered;
 }
 
-void IsoN::setDiscovered(bool discovered) {
+void IsoN::setDiscovered(bool discovered)
+{
     this->discovered = discovered;
 }
 
-double IsoN::getFrequency() const {
+double IsoN::getFrequency() const
+{
     return frequency;
 }
 
-void IsoN::setFrequency(double frequency) {
+void IsoN::setFrequency(double frequency)
+{
     this->frequency = frequency;
 }
 
-int IsoN::getId() const {
+int IsoN::getId() const
+{
     return id;
 }
 
-void IsoN::setId(int id) {
+void IsoN::setId(int id)
+{
     this->id = id;
 }
 

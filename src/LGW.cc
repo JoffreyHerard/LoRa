@@ -45,11 +45,13 @@ void LGW::initialize()
    scheduleAt(simTime()+this->time, mDiscover);
 }
 
-const vector<int>& LGW::getIdRegistered() const {
+const vector<int>& LGW::getIdRegistered() const
+{
     return idRegistered;
 }
 
-void LGW::setIdRegistered(const vector<int>& idRegistered) {
+void LGW::setIdRegistered(const vector<int>& idRegistered)
+{
     this->idRegistered = idRegistered;
 }
 void LGW::handleMessage(cMessage *msg)
@@ -57,13 +59,16 @@ void LGW::handleMessage(cMessage *msg)
     DEBUG EV << "MSG ID SOURCE: "<<((messageLoRA*)msg)->getIdSrc() << " MSG ID DEST: "<<((messageLoRA*)msg)->getIdDest() << endl;
     DEBUG for (unsigned i=0; i<this->idRegistered.size(); ++i)
     DEBUG  EV <<"Id registered ARRAY i:"<< i << " : "<< this->idRegistered[i] <<endl;
-    if(this->frequency > 0){
+    if(this->frequency > 0)
+    {
         isListeningHandleMessage((messageLoRA*)msg);
     }
-    else{
+    else
+    {
         notListeningHandleMessage((messageLoRA*)msg);
     }
-    if( ( !((messageLoRA*)msg)->isSelfMessage() ) && (this->frequency == 0) && !(this->discovered)){
+    if( ( !((messageLoRA*)msg)->isSelfMessage() ) && (this->frequency == 0) && !(this->discovered))
+    {
         /*There is a LoRaWAN Gateway Near and I'm not registered yet*/
         LOG EV << "LoRa Gateway has received the Join request Message with timeout process " << endl;
         this->discovered=true;
@@ -75,14 +80,18 @@ void LGW::handleMessage(cMessage *msg)
 
 }
 
-void LGW::notListeningHandleMessage(messageLoRA *msg){
+void LGW::notListeningHandleMessage(messageLoRA *msg)
+{
     short choose = msg->getKind();
-    if(msg->isSelfMessage()){
+    if(msg->isSelfMessage())
+    {
         messageLoRA *m = new messageLoRA();
         m->setIdSrc(this->id);
         m->setIdDest(msg->getIdSrc());
-        switch(choose){
-            case 15:{
+        switch(choose)
+        {
+            case 15:
+            {
                 /*LoRaGateway is required to harvest data*/
                 LOG EV << "LoRa Gateway is waking up " << endl;
                 this->frequency = this->old_phase ;
@@ -106,10 +115,14 @@ void LGW::notListeningHandleMessage(messageLoRA *msg){
 
                 break;
             }
-            case 16:{
-                if(this->discovered){
+            case 16:
+            {
+                if(this->discovered)
+                {
                     /*We are already discovered*/
-                }else{
+                }
+                else
+                {
                     messageLoRA *m = new messageLoRA();
                     char numstr[21];
                     sprintf(numstr, "%d", this->id);
@@ -153,23 +166,28 @@ void LGW::notListeningHandleMessage(messageLoRA *msg){
     }
 }
 
-double LGW::getOldPhase() const {
+double LGW::getOldPhase() const
+{
     return old_phase;
 }
 
-void LGW::setOldPhase(double oldPhase) {
+void LGW::setOldPhase(double oldPhase)
+{
     old_phase = oldPhase;
 }
 
-int LGW::getSlot() const {
+int LGW::getSlot() const
+{
     return slot;
 }
 
-void LGW::setSlot(int slot) {
+void LGW::setSlot(int slot)
+{
     this->slot = slot;
 }
 
-void LGW::isListeningHandleMessage(messageLoRA *msg){
+void LGW::isListeningHandleMessage(messageLoRA *msg)
+{
 
     LOG EV <<  "LGW: received: " << msg->getName() << " kind " << msg->getKind() << endl;
 
@@ -177,9 +195,12 @@ void LGW::isListeningHandleMessage(messageLoRA *msg){
     m->setSlots(this->slot);
     m->setIdSrc(this->id);
     m->setIdDest(msg->getIdSrc());
-    switch(msg->getKind()){
-        case 1: {
-            if(this->discovered==true){
+    switch(msg->getKind())
+    {
+        case 1:
+        {
+            if(this->discovered==true)
+            {
                 m->setIdSrc(this->id);
                 m->setIdDest(msg->getIdSrc());
                 m->setName("Accept");
@@ -197,12 +218,16 @@ void LGW::isListeningHandleMessage(messageLoRA *msg){
             break;
         }
         case 3: {
-            if(this->discovered==true && msg->getIdDest()==this->id){
+            if(this->discovered==true && msg->getIdDest()==this->id)
+            {
                 /*We received a Register message*/
                 /*Check if we are the gateway of the device.*/
-                if(find(idRegistered.begin(), idRegistered.end(), msg->getIdSrc()) != idRegistered.end()) {
+                if(find(idRegistered.begin(), idRegistered.end(), msg->getIdSrc()) != idRegistered.end())
+                {
                         /* We had  registered this Node yet, but it's possible he don't know yet */
-                }else{
+                }
+                else
+                {
                         /* v does not contain x */
                         idRegistered.push_back (msg->getIdSrc());
                         LOG for (unsigned i=0; i<this->idRegistered.size(); ++i)
@@ -236,8 +261,10 @@ void LGW::isListeningHandleMessage(messageLoRA *msg){
 
             break;
         }
-        case 5:{
-            if(this->discovered==true && msg->getIdDest() == this->id){
+        case 5:
+        {
+            if(this->discovered==true && msg->getIdDest() == this->id)
+            {
                 /*We received a Data message*/
                 m->setName(msg->getName());
                 m->setKind(7);
@@ -262,8 +289,10 @@ void LGW::isListeningHandleMessage(messageLoRA *msg){
             }
             break;
         }
-        case 6: {
-            if(!(this->discovered)){
+        case 6:
+        {
+            if(!(this->discovered))
+            {
                 /*There is a LoRaWAN Gateway Near and I'm not registered yet*/
                 this->discovered=true;
                 this->slot=msg->getSlots();
@@ -282,34 +311,42 @@ void LGW::isListeningHandleMessage(messageLoRA *msg){
 }
 
 
-bool LGW::isDiscovered() const {
+bool LGW::isDiscovered() const
+{
     return discovered;
 }
 
-void LGW::setDiscovered(bool discovered) {
+void LGW::setDiscovered(bool discovered)
+{
     this->discovered = discovered;
 }
 
-double LGW::getFrequency() const {
+double LGW::getFrequency() const
+{
     return frequency;
 }
 
-void LGW::setFrequency(double frequency) {
+void LGW::setFrequency(double frequency)
+{
     this->frequency = frequency;
 }
 
-int LGW::getId() const {
+int LGW::getId() const
+{
     return id;
 }
 
-void LGW::setId(int id) {
+void LGW::setId(int id)
+{
     this->id = id;
 }
 
-int LGW::getNbIn() const {
+int LGW::getNbIn() const
+{
     return NbIN;
 }
 
-void LGW::setNbIn(int nbIn) {
+void LGW::setNbIn(int nbIn)
+{
     NbIN = nbIn;
 }
