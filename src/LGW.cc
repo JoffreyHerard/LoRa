@@ -54,7 +54,7 @@ void LGW::setIdRegistered(const vector<int>& idRegistered) {
 }
 void LGW::handleMessage(cMessage *msg)
 {
-    DEBUG EV << "MSG ID SOURCE: "<<((messageLoRA*)msg)->getIdSrc() << "MSG ID DEST: "<<((messageLoRA*)msg)->getIdDest() << endl;
+    DEBUG EV << "MSG ID SOURCE: "<<((messageLoRA*)msg)->getIdSrc() << " MSG ID DEST: "<<((messageLoRA*)msg)->getIdDest() << endl;
 
     if(this->frequency > 0){
         isListeningHandleMessage((messageLoRA*)msg);
@@ -90,12 +90,15 @@ void LGW::notListeningHandleMessage(messageLoRA *msg){
                 m1->setName("Data request");
                 m1->setKind(4);
                 m1->setIdSrc(this->id);
-                m1->setIdDest(this->idRegistered[0]);
-                int i;
-                for (i = 0; i < this->gateSize("channelsO"); i++)
+                int i,j;
+                for(j=0;j<this->idRegistered.size();j++)
                 {
-                    messageLoRA *copy = m1->dup();
-                    send(copy, "channelsO", i);
+                    m1->setIdDest(this->idRegistered[j]);
+                    for (i = 0; i < this->gateSize("channelsO"); i++)
+                    {
+                        messageLoRA *copy = m1->dup();
+                        send(copy, "channelsO", i);
+                    }
                 }
                 delete m1;
                 LOG EV << "Data request Message sent from: " << this->id  << endl;
@@ -177,7 +180,7 @@ void LGW::isListeningHandleMessage(messageLoRA *msg){
         case 1: {
             if(this->discovered==true){
                 m->setIdSrc(this->id);
-                m->setIdDest(msg->getIdDest());
+                m->setIdDest(msg->getIdSrc());
                 m->setName("Accept");
                 m->setKind(2);
                 m->setFrequency(2);

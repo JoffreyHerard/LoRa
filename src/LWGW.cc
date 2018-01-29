@@ -28,7 +28,7 @@ void LWGW::initialize()
 
 void LWGW::handleMessage(cMessage *msg)
 {
-    LOG EV << "MSG ID SOURCE: "<<((messageLoRA*)msg)->getIdSrc() << "MSG ID DEST: "<<((messageLoRA*)msg)->getIdDest() << endl;
+    LOG EV << "MSG ID SOURCE: "<<((messageLoRA*)msg)->getIdSrc() << " MSG ID DEST: "<<((messageLoRA*)msg)->getIdDest() << endl;
     if(this->frequency > 0){
         isListeningHandleMessage((messageLoRA*)msg);
     }

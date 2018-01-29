@@ -63,7 +63,7 @@ void IsoN::initialize()
 
 
 void IsoN::handleMessage(cMessage *msg){
-    DEBUG EV << "MSG ID SOURCE: "<<((messageLoRA*)msg)->getIdSrc() << "MSG ID DEST: "<<((messageLoRA*)msg)->getIdDest() << "MSG kind: "<<((messageLoRA*)msg)->getKind() << endl;
+    DEBUG EV << "MSG ID SOURCE: "<<((messageLoRA*)msg)->getIdSrc() << " MSG ID DEST: "<<((messageLoRA*)msg)->getIdDest() << " MSG kind: "<<((messageLoRA*)msg)->getKind() << endl;
     DEBUG EV << "Mon id de LoRaGATEWAY c'est: " <<this->myLoRa << endl;
 
     if(this->frequency > 0){
@@ -85,7 +85,7 @@ void IsoN::handleMessage(cMessage *msg){
 
         if(msg->getKind() == 2)
         {
-            if(!(this->discovered)){
+            if(!(this->discovered) && ((messageLoRA*)msg)->getIdDest()==this->id){
                 /*There is a LoRa Gateway Near and I'm not registered yet*/
                 this->myLoRa=((messageLoRA*)msg)->getIdSrc();
                 this->frequency= ((messageLoRA*)msg)->getFrequency();
@@ -113,7 +113,7 @@ void IsoN::handleMessage(cMessage *msg){
                 this->frequency =0 ;
             }
         }
-        if(msg->getKind() == 4)
+        if(msg->getKind() == 4 && ((messageLoRA*)msg)->getIdDest()==this->id)
         {
             this->myLoRa=((messageLoRA*)msg)->getIdSrc();
             /*There is a LoRa Gateway Near and this one want my data*/
