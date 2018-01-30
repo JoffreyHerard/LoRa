@@ -24,6 +24,9 @@ void LWGW::initialize()
     this->frequency=1;
     this->slot=5;
     this->id = par("id").longValue();
+
+    cDisplayString& dispStr = getDisplayString();
+    dispStr.parse("p=350,20;i=device/antennatower");
 }
 
 void LWGW::handleMessage(cMessage *msg)

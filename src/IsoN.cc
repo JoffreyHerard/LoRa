@@ -29,65 +29,14 @@ void IsoN::initialize()
     this->slot=1;
 
     cDisplayString& dispStr = getDisplayString();
-    if(this->id ==21)
-    {
-
-        dispStr.parse("p=40,350;i=device/devicegreen");
-    }
-    if(this->id ==22)
-    {
-
-        dispStr.parse("p=140,350;i=device/devicegreen");
-
-    }
-    if(this->id ==23)
-    {
-        dispStr.parse("p=240,350;i=device/devicegreen");
-    }
-    if(this->id ==24)
-    {
-        dispStr.parse("p=340,350;i=device/devicegreen");
-
-    }
-    if(this->id ==25)
-    {
-        dispStr.parse("p=440,350;i=device/devicegreen");
-
-    }
-    if(this->id ==26)
-    {
-        dispStr.parse("p=540,350;i=device/devicegreen");
-
-    }
-    if(this->id ==27)
-    {
-        dispStr.parse("p=640,350;i=device/devicegreen");
-    }
-    if(this->id ==28)
-    {
-        dispStr.parse("p=740,350;i=device/devicegreen");
-
-    }
-    if(this->id ==29)
-    {
-        dispStr.parse("p=840,350;i=device/devicegreen");
+    dispStr.parse("p=150,250,r,100;i=device/devicegreen");
+    if(this->id == 22){
+        dispStr.parse("p=250,350;i=device/devicegreen");
     }
 
-    /*
-    if(this->id ==21)
-    {
-
-        dispStr.parse("p=40,350;i=old/bwcomp");
+    if( this->id == 25){
+        dispStr.parse("p=550,350;i=device/devicegreen");
     }
-    else
-    {
-        cDisplayString& dispStr = getDisplayString();
-        int posx =id*40;
-        const char* foo= ("p="+to_string(posx)+",350;i=old/bwcomp").c_str();
-        dispStr.parse(foo);
-        EV <<foo<<endl;
-    }*/
-    //EV <<foo <<endl;
 
 
     /* generate number between 1 and 100: */

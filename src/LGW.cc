@@ -17,17 +17,14 @@ void LGW::initialize()
 
 
    cDisplayString& dispStr = getDisplayString();
-
-   const char* foo= ("p="+to_string((this->id)*100)+",240;i=old/bwcomp").c_str();
-   dispStr.parse(foo);
+   dispStr.parse("p=200,100,r,100");
    dispStr.setTagArg("i", 0, "device/devicegreen");
 
    messageLoRA *m = new messageLoRA();
    char numstr[21];
    sprintf(numstr, "%d", this->id);
    string tmp = "Join request";
-   string tmp2 =tmp+numstr;
-   const char * c = tmp2.c_str();
+   const char * c = tmp.c_str();
 
    m->setName(c);
    m->setKind(0);
@@ -271,14 +268,15 @@ void LGW::isListeningHandleMessage(messageLoRA *msg)
                 m_ACK_J_IN->setSlots(this->slot);
                 m_ACK_J_IN->setIdSrc(msg->getIdSrc());
                 m_ACK_J_IN->setIdDest(this->MyLW);
-                m_ACK_J_IN->setName("Confirmed pairing with an IN");
+                //Confirmed pairing with an IN
+                m_ACK_J_IN->setName("CP_IN");
                 m_ACK_J_IN->setKind(20);
 
                 dispStr.setTagArg("i", 0, "device/devicered");
                 for (i = 0; i < this->gateSize("channelsO"); i++)
                 {
                     messageLoRA *copy = m_ACK_J_IN->dup();
-                    send(copy, "channelsO", i);
+                    sendDelayed (copy, 0.5,"channelsO", i);
                 }
                 delete m_ACK_J_IN;
             }
