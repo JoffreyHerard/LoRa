@@ -54,6 +54,7 @@ public:
     double old_phase;
     int slot;
     int MyLW;
+    int nb_harvest;
   protected:
     virtual void initialize();
     virtual void handleMessage(cMessage *msg);

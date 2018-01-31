@@ -46,7 +46,7 @@ class IsoN : public cSimpleModule
     void setSlot(int slot);
 
   private:
-    int id,time,data;
+    int id,time,data,tryDiscover;
     bool discovered,registered;
     double frequency,old_phase;
     int slot;

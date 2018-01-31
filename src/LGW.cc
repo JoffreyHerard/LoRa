@@ -12,6 +12,7 @@ void LGW::initialize()
    this->idRegistered =  vector<int>();
    this->isRegistered =  vector<bool>();
    this->MyLW=-1;
+   this->nb_harvest=0;
    /* generate number between 1 and 100: */
    this->time = this->slot +1;
 
@@ -59,6 +60,8 @@ void LGW::setIdRegistered(const vector<int>& idRegistered)
 }
 void LGW::handleMessage(cMessage *msg)
 {
+
+
     DEBUG EV << "MSG ID SOURCE: "<<((messageLoRA*)msg)->getIdSrc() << " MSG ID DEST: "<<((messageLoRA*)msg)->getIdDest() << endl;
     DEBUG for (unsigned i=0; i<this->idRegistered.size(); ++i)
     DEBUG  EV <<"Id registered ARRAY i:"<< i << " : "<< this->idRegistered[i] <<endl;
@@ -110,6 +113,7 @@ void LGW::notListeningHandleMessage(messageLoRA *msg)
                 m1->setKind(4);
                 m1->setIdSrc(this->id);
                 int i,j;
+                this->nb_harvest=0;
                 for(j=0;j<this->idRegistered.size();j++)
                 {
                     m1->setIdDest(this->idRegistered[j]);
@@ -220,7 +224,15 @@ void LGW::isListeningHandleMessage(messageLoRA *msg)
                 dispStr.setTagArg("i", 0, "device/devicegreen");
                 m->setIdSrc(this->id);
                 m->setIdDest(msg->getIdSrc());
-                m->setName("Accept");
+                string result ;
+
+
+                char numstr[21]; // enough to hold all numbers up to 64-bits
+                sprintf(numstr, "%lu", msg->getIdSrc());
+                string tmp ="Accept,";
+                result = tmp + numstr;
+
+                m->setName(result.c_str());
                 m->setKind(2);
                 m->setFrequency(2);
                 int i;
@@ -248,22 +260,20 @@ void LGW::isListeningHandleMessage(messageLoRA *msg)
                 else
                 {
                         /* v does not contain x */
+
+                        char numstr[21]; // enough to hold all numbers up to 64-bits
+                        sprintf(numstr, "%lu", msg->getIdSrc());
+                        string tmp ="END PAIRING W ";
+                        string result = tmp + numstr;
+                        bubble(result.c_str());
+
                         idRegistered.push_back (msg->getIdSrc());
+
                         LOG for (unsigned i=0; i<this->idRegistered.size(); ++i)
                         LOG  EV <<"Id registered ARRAY i:"<< i << " : "<< this->idRegistered[i] <<endl;
 
                 }
-                m->setName("Data request");
-                m->setKind(4);
                 int i;
-                for (i = 0; i < this->gateSize("channelsO"); i++)
-                {
-                    messageLoRA *copy = m->dup();
-                    send(copy, "channelsO", i);
-                }
-                delete m;
-                LOG EV << "Data request Message sent from: " << this->id  << endl;
-
                 messageLoRA *m_ACK_J_IN = new messageLoRA();
                 m_ACK_J_IN->setSlots(this->slot);
                 m_ACK_J_IN->setIdSrc(msg->getIdSrc());
@@ -276,9 +286,22 @@ void LGW::isListeningHandleMessage(messageLoRA *msg)
                 for (i = 0; i < this->gateSize("channelsO"); i++)
                 {
                     messageLoRA *copy = m_ACK_J_IN->dup();
-                    sendDelayed (copy, 0.5,"channelsO", i);
+                    send(copy,"channelsO", i);
                 }
                 delete m_ACK_J_IN;
+
+                m->setName("Data request");
+                m->setKind(4);
+
+                for (i = 0; i < this->gateSize("channelsO"); i++)
+                {
+                    messageLoRA *copy = m->dup();
+                    sendDelayed(copy,0.1, "channelsO", i);
+                }
+                delete m;
+                LOG EV << "Data request Message sent from: " << this->id  << endl;
+
+
             }
 
             break;
@@ -302,16 +325,19 @@ void LGW::isListeningHandleMessage(messageLoRA *msg)
                    messageLoRA *copy = m->dup();
                    send(copy, "channelsO", i);
                 }
+                this->nb_harvest++;
                 LOG EV << "Forwarding Data Message sent from: " << msg->getIdSrc()<< endl;
                 /*On va faire hiberner le tout .*/
-                this->frequency=0;
-                messageLoRA *mHibernate = new messageLoRA();
-                mHibernate->setName("Hibernate_deactivate");
-                mHibernate->setKind(15);
-                mHibernate->setIdSrc(this->id);
-                scheduleAt(simTime()+this->slot, mHibernate);
+                if(this->nb_harvest == this->idRegistered.size()){
+                    this->frequency=0;
+                    messageLoRA *mHibernate = new messageLoRA();
+                    mHibernate->setName("Hibernate_deactivate");
+                    mHibernate->setKind(15);
+                    mHibernate->setIdSrc(this->id);
+                    scheduleAt(simTime()+this->slot, mHibernate);
 
-                dispStr.setTagArg("i", 0, "device/deviceblack");
+                    dispStr.setTagArg("i", 0, "device/deviceblack");
+                }
             }
             break;
         }
@@ -320,6 +346,13 @@ void LGW::isListeningHandleMessage(messageLoRA *msg)
             if(!(this->discovered))
             {
                 /*There is a LoRaWAN Gateway Near and I'm not registered yet*/
+
+                cDisplayString& connDispStr =  msg->getArrivalGate()->getDisplayString();
+                connDispStr.parse("ls=red,3");
+
+                connDispStr =  msg->getSenderGate()->getDisplayString();
+                connDispStr.parse("ls=red,3");
+
                 this->discovered=true;
                 this->slot=msg->getSlots();
                 this->MyLW=msg->getIdSrc();

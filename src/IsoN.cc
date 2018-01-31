@@ -40,7 +40,7 @@ void IsoN::initialize()
 
 
     /* generate number between 1 and 100: */
-    this->time = this->slot +1;
+    this->time = this->slot;
 
     LOG EV << "Isolated Node Starting: " << id << endl;
 
