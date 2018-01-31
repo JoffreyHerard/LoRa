@@ -19,13 +19,35 @@ void LGW::initialize()
 
    cDisplayString& dispStr = getDisplayString();
    dispStr.parse("p=200,100,r,100");
-   dispStr.setTagArg("i", 0, "device/devicegreen");
+   const char* tmpColor= this->mycolor.c_str();
+   dispStr.setTagArg("i", 0, tmpColor);
 
    messageLoRA *m = new messageLoRA();
    char numstr[21];
    sprintf(numstr, "%d", this->id);
    string tmp = "Join request";
    const char * c = tmp.c_str();
+
+
+   switch(this->id){
+       case 1:{
+           this->mycolor="device/device_cyan";
+           break;
+       }
+       case 2:{
+           this->mycolor="device/device_pink";
+           break;
+       }
+       case 3:{
+           this->mycolor="device/device_purple";
+           break;
+       }
+       case 4:{
+           this->mycolor="device/device_yellow";
+           break;
+       }
+   }
+
 
    m->setName(c);
    m->setKind(0);
@@ -83,7 +105,8 @@ void LGW::handleMessage(cMessage *msg)
         LOG EV << "Slot receive: "<< ((messageLoRA*)msg)->getSlots() <<endl;
         this->frequency=2;
         cDisplayString& dispStr = getDisplayString();
-        dispStr.setTagArg("i", 0, "device/devicegreen");
+       const char* tmpColor= this->mycolor.c_str();
+        dispStr.setTagArg("i", 0, tmpColor);
     }
     delete msg;
 }
@@ -104,7 +127,8 @@ void LGW::notListeningHandleMessage(messageLoRA *msg)
                 /*LoRaGateway is required to harvest data*/
 
                 cDisplayString& dispStr = getDisplayString();
-                dispStr.setTagArg("i", 0, "device/devicegreen");
+                const char* tmpColor= this->mycolor.c_str();
+                dispStr.setTagArg("i", 0, tmpColor);
                 LOG EV << "LoRa Gateway is waking up " << endl;
                 this->frequency = this->old_phase ;
 
@@ -138,7 +162,8 @@ void LGW::notListeningHandleMessage(messageLoRA *msg)
                 {
 
                     cDisplayString& dispStr = getDisplayString();
-                    dispStr.setTagArg("i", 0, "device/devicegreen");
+                    const char* tmpColor= this->mycolor.c_str();
+                    dispStr.setTagArg("i", 0, tmpColor);
                     messageLoRA *m = new messageLoRA();
                     char numstr[21];
                     sprintf(numstr, "%d", this->id);
@@ -221,7 +246,8 @@ void LGW::isListeningHandleMessage(messageLoRA *msg)
             {
 
                 cDisplayString& dispStr = getDisplayString();
-                dispStr.setTagArg("i", 0, "device/devicegreen");
+                const char* tmpColor= this->mycolor.c_str();
+                dispStr.setTagArg("i", 0, tmpColor);
                 m->setIdSrc(this->id);
                 m->setIdDest(msg->getIdSrc());
                 string result ;
@@ -252,7 +278,8 @@ void LGW::isListeningHandleMessage(messageLoRA *msg)
                 /*We received a Register message*/
                 /*Check if we are the gateway of the device.*/
                 cDisplayString& dispStr = getDisplayString();
-                dispStr.setTagArg("i", 0, "device/devicegreen");
+                const char* tmpColor= this->mycolor.c_str();
+                dispStr.setTagArg("i", 0, tmpColor);
                 if(find(idRegistered.begin(), idRegistered.end(), msg->getIdSrc()) != idRegistered.end())
                 {
                         /* We had  registered this Node yet, but it's possible he don't know yet */
@@ -312,7 +339,8 @@ void LGW::isListeningHandleMessage(messageLoRA *msg)
             {
                 /*We received a Data message*/
                 cDisplayString& dispStr = getDisplayString();
-                dispStr.setTagArg("i", 0, "device/devicegreen");
+                const char* tmpColor= this->mycolor.c_str();
+                dispStr.setTagArg("i", 0, tmpColor);
                 m->setName(msg->getName());
                 m->setKind(7);
                 LOG EV << "myLW: " << this->MyLW << endl;
@@ -358,7 +386,8 @@ void LGW::isListeningHandleMessage(messageLoRA *msg)
                 this->MyLW=msg->getIdSrc();
                 LOG EV << "Slot receive: "<< msg->getSlots() <<endl;
                 cDisplayString& dispStr = getDisplayString();
-                dispStr.setTagArg("i", 0, "device/devicegreen");
+                const char* tmpColor= this->mycolor.c_str();
+                dispStr.setTagArg("i", 0, tmpColor);
             }
             break;
         }

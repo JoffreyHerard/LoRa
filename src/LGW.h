@@ -55,6 +55,7 @@ public:
     int slot;
     int MyLW;
     int nb_harvest;
+    string mycolor;
   protected:
     virtual void initialize();
     virtual void handleMessage(cMessage *msg);

@@ -44,13 +44,13 @@ class IsoN : public cSimpleModule
     void setOldPhase(double oldPhase);
     int getSlot() const;
     void setSlot(int slot);
-
   private:
     int id,time,data,tryDiscover;
     bool discovered,registered;
     double frequency,old_phase;
     int slot;
     int myLoRa;
+    string mycolor;
   protected:
     virtual void initialize();
     virtual void handleMessage(cMessage *msg);

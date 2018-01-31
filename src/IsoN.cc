@@ -100,9 +100,31 @@ void IsoN::handleMessage(cMessage *msg)
         {
             if(!(this->discovered) && ((messageLoRA*)msg)->getIdDest()==this->id){
                 cDisplayString& dispStr = getDisplayString();
-                dispStr.setTagArg("i", 0, "device/devicegreen");
+
                 /*There is a LoRa Gateway Near and I'm not registered yet*/
                 this->myLoRa=((messageLoRA*)msg)->getIdSrc();
+                switch(this->myLoRa){
+                       case 1:{
+                           this->mycolor="device/device_cyan";
+                           break;
+                       }
+                       case 2:{
+                           this->mycolor="device/device_pink";
+                           break;
+                       }
+                       case 3:{
+                           this->mycolor="device/device_purple";
+                           break;
+                       }
+                       case 4:{
+                           this->mycolor="device/device_yellow";
+                           break;
+                       }
+                }
+
+                const char* tmpColor= this->mycolor.c_str();
+                dispStr.setTagArg("i", 0, tmpColor);
+
                 this->frequency= ((messageLoRA*)msg)->getFrequency();
                 this->old_phase =this->frequency;
                 m->setName("Register");
@@ -162,7 +184,9 @@ void IsoN::handleMessage(cMessage *msg)
             mHibernate->setName("Hibernate_deactivate");
             mHibernate->setKind(15);
             scheduleAt(simTime()+this->slot, mHibernate);
-            dispStr.setTagArg("i", 0, "device/devicegreen");
+
+            const char* tmpColor= this->mycolor.c_str();
+            dispStr.setTagArg("i", 0, tmpColor);
         }
     }
     delete msg;
@@ -184,7 +208,8 @@ void IsoN::notListeningHandleMessage(messageLoRA *msg)
                 LOG EV << "Isolated Node is waking up " << endl;
                 this->frequency = this->old_phase ;
                 cDisplayString& dispStr = getDisplayString();
-                dispStr.setTagArg("i", 0, "device/devicegreen");
+                const char* tmpColor= this->mycolor.c_str();
+                dispStr.setTagArg("i", 0, tmpColor);
                 break;
             }
             case 16:
@@ -228,7 +253,8 @@ void IsoN::notListeningHandleMessage(messageLoRA *msg)
                 if(!this->registered)
                 {
                     cDisplayString& dispStr = getDisplayString();
-                    dispStr.setTagArg("i", 0, "device/devicegreen");
+                    const char* tmpColor= this->mycolor.c_str();
+                    dispStr.setTagArg("i", 0, tmpColor);
                     m->setName("Register");
                     m->setKind(3);
                     m->setIdDest(this->myLoRa);
