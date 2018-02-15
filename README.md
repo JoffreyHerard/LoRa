@@ -17,6 +17,4 @@ Only 3 cSimpleModule implemented :
 
 To do List : 
 
-1. Implemented more than 1 Isolated node in the network 
-2. Automatic generating name on different Channels
-3. Do a simulation campaigns
+1. Add multi-frequency/channels features
