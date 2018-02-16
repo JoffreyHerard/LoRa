@@ -15,87 +15,53 @@
 
 #include "messageLoRA.h"
 
-messageLoRA::messageLoRA()
-{
+messageLoRA::messageLoRA() {
     // TODO Auto-generated constructor stub
     this->slots= 0;
     this->messageName="Not set yet";
     this->frequency=2;
 }
-messageLoRA::messageLoRA(const messageLoRA& f)
-{
-    this->setName(f.getName());
-    this->setKind(f.getKind());
-    this->messageName=f.messageName;
-    this->frequency=f.frequency;
-    this->slots=f.slots;
-    this->id_src=f.id_src;
-    this->id_dest=f.id_dest;
-    this->isolated=f.isolated;
-}
-double messageLoRA::getFrequency() const
-{
+
+double messageLoRA::getFrequency() const {
     return frequency;
 }
 
-void messageLoRA::setFrequency(double frequency)
-{
+void messageLoRA::setFrequency(double frequency) {
     this->frequency = frequency;
 }
 
-const string& messageLoRA::getMessageName() const
-{
+const string& messageLoRA::getMessageName() const {
     return messageName;
 }
 
-void messageLoRA::setMessageName(const string& messageName)
-{
+void messageLoRA::setMessageName(const string& messageName) {
     this->messageName = messageName;
 }
 
-messageLoRA::~messageLoRA()
-{
+messageLoRA::~messageLoRA() {
     // TODO Auto-generated destructor stub
 }
 
-long int messageLoRA::getIdSrc() const
-{
+long int messageLoRA::getIdSrc() const {
     return id_src;
 }
 
-void messageLoRA::setIdSrc(long int idSrc)
-{
+void messageLoRA::setIdSrc(long int idSrc) {
     id_src = idSrc;
 }
 
-int messageLoRA::getSlots() const
-{
+int messageLoRA::getSlots() const {
     return slots;
 }
 
-void messageLoRA::setSlots(int slots)
-{
+void messageLoRA::setSlots(int slots) {
     this->slots = slots;
 }
 
-long int messageLoRA::getIdDest() const
-{
+long int messageLoRA::getIdDest() const {
     return id_dest;
 }
 
-void messageLoRA::setIdDest(long int idDest)
-{
+void messageLoRA::setIdDest(long int idDest) {
     id_dest = idDest;
 }
-
-bool messageLoRA::isIsolated() const
-{
-    return isolated;
-}
-
-void messageLoRA::setIsolated(bool isolated)
-{
-    this->isolated = isolated;
-}
-
-

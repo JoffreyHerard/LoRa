@@ -13,13 +13,13 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef __LORA_ISON_H_
-#define __LORA_ISON_H_
+#ifndef __LORA_LGW_H_
+#define __LORA_LGW_H_
 
 #include <omnetpp.h>
-#include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
 #include <unistd.h>
+#include <vector>
 #include "messageLoRA.h"
 
 using namespace omnetpp;
@@ -27,30 +27,33 @@ using namespace std;
 /**
  * TODO - Generated class
  */
-class IsoN : public cSimpleModule
-{
-  public:
+class LGW : public cSimpleModule{
+public:
+    bool isDiscovered() const;
+    void setDiscovered(bool discovered);
     double getFrequency() const;
     void setFrequency(double frequency);
     int getId() const;
     void setId(int id);
-    int getX() const;
-    void setX(int x);
-    bool isDiscovered() const;
-    void setDiscovered(bool discovered);
-    int getData() const;
-    void setData(int data);
+    int getNbIn() const;
+    void setNbIn(int nbIn);
+    const vector<int>& getIdRegistered() const;
+    void setIdRegistered(const vector<int>& idRegistered);
     double getOldPhase() const;
     void setOldPhase(double oldPhase);
     int getSlot() const;
     void setSlot(int slot);
+
   private:
-    int id,time,data,tryDiscover;
-    bool discovered,registered;
-    double frequency,old_phase;
+    int id,time;
+    int NbIN;
+    vector<int> idRegistered;
+    vector<bool> isRegistered;
+    double frequency;
+    bool discovered;
+    double old_phase;
     int slot;
-    int myLoRa;
-    string mycolor;
+    int MyLW;
   protected:
     virtual void initialize();
     virtual void handleMessage(cMessage *msg);

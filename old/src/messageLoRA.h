@@ -19,6 +19,7 @@
 #include <omnetpp/cmessage.h>
 #include <vector> /*required for slots definition*/
 #include <ctime> /*required for slots definition*/
+
 #include "frequency.h"
 
 using namespace std;
@@ -30,11 +31,8 @@ class messageLoRA: public omnetpp::cMessage {
         int slots;
         long int id_src;
         long int id_dest;
-        bool isolated;
     public:
         messageLoRA();
-        messageLoRA(const messageLoRA&);
-        virtual messageLoRA *dup() const {return new messageLoRA(*this);}
         virtual ~messageLoRA();
         
         double getFrequency() const;
@@ -47,9 +45,6 @@ class messageLoRA: public omnetpp::cMessage {
         void setSlots(int slots);
         long int getIdDest() const;
         void setIdDest(long int idDest);
-        bool isIsolated() const;
-        void setIsolated(bool isolated);
-
 };
 
 #endif /* MESSAGELORA_H_ */

@@ -23,7 +23,7 @@ simple LWGW
         int id;
         @display("i=device/antennatower");
     gates:
-        input LGWtoLWGW;
-        output LWGWtoLGW;
+        input channelsI[];
+        output channelsO[];
         
 }

@@ -22,8 +22,6 @@ simple LGW
         int id;
         @display("i=old/bwcomp");
     gates:
-        input INtoLGW;
-        output LGWtoIN;
-        input LWGWtoLGW;
-        output LGWtoLWGW;
+        input channelsI[];
+        output channelsO[];
 }

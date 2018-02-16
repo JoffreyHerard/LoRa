@@ -16,12 +16,14 @@
 package lora;
 
 
-simple IsoN
+simple LGW
 {
     parameters:
         int id;
         @display("i=old/bwcomp");
     gates:
-        input channelsI[];
-        output channelsO[];
+        input INtoLGW;
+        output LGWtoIN;
+        input LWGWtoLGW;
+        output LGWtoLWGW;
 }

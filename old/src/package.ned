@@ -1,0 +1,3 @@
+package lora;
+
+@license(LGPL);
