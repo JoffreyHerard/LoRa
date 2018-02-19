@@ -1,7 +1,6 @@
 from network import LoRa
 import socket
 import time
-import machine
 
 # Please pick the region that matches where you are using the device:
 # Asia = LoRa.AS923
@@ -14,9 +13,6 @@ s.setblocking(False)
 
 while True:
     if s.recv(64) == b'Discover':
-        s.send(bytes([1, 2, 3]))
-        print ("I received a Discover message")
-    else:
-        print ("misunderstanding or nether")
+        s.send('1')
 
-    time.sleep(machine.rng() & 0x0F)
+    time.sleep(5)
