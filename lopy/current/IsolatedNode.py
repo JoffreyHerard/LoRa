@@ -3,7 +3,7 @@ import socket
 import machine
 import time
 import messageLoRa
-from messageLoRa import messageLoRa  # means YourClass.py
+from messageLoRa import messageLoRa
 # Please pick the region that matches where you are using the device:
 # Asia = LoRa.AS923
 # Australia = LoRa.AU915
@@ -30,7 +30,7 @@ tryDataReq=-1
 
 def notDiscovered():
     #send some data
-    s.send('Discover,'+str(frequency)+','+str(slot)+','+str(id)+','+str(-1)+','+str(-1))
+    s.send('Discover,'+str(1)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(-1)+','+str(-1))
     print("Discover sent by "+str(id))
     data=s.recv(128)
     msg =messageLoRa()
@@ -43,7 +43,7 @@ def notDiscovered():
 
 def notRegistered():
     #send some data
-    s.send('Register,'+str(frequency)+','+str(slot)+','+str(id)+','+str(myLoRa)+','+str(-1))
+    s.send('Register,'+str(3)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(myLoRa)+','+str(-1))
     print("Register sent")
     # get any data received...
     data=s.recv(128)
@@ -56,7 +56,7 @@ def notRegistered():
         time.sleep(machine.rng() & 0x0F)
 def sendData():
     #send some data
-    s.send('DataRes,'+str(frequency)+','+str(slot)+','+str(id)+','+str(myLoRa)+','+str(data))
+    s.send('DataRes,'+str(5)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(myLoRa)+','+str(data))
     print("DataResponse sent")
     data=s.recv(128)
     msg =messageLoRa()
@@ -76,4 +76,5 @@ while True:
     while not ack_Data :
         sendData()
     data+=1
+    ack_Data=False
     time.sleep(slot)

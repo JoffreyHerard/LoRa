@@ -1,0 +1,85 @@
+\documentclass[11pt]{article}  
+\usepackage[T1]{fontenc}
+
+\usepackage{helvet}
+\usepackage{titlesec}
+\usepackage[frenchb]{babel}
+\usepackage{amsmath,amssymb}
+\usepackage{tabu}
+\usepackage{url}
+\usepackage[svgnames]{xcolor}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{layout}
+\usepackage{listings}
+\usepackage{textcomp}
+\usepackage{caption}
+\usepackage{amsthm}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{listings}
+\usepackage{fontspec}
+
+
+\pagestyle{fancy}
+\renewcommand\headrulewidth{1pt}
+\fancyhead[L]{Projet de fin d'étude : Lora \& compagnie}
+\fancyhead[R]{URCA}
+\renewcommand\footrulewidth{1pt}
+\fancyfoot[L]{HERARD Joffrey}
+\fancyfoot[C]{
+\textbf{Page \thepage/\pageref{LastPage}}}
+\fancyfoot[R]{2017-2018}
+
+\renewcommand{\lstlistlistingname}{List of \lstlistingname s}
+\renewcommand{\lstlistingname}{Algorithme}
+\newenvironment{strechpage}[1][0cm]{%
+	\newpage\vspace*{#1}\leavevmode\noindent\centering
+	\def\tempdimen{#1}%
+	\begin{minipage}{\dimexpr\linewidth-#1-#1\relax}}%
+	{\end{minipage}\vspace*\tempdimen\newpage}
+
+\titleformat{\chapter}[display]
+  {\centering\normalfont\huge\bfseries}
+  {\chaptertitlename\ \thechapter}
+  {20pt}
+  {\Huge}
+ 
+\newtheorem{ask}{Question}
+\begin{document}
+\lstset{language=Java}
+ \makeatletter
+\def\maketitle{%
+  \null
+  \thispagestyle{empty}%
+   \vfill
+  \begin{center}\leavevmode
+    \normalfont
+    {\Huge \@title\par}%
+    \vskip 3cm
+    {\Large \@author\par}%
+    \vskip 1cm
+    {\Large \@date\par}%
+  \end{center}%
+  \vfill
+  \null
+  \cleardoublepage
+  }
+\makeatother
+\title{\begin{center}Projet de fin d'étude:\end{center} LoRa }
+\author{ Joffrey HÉRARD 
+\begin{center}Responsable : Olivier FLAUZAC\end{center}}
+\date{2017-2018}
+\maketitle 
+ 
+\tableofcontents 
+
+\setlength{\parskip}{0.5em}
+\newpage
+\section{Introduction}
+TO DO 
+
+\newpage
+\section{Conclusion}
+TO DO 
+\end{document}
