@@ -14,99 +14,123 @@
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.3}Différence entre le LoRa et LoRaWAN}{8}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.4}Architecture d'un réseaux LoRaWAN}{8}}
 \@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Architecture d'un réseaux LoRaWAN\relax }}{8}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.5}Sécurité d'un réseaux LoRaWAN}{10}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.6}Classe A : All end-devices}{11}}
-\@writefile{toc}{\contentsline {paragraph}{Méssage couche physique }{11}}
-\@writefile{toc}{\contentsline {subparagraph}{Messages uplink}{11}}
-\@writefile{toc}{\contentsline {subparagraph}{Messages downlink}{11}}
-\@writefile{toc}{\contentsline {subparagraph}{Fenêtre de réception}{11}}
-\@writefile{toc}{\contentsline {subparagraph}{Première fenêtre de réception, débit de données, démarrage}{11}}
-\@writefile{toc}{\contentsline {subparagraph}{Seconde fenêtre de réception, débit de données, démarrage}{11}}
-\@writefile{toc}{\contentsline {subparagraph}{Durée de la fenêtre}{12}}
-\@writefile{toc}{\contentsline {subparagraph}{Activité du receveur durant la fenêtre de réception}{12}}
-\@writefile{toc}{\contentsline {subparagraph}{Envoi d'un message à travers le réseaux vers un appareil}{12}}
-\@writefile{toc}{\contentsline {subparagraph}{A noté}{12}}
-\@writefile{toc}{\contentsline {paragraph}{Message couche MAC }{12}}
-\@writefile{toc}{\contentsline {subparagraph}{Couche MAC (PHYPayload)}{12}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Format couche MAC\relax }}{12}}
-\@writefile{toc}{\contentsline {subparagraph}{En tête MAC. ( MHDR field)}{13}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces En tête MAC\relax }}{13}}
-\@writefile{toc}{\contentsline {subparagraph}{ Type de messages (MType bit field)}{13}}
-\@writefile{toc}{\contentsline {subparagraph}{Données des messages}{13}}
-\@writefile{toc}{\contentsline {subparagraph}{ Le payload d'un message sur la couche MAC (MACPayload)}{13}}
-\@writefile{toc}{\contentsline {subparagraph}{ En-tête (FHDR)}{13}}
-\@writefile{toc}{\contentsline {subparagraph}{Champ du port (Fport)}{13}}
-\@writefile{toc}{\contentsline {subparagraph}{Chiffrement du Payload sur une trame MAC (FRMPayload)}{14}}
-\@writefile{toc}{\contentsline {subparagraph}{calcul du MIC}{14}}
-\@writefile{toc}{\contentsline {paragraph}{Commandes MAC}{14}}
-\@writefile{toc}{\contentsline {paragraph}{Activation d'un end-device}{14}}
-\@writefile{toc}{\contentsline {subparagraph}{Adresse des device (DevAddr)}{14}}
-\@writefile{toc}{\contentsline {subparagraph}{Identification de l'application (AppEUI)}{14}}
-\@writefile{toc}{\contentsline {subparagraph}{Clé de session réseaux (NwkSkey)}{15}}
-\@writefile{toc}{\contentsline {subparagraph}{Clé de session d'application (AppSKey)}{15}}
-\@writefile{toc}{\contentsline {paragraph}{Activation avec Over the Air (OTA)}{15}}
-\@writefile{toc}{\contentsline {subparagraph}{Identifiant des device (DevEUI)}{15}}
-\@writefile{toc}{\contentsline {subparagraph}{Clé de l'application(AppKey)}{15}}
-\@writefile{toc}{\contentsline {subparagraph}{Procédure Join}{15}}
-\@writefile{toc}{\contentsline {subparagraph}{Message Join-request}{15}}
-\@writefile{toc}{\contentsline {subparagraph}{Méssage Join-accept }{15}}
-\@writefile{toc}{\contentsline {paragraph}{Activation par Personallisation }{15}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.7}Classe B : Beacon}{16}}
-\@writefile{toc}{\contentsline {paragraph}{Introduction}{16}}
-\@writefile{toc}{\contentsline {paragraph}{Principe de la synchronisation du réseaux initialiser en downlink}{16}}
-\@writefile{toc}{\contentsline {paragraph}{Trame de liaison montante en mode Classe B}{16}}
-\@writefile{toc}{\contentsline {subparagraph}{Format de la trame physique}{16}}
-\@writefile{toc}{\contentsline {subparagraph}{Messages MAC en Unicast et Multicast}{17}}
-\@writefile{toc}{\contentsline {paragraph}{Acquisition du beacon et tracking }{17}}
-\@writefile{toc}{\contentsline {subparagraph}{Temps de fonctionnement minimum sans balise}{17}}
-\@writefile{toc}{\contentsline {subparagraph}{Extension de l'opération beacon-less à la réception}{17}}
-\@writefile{toc}{\contentsline {subparagraph}{Minimiser la dérive du timing}{17}}
-\@writefile{toc}{\contentsline {paragraph}{Synchronisation d'un emplacement en liaison descendante}{17}}
-\@writefile{toc}{\contentsline {subparagraph}{ Définitions}{18}}
-\@writefile{toc}{\contentsline {subparagraph}{Emplacement aléatoire}{18}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Options de la classe B\relax }}{18}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Commandes de la classe B\relax }}{19}}
-\@writefile{toc}{\contentsline {paragraph}{Beaconing (Option de classe B)}{19}}
-\@writefile{toc}{\contentsline {subparagraph}{ Couche physique de la balise}{19}}
-\@writefile{toc}{\contentsline {subparagraph}{Format de la trame de Beaconing}{19}}
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Trame beacon partie 1\relax }}{19}}
-\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Trame beacon partie 2\relax }}{19}}
-\@writefile{toc}{\contentsline {subparagraph}{Beaconing : format du champ GwSpecific }{20}}
-\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Champ gwspecific\relax }}{20}}
-\@writefile{toc}{\contentsline {subparagraph}{ Gateway coordonées GPS: InfoDesc = 0,1 ou 2}{20}}
-\@writefile{toc}{\contentsline {subparagraph}{ Timing précis sur le Beaconing}{20}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.8}Classe C : Continiously listening}{21}}
-\@writefile{toc}{\contentsline {subparagraph}{Temps de la deuxième fenêtre de réception pour la classe C}{21}}
-\@writefile{toc}{\contentsline {subparagraph}{ Multicast liaison descendante}{21}}
-\@writefile{toc}{\contentsline {section}{\numberline {3}Problème}{22}}
-\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Problème des noeuds isolé\relax }}{22}}
-\@writefile{toc}{\contentsline {section}{\numberline {4}Solutions}{23}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Algorithme}{24}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Chronogramme}{25}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.5}Sécurité d'un réseaux LoRaWAN}{9}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.6}Classe A : All end-devices}{10}}
+\@writefile{toc}{\contentsline {paragraph}{Méssage couche physique }{10}}
+\@writefile{toc}{\contentsline {subparagraph}{Messages uplink}{10}}
+\@writefile{toc}{\contentsline {subparagraph}{Messages downlink}{10}}
+\@writefile{toc}{\contentsline {subparagraph}{Fenêtre de réception}{10}}
+\@writefile{toc}{\contentsline {subparagraph}{Première fenêtre de réception, débit de données, démarrage}{10}}
+\@writefile{toc}{\contentsline {subparagraph}{Seconde fenêtre de réception, débit de données, démarrage}{10}}
+\@writefile{toc}{\contentsline {subparagraph}{Durée de la fenêtre}{11}}
+\@writefile{toc}{\contentsline {subparagraph}{Activité du receveur durant la fenêtre de réception}{11}}
+\@writefile{toc}{\contentsline {subparagraph}{Envoi d'un message à travers le réseaux vers un appareil}{11}}
+\@writefile{toc}{\contentsline {subparagraph}{A noté}{11}}
+\@writefile{toc}{\contentsline {paragraph}{Message couche MAC }{11}}
+\@writefile{toc}{\contentsline {subparagraph}{Couche MAC (PHYPayload)}{11}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Format couche MAC\relax }}{11}}
+\@writefile{toc}{\contentsline {subparagraph}{En tête MAC. ( MHDR field)}{12}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces En tête MAC\relax }}{12}}
+\@writefile{toc}{\contentsline {subparagraph}{ Type de messages (MType bit field)}{12}}
+\@writefile{toc}{\contentsline {subparagraph}{Données des messages}{12}}
+\@writefile{toc}{\contentsline {subparagraph}{ Le payload d'un message sur la couche MAC (MACPayload)}{12}}
+\@writefile{toc}{\contentsline {subparagraph}{ En-tête (FHDR)}{12}}
+\@writefile{toc}{\contentsline {subparagraph}{Champ du port (Fport)}{12}}
+\@writefile{toc}{\contentsline {subparagraph}{Chiffrement du Payload sur une trame MAC (FRMPayload)}{13}}
+\@writefile{toc}{\contentsline {subparagraph}{calcul du MIC}{13}}
+\@writefile{toc}{\contentsline {paragraph}{Commandes MAC}{13}}
+\@writefile{toc}{\contentsline {paragraph}{Activation d'un end-device}{13}}
+\@writefile{toc}{\contentsline {subparagraph}{Adresse des device (DevAddr)}{13}}
+\@writefile{toc}{\contentsline {subparagraph}{Identification de l'application (AppEUI)}{13}}
+\@writefile{toc}{\contentsline {subparagraph}{Clé de session réseaux (NwkSkey)}{14}}
+\@writefile{toc}{\contentsline {subparagraph}{Clé de session d'application (AppSKey)}{14}}
+\@writefile{toc}{\contentsline {paragraph}{Activation avec Over the Air (OTA)}{14}}
+\@writefile{toc}{\contentsline {subparagraph}{Identifiant des device (DevEUI)}{14}}
+\@writefile{toc}{\contentsline {subparagraph}{Clé de l'application(AppKey)}{14}}
+\@writefile{toc}{\contentsline {subparagraph}{Procédure Join}{14}}
+\@writefile{toc}{\contentsline {subparagraph}{Message Join-request}{14}}
+\@writefile{toc}{\contentsline {subparagraph}{Méssage Join-accept }{14}}
+\@writefile{toc}{\contentsline {paragraph}{Activation par Personallisation }{14}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.7}Classe B : Beacon}{15}}
+\@writefile{toc}{\contentsline {paragraph}{Introduction}{15}}
+\@writefile{toc}{\contentsline {paragraph}{Principe de la synchronisation du réseaux initialiser en downlink}{15}}
+\@writefile{toc}{\contentsline {paragraph}{Trame de liaison montante en mode Classe B}{15}}
+\@writefile{toc}{\contentsline {subparagraph}{Format de la trame physique}{15}}
+\@writefile{toc}{\contentsline {subparagraph}{Messages MAC en Unicast et Multicast}{16}}
+\@writefile{toc}{\contentsline {paragraph}{Acquisition du beacon et tracking }{16}}
+\@writefile{toc}{\contentsline {subparagraph}{Temps de fonctionnement minimum sans balise}{16}}
+\@writefile{toc}{\contentsline {subparagraph}{Extension de l'opération beacon-less à la réception}{16}}
+\@writefile{toc}{\contentsline {subparagraph}{Minimiser la dérive du timing}{16}}
+\@writefile{toc}{\contentsline {paragraph}{Synchronisation d'un emplacement en liaison descendante}{16}}
+\@writefile{toc}{\contentsline {subparagraph}{ Définitions}{17}}
+\@writefile{toc}{\contentsline {subparagraph}{Emplacement aléatoire}{17}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Options de la classe B\relax }}{17}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Commandes de la classe B\relax }}{18}}
+\@writefile{toc}{\contentsline {paragraph}{Beaconing (Option de classe B)}{18}}
+\@writefile{toc}{\contentsline {subparagraph}{ Couche physique de la balise}{18}}
+\@writefile{toc}{\contentsline {subparagraph}{Format de la trame de Beaconing}{18}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Trame beacon partie 1\relax }}{18}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Trame beacon partie 2\relax }}{18}}
+\@writefile{toc}{\contentsline {subparagraph}{Beaconing : format du champ GwSpecific }{19}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Champ gwspecific\relax }}{19}}
+\@writefile{toc}{\contentsline {subparagraph}{ Gateway coordonées GPS: InfoDesc = 0,1 ou 2}{19}}
+\@writefile{toc}{\contentsline {subparagraph}{ Timing précis sur le Beaconing}{19}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.8}Classe C : Continiously listening}{20}}
+\@writefile{toc}{\contentsline {subparagraph}{Temps de la deuxième fenêtre de réception pour la classe C}{20}}
+\@writefile{toc}{\contentsline {subparagraph}{ Multicast liaison descendante}{20}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Problème}{21}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Problème des noeuds isolé\relax }}{21}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Solutions}{22}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Algorithme}{23}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.1}Algorithme 1/1 : 1 IN <-> 1 LGW}{23}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces  1/1 : 1 IN <-> 1 LGW\relax }}{23}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.2}Algorithme k/1 : k IN <-> 1 LGW}{24}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces  k/1 : k IN <-> 1 LGW\relax }}{24}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Chronogrammes}{25}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.1}Phase de découverte et d'enregistrement}{25}}
 \@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Phase de découverte\relax }}{25}}
-\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces Phase de collecte\relax }}{25}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Simulation}{26}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Omnet++}{26}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Génération des graphes}{26}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Exemples de simulations graphiques}{27}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.1}Simulation sur une chaine}{27}}
-\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces Exemple de chaine\relax }}{27}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.2}Simulation avec 3 IN sur une LGW}{28}}
-\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces Exemple avec 3 Isolated Nodes\relax }}{28}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.3}Simulation à plus grande echelle }{29}}
-\@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces Exemple à grande echelle\relax }}{29}}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Programmation}{30}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}LoPy}{30}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Semtech}{30}}
-\@writefile{toc}{\contentsline {section}{\numberline {7}Résultats}{31}}
-\@writefile{toc}{\contentsline {section}{\numberline {8}Conclusion}{32}}
-\@writefile{toc}{\contentsline {section}{Annexes}{34}}
-\@writefile{toc}{\contentsline {section}{\numberline {A}Code iGraph}{34}}
-\@writefile{toc}{\contentsline {section}{\numberline {B}Code Omnet++}{38}}
-\newlabel{LastPage}{{}{38}}
-\xdef\lastpage@lastpage{38}
+\@writefile{toc}{\contentsline {paragraph}{Coté Isolated node}{25}}
+\@writefile{toc}{\contentsline {paragraph}{Coté LoRa Gateway}{25}}
+\@writefile{toc}{\contentsline {paragraph}{Coté LoRaWAN Gateway}{25}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.2}Phase de collecte}{26}}
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces Phase de collecte\relax }}{26}}
+\@writefile{toc}{\contentsline {paragraph}{Coté Isolated node}{26}}
+\@writefile{toc}{\contentsline {paragraph}{Coté LoRa Gateway}{26}}
+\@writefile{toc}{\contentsline {paragraph}{Coté LoRaWAN Gateway}{26}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Simulation}{27}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Le simulateur : Omnet++}{27}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Génération des graphes}{27}}
+\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces Exemple de Graphe de sortie du script \relax }}{28}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Représentation des échanges radio}{29}}
+\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces Exemple de communication radio\relax }}{29}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Exemples de simulations graphiques}{30}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.4.1}Simulation sur une chaine}{30}}
+\@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces Exemple de chaine\relax }}{30}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.4.2}Simulation avec 3 IN sur une LGW}{31}}
+\@writefile{lof}{\contentsline {figure}{\numberline {16}{\ignorespaces Exemple avec 3 Isolated Nodes\relax }}{31}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.4.3}Simulation à plus grande echelle }{32}}
+\@writefile{lof}{\contentsline {figure}{\numberline {17}{\ignorespaces Exemple à grande echelle\relax }}{32}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Programmation}{33}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}LoPy}{33}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Semtech}{33}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Résultats}{34}}
+\@writefile{toc}{\contentsline {section}{\numberline {8}Conclusion}{35}}
+\@writefile{toc}{\contentsline {section}{Table des figures}{36}}
+\@writefile{toc}{\contentsline {section}{Annexes}{38}}
+\@writefile{toc}{\contentsline {section}{\numberline {A}Code iGraph}{38}}
+\@writefile{toc}{\contentsline {section}{\numberline {B}Code Omnet++}{42}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.1}Fichier .h}{42}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.2}Fichier .cpp}{47}}
+\newlabel{LastPage}{{}{47}}
+\xdef\lastpage@lastpage{47}
 \gdef\lastpage@lastpageHy{}
 \gdef\minted@oldcachelist{,
   default.pygstyle,
   default-pyg-prefix.pygstyle,
-  407025b86f9c434ad756340a7456ee3d72fe41ec.pygtex}
+  64e37f99045a8e8437ef771e53daf56f7ad24659.pygtex,
+  a64bced270005a473b7e7ae01f2cf2806522cc4d.pygtex,
+  2fd151c0ba0e40aa20df5b62691b254bac859a8e.pygtex,
+  81d7ea982572ea10d9e2ad475ce7b501fc4b73f0.pygtex,
+  93beb2581a5074cbde522dfe4bea598a72bdf2ab.pygtex,
+  c1fa568afde35bd28fab6f667ef6162bbda27191.pygtex,
+  cb99cb8f35467fe0ac93dd5edfc41221966f8d69.pygtex}

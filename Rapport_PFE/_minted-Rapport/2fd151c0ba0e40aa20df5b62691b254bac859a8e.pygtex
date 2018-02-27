@@ -1,0 +1,33 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/*}
+\PYG{c+cm}{ * frequency.h}
+\PYG{c+cm}{ *}
+\PYG{c+cm}{ *  Created on: 22 janv. 2018}
+\PYG{c+cm}{ *      Author: JoffreyHerard}
+\PYG{c+cm}{ */}
+
+\PYG{c+cp}{\PYGZsh{}ifndef FREQUENCY\PYGZus{}H\PYGZus{}}
+\PYG{c+cp}{\PYGZsh{}define FREQUENCY\PYGZus{}H\PYGZus{}}
+
+\PYG{c+cp}{\PYGZsh{}define LOG if(0)}
+\PYG{c+cp}{\PYGZsh{}define DEBUG if(0)}
+
+\PYG{c+cm}{/*EU 863\PYGZhy{}870MHz ISM Band*/}
+\PYG{c+cp}{\PYGZsh{}define EU\PYGZus{}A\PYGZus{}1 868.10   }\PYG{c+cm}{/* as 1 in receivePhase */}
+\PYG{c+cp}{\PYGZsh{}define EU\PYGZus{}A\PYGZus{}2 868.30   }\PYG{c+cm}{/* as 2 in receivePhase */}
+\PYG{c+cp}{\PYGZsh{}define EU\PYGZus{}A\PYGZus{}3 868.50   }\PYG{c+cm}{/* as 3 in receivePhase */}
+\PYG{c+cp}{\PYGZsh{}define EU\PYGZus{}A\PYGZus{}4 864.10   }\PYG{c+cm}{/* as 4 in receivePhase */}
+\PYG{c+cp}{\PYGZsh{}define EU\PYGZus{}A\PYGZus{}5 864.30   }\PYG{c+cm}{/* as 5 in receivePhase */}
+\PYG{c+cp}{\PYGZsh{}define EU\PYGZus{}A\PYGZus{}6 864.50   }\PYG{c+cm}{/* as 6 in receivePhase */}
+\PYG{c+cp}{\PYGZsh{}define EU\PYGZus{}B\PYGZus{}1 869.525  }\PYG{c+cm}{/* as 7 in receivePhase*/}
+
+\PYG{c+cp}{\PYGZsh{}define RECEIVE\PYGZus{}DELAY1 1}
+\PYG{c+cp}{\PYGZsh{}define RECEIVE\PYGZus{}DELAY2 2}
+\PYG{c+cp}{\PYGZsh{}define JOIN\PYGZus{}ACCEPT\PYGZus{}DELAY1 5}
+\PYG{c+cp}{\PYGZsh{}define JOIN\PYGZus{}ACCEPT\PYGZus{}DELAY2 6}
+\PYG{c+cp}{\PYGZsh{}define MAX\PYGZus{}FCNT\PYGZus{}GAP 16384}
+\PYG{c+cp}{\PYGZsh{}define ADR\PYGZus{}ACK\PYGZus{}LIMIT 64}
+\PYG{c+cp}{\PYGZsh{}define ADR\PYGZus{}ACK\PYGZus{}DELAY 32}
+\PYG{c+cp}{\PYGZsh{}define ACK\PYGZus{}TIMEOUT 2}
+\PYG{c+cp}{\PYGZsh{}endif }\PYG{c+cm}{/* FREQUENCY\PYGZus{}H\PYGZus{} */}
+\end{Verbatim}

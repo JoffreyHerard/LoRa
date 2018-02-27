@@ -1,0 +1,42 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZsh{}ifndef \PYGZus{}\PYGZus{}LORA\PYGZus{}LGW\PYGZus{}H\PYGZus{}}
+\PYG{c+cp}{\PYGZsh{}define \PYGZus{}\PYGZus{}LORA\PYGZus{}LGW\PYGZus{}H\PYGZus{}}
+\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZlt{}omnetpp.h\PYGZgt{}}
+\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZlt{}time.h\PYGZgt{}}
+\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZlt{}unistd.h\PYGZgt{}}
+\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZlt{}vector\PYGZgt{}}
+\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZdq{}messageLoRA.h\PYGZdq{}}
+\PYG{k}{using} \PYG{k}{namespace} \PYG{n}{omnetpp}\PYG{p}{;}
+\PYG{k}{using} \PYG{k}{namespace} \PYG{n}{std}\PYG{p}{;}
+\PYG{k}{class} \PYG{n+nc}{LGW} \PYG{o}{:} \PYG{k}{public} \PYG{n}{cSimpleModule}\PYG{p}{\PYGZob{}}
+    \PYG{k}{public}\PYG{o}{:}
+        \PYG{k+kt}{bool} \PYG{n}{isDiscovered}\PYG{p}{()} \PYG{k}{const}\PYG{p}{;}
+        \PYG{k+kt}{void} \PYG{n+nf}{setDiscovered}\PYG{p}{(}\PYG{k+kt}{bool} \PYG{n}{discovered}\PYG{p}{);}
+        \PYG{k+kt}{double} \PYG{n+nf}{getFrequency}\PYG{p}{()} \PYG{k}{const}\PYG{p}{;}
+        \PYG{k+kt}{void} \PYG{n+nf}{setFrequency}\PYG{p}{(}\PYG{k+kt}{double} \PYG{n}{frequency}\PYG{p}{);}
+        \PYG{k+kt}{int} \PYG{n+nf}{getId}\PYG{p}{()} \PYG{k}{const}\PYG{p}{;}
+        \PYG{k+kt}{void} \PYG{n+nf}{setId}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{id}\PYG{p}{);}
+        \PYG{k+kt}{int} \PYG{n+nf}{getNbIn}\PYG{p}{()} \PYG{k}{const}\PYG{p}{;}
+        \PYG{k+kt}{void} \PYG{n+nf}{setNbIn}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{nbIn}\PYG{p}{);}
+        \PYG{k}{const} \PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}\PYGZam{}} \PYG{n}{getIdRegistered}\PYG{p}{()} \PYG{k}{const}\PYG{p}{;}
+        \PYG{k+kt}{void} \PYG{n+nf}{setIdRegistered}\PYG{p}{(}\PYG{k}{const} \PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}\PYGZam{}} \PYG{n}{idRegistered}\PYG{p}{);}
+        \PYG{k+kt}{double} \PYG{n+nf}{getOldPhase}\PYG{p}{()} \PYG{k}{const}\PYG{p}{;}
+        \PYG{k+kt}{void} \PYG{n+nf}{setOldPhase}\PYG{p}{(}\PYG{k+kt}{double} \PYG{n}{oldPhase}\PYG{p}{);}
+        \PYG{k+kt}{int} \PYG{n+nf}{getSlot}\PYG{p}{()} \PYG{k}{const}\PYG{p}{;}
+        \PYG{k+kt}{void} \PYG{n+nf}{setSlot}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{slot}\PYG{p}{);}
+  \PYG{k}{private}\PYG{o}{:}
+        \PYG{k+kt}{int} \PYG{n}{id}\PYG{p}{,}\PYG{n}{time}\PYG{p}{,}\PYG{n}{NbIN}\PYG{p}{,}\PYG{n}{slot}\PYG{p}{,}\PYG{n}{MyLW}\PYG{p}{,}\PYG{n}{nb\PYGZus{}harvest}\PYG{p}{;}
+        \PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}} \PYG{n}{idRegistered}\PYG{p}{;}
+        \PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{bool}\PYG{o}{\PYGZgt{}} \PYG{n}{isRegistered}\PYG{p}{;}
+        \PYG{k+kt}{double} \PYG{n}{frequency}\PYG{p}{;}
+        \PYG{k+kt}{bool} \PYG{n}{discovered}\PYG{p}{;}
+        \PYG{k+kt}{double} \PYG{n}{old\PYGZus{}phase}\PYG{p}{;}
+        \PYG{n}{string} \PYG{n}{mycolor}\PYG{p}{;}
+  \PYG{k}{protected}\PYG{o}{:}
+        \PYG{k}{virtual} \PYG{k+kt}{void} \PYG{n}{initialize}\PYG{p}{();}
+        \PYG{k}{virtual} \PYG{k+kt}{void} \PYG{n+nf}{handleMessage}\PYG{p}{(}\PYG{n}{cMessage} \PYG{o}{*}\PYG{n}{msg}\PYG{p}{);}
+        \PYG{k+kt}{void} \PYG{n+nf}{notListeningHandleMessage}\PYG{p}{(}\PYG{n}{messageLoRA} \PYG{o}{*}\PYG{n}{msg}\PYG{p}{);}
+        \PYG{k+kt}{void} \PYG{n+nf}{isListeningHandleMessage}\PYG{p}{(}\PYG{n}{messageLoRA} \PYG{o}{*}\PYG{n}{msg}\PYG{p}{);}
+\PYG{p}{\PYGZcb{};}
+\PYG{c+cp}{\PYGZsh{}endif}
+\end{Verbatim}

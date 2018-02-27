@@ -1,0 +1,36 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZsh{}ifndef MESSAGELORA\PYGZus{}H\PYGZus{}}
+\PYG{c+cp}{\PYGZsh{}define MESSAGELORA\PYGZus{}H\PYGZus{}}
+\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZlt{}omnetpp/cmessage.h\PYGZgt{}}
+\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZlt{}vector\PYGZgt{} /*required for slots definition*/}
+\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZlt{}ctime\PYGZgt{} /*required for slots definition*/}
+\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZdq{}frequency.h\PYGZdq{}}
+\PYG{k}{using} \PYG{k}{namespace} \PYG{n}{std}\PYG{p}{;}
+\PYG{k}{class} \PYG{n+nc}{messageLoRA}\PYG{o}{:} \PYG{k}{public} \PYG{n}{omnetpp}\PYG{o}{::}\PYG{n}{cMessage} \PYG{p}{\PYGZob{}}
+    \PYG{k}{private}\PYG{o}{:}
+        \PYG{n}{string} \PYG{n}{messageName}\PYG{p}{;}
+        \PYG{k+kt}{double} \PYG{n}{frequency}\PYG{p}{;}
+        \PYG{k+kt}{int} \PYG{n}{slots}\PYG{p}{;}
+        \PYG{k+kt}{long} \PYG{k+kt}{int} \PYG{n}{id\PYGZus{}src}\PYG{p}{;}
+        \PYG{k+kt}{long} \PYG{k+kt}{int} \PYG{n}{id\PYGZus{}dest}\PYG{p}{;}
+        \PYG{k+kt}{bool} \PYG{n}{isolated}\PYG{p}{;}
+    \PYG{k}{public}\PYG{o}{:}
+        \PYG{n}{messageLoRA}\PYG{p}{();}
+        \PYG{n}{messageLoRA}\PYG{p}{(}\PYG{k}{const} \PYG{n}{messageLoRA}\PYG{o}{\PYGZam{}}\PYG{p}{);}
+        \PYG{k}{virtual} \PYG{n}{messageLoRA} \PYG{o}{*}\PYG{n+nf}{dup}\PYG{p}{()} \PYG{k}{const} \PYG{p}{\PYGZob{}}\PYG{k}{return} \PYG{k}{new} \PYG{n}{messageLoRA}\PYG{p}{(}\PYG{o}{*}\PYG{k}{this}\PYG{p}{);\PYGZcb{}}
+        \PYG{k}{virtual} \PYG{o}{\PYGZti{}}\PYG{n}{messageLoRA}\PYG{p}{();}
+        \PYG{k+kt}{double} \PYG{n+nf}{getFrequency}\PYG{p}{()} \PYG{k}{const}\PYG{p}{;}
+        \PYG{k+kt}{void} \PYG{n+nf}{setFrequency}\PYG{p}{(}\PYG{k+kt}{double} \PYG{n}{frequency}\PYG{p}{);}
+        \PYG{k}{const} \PYG{n}{string}\PYG{o}{\PYGZam{}} \PYG{n}{getMessageName}\PYG{p}{()} \PYG{k}{const}\PYG{p}{;}
+        \PYG{k+kt}{void} \PYG{n+nf}{setMessageName}\PYG{p}{(}\PYG{k}{const} \PYG{n}{string}\PYG{o}{\PYGZam{}} \PYG{n}{messageName}\PYG{p}{);}
+        \PYG{k+kt}{long} \PYG{k+kt}{int} \PYG{n+nf}{getIdSrc}\PYG{p}{()} \PYG{k}{const}\PYG{p}{;}
+        \PYG{k+kt}{void} \PYG{n+nf}{setIdSrc}\PYG{p}{(}\PYG{k+kt}{long} \PYG{k+kt}{int} \PYG{n}{idSrc}\PYG{p}{);}
+        \PYG{k+kt}{int} \PYG{n+nf}{getSlots}\PYG{p}{()} \PYG{k}{const}\PYG{p}{;}
+        \PYG{k+kt}{void} \PYG{n+nf}{setSlots}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{slots}\PYG{p}{);}
+        \PYG{k+kt}{long} \PYG{k+kt}{int} \PYG{n+nf}{getIdDest}\PYG{p}{()} \PYG{k}{const}\PYG{p}{;}
+        \PYG{k+kt}{void} \PYG{n+nf}{setIdDest}\PYG{p}{(}\PYG{k+kt}{long} \PYG{k+kt}{int} \PYG{n}{idDest}\PYG{p}{);}
+        \PYG{k+kt}{bool} \PYG{n+nf}{isIsolated}\PYG{p}{()} \PYG{k}{const}\PYG{p}{;}
+        \PYG{k+kt}{void} \PYG{n+nf}{setIsolated}\PYG{p}{(}\PYG{k+kt}{bool} \PYG{n}{isolated}\PYG{p}{);}
+\PYG{p}{\PYGZcb{};}
+\PYG{c+cp}{\PYGZsh{}endif }\PYG{c+cm}{/* MESSAGELORA\PYGZus{}H\PYGZus{} */}
+\end{Verbatim}

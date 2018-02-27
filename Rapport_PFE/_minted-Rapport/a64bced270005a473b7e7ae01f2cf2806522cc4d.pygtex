@@ -1,0 +1,129 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+ch}{\PYGZsh{}! /usr/bin/python}
+
+\PYG{k+kn}{from} \PYG{n+nn}{igraph} \PYG{k+kn}{import} \PYG{o}{*}
+\PYG{k+kn}{import} \PYG{n+nn}{sys}
+\PYG{k+kn}{import} \PYG{n+nn}{random}
+
+\PYG{c+c1}{\PYGZsh{}Random number is the probability which have a LoraGateway to have one isolated node }
+\PYG{n}{p}\PYG{o}{=}\PYG{n}{random}\PYG{o}{.}\PYG{n}{random}\PYG{p}{()}
+\PYG{c+c1}{\PYGZsh{}Random number is the probability which have a LoraGateway to have another isolated node }
+\PYG{n}{p2}\PYG{o}{=}\PYG{n}{random}\PYG{o}{.}\PYG{n}{random}\PYG{p}{()}
+\PYG{c+c1}{\PYGZsh{}Random number is the probability  have an Isolated Node to have a connection with another isolated node }
+\PYG{n}{p3}\PYG{o}{=}\PYG{n}{random}\PYG{o}{.}\PYG{n}{random}\PYG{p}{()}
+
+\PYG{k}{if}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{sys}\PYG{o}{.}\PYG{n}{argv}\PYG{p}{)} \PYG{o}{==}\PYG{l+m+mi}{6}\PYG{p}{):}
+
+	\PYG{c+c1}{\PYGZsh{}Getting numbers of LoRaWAN gateways and LoRagateways and Isolated nodes}
+	\PYG{n}{nb\PYGZus{}LWGW} \PYG{o}{=} \PYG{n+nb}{int}\PYG{p}{(}\PYG{n}{sys}\PYG{o}{.}\PYG{n}{argv}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{])}
+	\PYG{n}{nb\PYGZus{}LGW} \PYG{o}{=} \PYG{n+nb}{int}\PYG{p}{(}\PYG{n}{sys}\PYG{o}{.}\PYG{n}{argv}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{])}
+	\PYG{n}{nb\PYGZus{}IN} \PYG{o}{=} \PYG{n+nb}{int}\PYG{p}{(}\PYG{n}{sys}\PYG{o}{.}\PYG{n}{argv}\PYG{p}{[}\PYG{l+m+mi}{3}\PYG{p}{])}
+	\PYG{n}{lower\PYGZus{}bound}\PYG{o}{=} \PYG{n+nb}{int}\PYG{p}{(}\PYG{n}{sys}\PYG{o}{.}\PYG{n}{argv}\PYG{p}{[}\PYG{l+m+mi}{4}\PYG{p}{])}
+	\PYG{n}{upper\PYGZus{}bound}\PYG{o}{=} \PYG{n+nb}{int}\PYG{p}{(}\PYG{n}{sys}\PYG{o}{.}\PYG{n}{argv}\PYG{p}{[}\PYG{l+m+mi}{5}\PYG{p}{])}
+	\PYG{c+c1}{\PYGZsh{}nb\PYGZus{}LWGW = 1}
+	\PYG{c+c1}{\PYGZsh{}nb\PYGZus{}LGW = 3}
+	\PYG{c+c1}{\PYGZsh{}nb\PYGZus{}IN = 6}
+
+	\PYG{n}{nbVertex}\PYG{o}{=}\PYG{n}{nb\PYGZus{}LWGW}\PYG{o}{+}\PYG{n}{nb\PYGZus{}LGW}\PYG{o}{+}\PYG{n}{nb\PYGZus{}IN}
+	\PYG{c+c1}{\PYGZsh{}make the graph}
+	\PYG{n}{g} \PYG{o}{=} \PYG{n}{Graph}\PYG{p}{()}
+	\PYG{c+c1}{\PYGZsh{}Adding LoRaWAN, LGW, IN}
+	\PYG{n}{g}\PYG{o}{.}\PYG{n}{add\PYGZus{}vertices}\PYG{p}{(}\PYG{n}{nbVertex}\PYG{p}{)}
+
+	\PYG{c+c1}{\PYGZsh{}First step and the second step are: Connecting the LoRagateways to the LoRaWAN and connecting LoRaGateways between her}
+
+	\PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{n}{nb\PYGZus{}LGW}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{):}
+		\PYG{n}{g}\PYG{o}{.}\PYG{n}{add\PYGZus{}edges}\PYG{p}{([(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{n}{i}\PYG{p}{)])}
+		\PYG{k}{for} \PYG{n}{j} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{n}{nb\PYGZus{}LGW}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{):}
+			\PYG{k}{if} \PYG{p}{(}\PYG{n}{i} \PYG{o}{!=} \PYG{n}{j} \PYG{o+ow}{and} \PYG{n}{i}\PYG{o}{\PYGZgt{}}\PYG{n}{j}\PYG{p}{):}
+				\PYG{n}{g}\PYG{o}{.}\PYG{n}{add\PYGZus{}edges}\PYG{p}{([(}\PYG{n}{i}\PYG{p}{,}\PYG{n}{j}\PYG{p}{)])}
+
+	\PYG{c+c1}{\PYGZsh{}Connecting the Isolated node to the LoRa gateway because an..}
+	\PYG{c+c1}{\PYGZsh{}.. Isolated node must have at less one LoRa gateway around}
+	\PYG{n}{nb\PYGZus{}IN\PYGZus{}remaining}\PYG{o}{=}\PYG{n}{nb\PYGZus{}IN}
+	\PYG{n}{firtIN}\PYG{o}{=}\PYG{n}{nb\PYGZus{}LWGW}\PYG{o}{+}\PYG{n}{nb\PYGZus{}LGW}
+	\PYG{k}{for} \PYG{n}{j} \PYG{o+ow}{in} \PYG{n+nb}{range} \PYG{p}{(}\PYG{n}{nb\PYGZus{}LGW}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{n}{nbVertex}\PYG{p}{):}
+			\PYG{n}{i}\PYG{o}{=}\PYG{n}{random}\PYG{o}{.}\PYG{n}{randint}\PYG{p}{(}\PYG{n}{nb\PYGZus{}LWGW}\PYG{p}{,}\PYG{n}{nb\PYGZus{}LGW}\PYG{p}{)}
+			
+			\PYG{n}{g}\PYG{o}{.}\PYG{n}{add\PYGZus{}edges}\PYG{p}{([(}\PYG{n}{i}\PYG{p}{,}\PYG{n}{j}\PYG{p}{)])}
+
+	\PYG{c+c1}{\PYGZsh{}Connecting another Isolated node to the LoRagateway because random is fun }
+	\PYG{n}{nb\PYGZus{}IN\PYGZus{}remaining}\PYG{o}{=}\PYG{n}{nb\PYGZus{}IN}
+	\PYG{n}{firtIN}\PYG{o}{=}\PYG{n}{nb\PYGZus{}LWGW}\PYG{o}{+}\PYG{n}{nb\PYGZus{}LGW}
+	\PYG{k}{for} \PYG{n}{j} \PYG{o+ow}{in} \PYG{n+nb}{range} \PYG{p}{(}\PYG{n}{nb\PYGZus{}LGW}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{n}{nbVertex}\PYG{p}{):}
+		\PYG{n}{i}\PYG{o}{=}\PYG{n}{random}\PYG{o}{.}\PYG{n}{randint}\PYG{p}{(}\PYG{n}{nb\PYGZus{}LWGW}\PYG{p}{,}\PYG{n}{nb\PYGZus{}LGW}\PYG{p}{)}
+		\PYG{n}{pj}\PYG{o}{=}\PYG{n}{random}\PYG{o}{.}\PYG{n}{random}\PYG{p}{()}
+		\PYG{k}{if}\PYG{p}{(}\PYG{n}{pj}\PYG{o}{\PYGZlt{}}\PYG{n}{p2} \PYG{o+ow}{and} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{o}{==}\PYG{n}{g}\PYG{o}{.}\PYG{n}{get\PYGZus{}eid}\PYG{p}{(}\PYG{n}{i}\PYG{p}{,} \PYG{n}{j}\PYG{p}{,} \PYG{n}{directed}\PYG{o}{=}\PYG{n+nb+bp}{False}\PYG{p}{,} \PYG{n}{error}\PYG{o}{=}\PYG{n+nb+bp}{False}\PYG{p}{)):}
+			\PYG{n}{g}\PYG{o}{.}\PYG{n}{add\PYGZus{}edges}\PYG{p}{([(}\PYG{n}{i}\PYG{p}{,}\PYG{n}{j}\PYG{p}{)])}
+
+	\PYG{c+c1}{\PYGZsh{}Last step is consist in making neighborhood between the INs}
+	\PYG{k}{for} \PYG{n}{j} \PYG{o+ow}{in} \PYG{n+nb}{range} \PYG{p}{(}\PYG{n}{nb\PYGZus{}IN}\PYG{p}{,}\PYG{n}{nbVertex}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{):}
+		\PYG{n}{i}\PYG{o}{=}\PYG{n}{random}\PYG{o}{.}\PYG{n}{randint}\PYG{p}{(}\PYG{n}{nb\PYGZus{}IN}\PYG{p}{,}\PYG{n}{nbVertex}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{)}
+		\PYG{n}{pj}\PYG{o}{=}\PYG{n}{random}\PYG{o}{.}\PYG{n}{random}\PYG{p}{()}
+		\PYG{k}{if}\PYG{p}{(}\PYG{n}{pj}\PYG{o}{\PYGZlt{}}\PYG{n}{p3} \PYG{o+ow}{and} \PYG{n}{i}\PYG{o}{!=}\PYG{n}{j} \PYG{o+ow}{and} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{o}{==}\PYG{n}{g}\PYG{o}{.}\PYG{n}{get\PYGZus{}eid}\PYG{p}{(}\PYG{n}{i}\PYG{p}{,} \PYG{n}{j}\PYG{p}{,} \PYG{n}{directed}\PYG{o}{=}\PYG{n+nb+bp}{False}\PYG{p}{,} \PYG{n}{error}\PYG{o}{=}\PYG{n+nb+bp}{False}\PYG{p}{)):}
+			\PYG{n}{g}\PYG{o}{.}\PYG{n}{add\PYGZus{}edges}\PYG{p}{([(}\PYG{n}{i}\PYG{p}{,}\PYG{n}{j}\PYG{p}{)])}
+
+	\PYG{c+c1}{\PYGZsh{}Changing the name of each vertex}
+	\PYG{n}{names}\PYG{o}{=}\PYG{p}{[]}
+	\PYG{n}{names}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}LWGW\PYGZdq{}}\PYG{p}{)}
+	\PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{n}{nb\PYGZus{}LGW}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{):}
+		\PYG{n}{names}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}LGW\PYGZdq{}}\PYG{p}{)}
+	\PYG{k}{for} \PYG{n}{j} \PYG{o+ow}{in} \PYG{n+nb}{range} \PYG{p}{(}\PYG{n}{nb\PYGZus{}LGW}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{n}{nbVertex}\PYG{p}{):}
+		\PYG{n}{names}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}IN\PYGZdq{}}\PYG{p}{)}
+
+
+	\PYG{n}{g}\PYG{o}{.}\PYG{n}{vs}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}label\PYGZdq{}}\PYG{p}{]} \PYG{o}{=}\PYG{n}{names}
+	\PYG{n}{g}\PYG{o}{.}\PYG{n}{es}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}
+	\PYG{c+c1}{\PYGZsh{}Writing NED file like the sample provided}
+	\PYG{n}{fic}\PYG{o}{=}\PYG{n+nb}{open}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}randomGrapheLoRa.ned\PYGZdq{}}\PYG{p}{,}\PYG{l+s+s2}{\PYGZdq{}a\PYGZdq{}}\PYG{p}{)}
+	\PYG{n}{fic}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}t}\PYG{l+s+s2}{ submodules:}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{);}
+	\PYG{n}{fic}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}t\PYGZbs{}t}\PYG{l+s+s2}{ LWGW[\PYGZdq{}}\PYG{o}{+}\PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{nb\PYGZus{}LWGW}\PYG{p}{)}\PYG{o}{+}\PYG{l+s+s2}{\PYGZdq{}]: LWGW; }\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{);}
+	\PYG{n}{fic}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}t\PYGZbs{}t}\PYG{l+s+s2}{ LGW[\PYGZdq{}}\PYG{o}{+}\PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{nb\PYGZus{}LGW}\PYG{p}{)}\PYG{o}{+}\PYG{l+s+s2}{\PYGZdq{}]: LGW; }\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{);}
+	\PYG{n}{fic}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}t\PYGZbs{}t}\PYG{l+s+s2}{ IN[\PYGZdq{}}\PYG{o}{+}\PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{nb\PYGZus{}IN}\PYG{p}{)}\PYG{o}{+}\PYG{l+s+s2}{\PYGZdq{}]: IsoN; }\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{);}
+	\PYG{n}{fic}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}t}\PYG{l+s+s2}{ connections:}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{);}
+	\PYG{k}{for} \PYG{n}{l} \PYG{o+ow}{in} \PYG{n}{g}\PYG{o}{.}\PYG{n}{get\PYGZus{}edgelist}\PYG{p}{():}
+		\PYG{c+c1}{\PYGZsh{}we have to know if the node l[0] \PYGZam{} l[1] is a LWGW or a LGW or a IN.}
+		\PYG{k}{if} \PYG{p}{(}\PYG{n}{l}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{\PYGZlt{}}\PYG{n}{nb\PYGZus{}LWGW} \PYG{o+ow}{and} \PYG{n}{l}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{\PYGZgt{}=}\PYG{l+m+mi}{0}\PYG{p}{):}
+			\PYG{c+c1}{\PYGZsh{}It\PYGZsq{}s a LoRaWANGATEWAY}
+			\PYG{n}{nomSommet0}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}LWGW\PYGZdq{}}
+			\PYG{n}{num\PYGZus{}sommet0}\PYG{o}{=}\PYG{n}{l}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} 
+		\PYG{k}{elif} \PYG{p}{(}\PYG{n}{l}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{\PYGZlt{}}\PYG{n}{nb\PYGZus{}LGW}\PYG{o}{+}\PYG{l+m+mi}{1} \PYG{o+ow}{and}  \PYG{n}{l}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{\PYGZgt{}=}\PYG{n}{nb\PYGZus{}LWGW}\PYG{p}{):}
+			\PYG{n}{nomSommet0}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}LGW\PYGZdq{}}
+			\PYG{n}{num\PYGZus{}sommet0}\PYG{o}{=}\PYG{n}{l}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{\PYGZhy{}}\PYG{n}{nb\PYGZus{}LWGW}
+		\PYG{k}{elif} \PYG{p}{(}\PYG{n}{l}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{\PYGZlt{}}\PYG{n}{nbVertex}\PYG{o}{+}\PYG{l+m+mi}{1} \PYG{o+ow}{and}  \PYG{n}{l}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{\PYGZgt{}=}\PYG{n}{nb\PYGZus{}LGW}\PYG{p}{):}	
+			\PYG{n}{nomSommet0}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}IN\PYGZdq{}}
+			\PYG{n}{num\PYGZus{}sommet0}\PYG{o}{=}\PYG{n}{l}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{\PYGZhy{}}\PYG{n}{nb\PYGZus{}LGW}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}
+			\PYG{k}{if} \PYG{n}{num\PYGZus{}sommet0} \PYG{o}{==}\PYG{l+m+mi}{6}\PYG{p}{:}
+				\PYG{k}{print} \PYG{l+s+s2}{\PYGZdq{}toto\PYGZdq{}}
+			
+
+		\PYG{k}{if}\PYG{p}{(}\PYG{n}{l}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{\PYGZlt{}}\PYG{n}{nb\PYGZus{}LWGW} \PYG{o+ow}{and} \PYG{n}{l}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{o}{\PYGZgt{}=}\PYG{l+m+mi}{0}\PYG{p}{):}
+			\PYG{c+c1}{\PYGZsh{}It\PYGZsq{}s a LoRaWANGATEWAY}
+			\PYG{n}{nomSommet1}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}LWGW\PYGZdq{}}
+			\PYG{n}{num\PYGZus{}sommet1}\PYG{o}{=}\PYG{n}{l}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}
+		\PYG{k}{elif} \PYG{p}{(}\PYG{n}{l}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{\PYGZlt{}}\PYG{n}{nb\PYGZus{}LGW}\PYG{o}{+}\PYG{l+m+mi}{1} \PYG{o+ow}{and}  \PYG{n}{l}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{o}{\PYGZgt{}=}\PYG{n}{nb\PYGZus{}LWGW}\PYG{p}{):}
+			\PYG{n}{nomSommet1}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}LGW\PYGZdq{}}
+			\PYG{n}{num\PYGZus{}sommet1}\PYG{o}{=}\PYG{n}{l}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{o}{\PYGZhy{}}\PYG{n}{nb\PYGZus{}LWGW}
+		\PYG{k}{elif} \PYG{p}{(}\PYG{n}{l}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{\PYGZlt{}}\PYG{n}{nbVertex}\PYG{o}{+}\PYG{l+m+mi}{1} \PYG{o+ow}{and}  \PYG{n}{l}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{o}{\PYGZgt{}=}\PYG{n}{nb\PYGZus{}LGW}\PYG{p}{):}	
+			\PYG{n}{nomSommet1}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}IN\PYGZdq{}}
+			\PYG{n}{num\PYGZus{}sommet1}\PYG{o}{=}\PYG{n}{l}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{o}{\PYGZhy{}}\PYG{n}{nb\PYGZus{}LGW}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}
+			\PYG{k}{if} \PYG{n}{num\PYGZus{}sommet1} \PYG{o}{==}\PYG{l+m+mi}{6}\PYG{p}{:}
+				\PYG{k}{print} \PYG{l+s+s2}{\PYGZdq{}toto\PYGZdq{}}
+
+
+		\PYG{c+c1}{\PYGZsh{}Writing into the file}
+		\PYG{n}{delay1}\PYG{o}{=}\PYG{n}{random}\PYG{o}{.}\PYG{n}{randint}\PYG{p}{(}\PYG{n}{lower\PYGZus{}bound}\PYG{p}{,}\PYG{n}{upper\PYGZus{}bound}\PYG{p}{)}
+		\PYG{n}{delay2}\PYG{o}{=}\PYG{n}{random}\PYG{o}{.}\PYG{n}{randint}\PYG{p}{(}\PYG{n}{lower\PYGZus{}bound}\PYG{p}{,}\PYG{n}{upper\PYGZus{}bound}\PYG{p}{)}
+
+		\PYG{n}{fic}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}t\PYGZbs{}t\PYGZbs{}t}\PYG{l+s+s2}{\PYGZdq{}} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{o}{+}\PYG{n}{nomSommet0}\PYG{o}{+}\PYG{l+s+s2}{\PYGZdq{}[\PYGZdq{}}\PYG{o}{+}\PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{num\PYGZus{}sommet0}\PYG{p}{)}\PYG{o}{+}\PYG{l+s+s2}{\PYGZdq{}].channelsO++\PYGZdq{}} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} \PYGZdq{}} \PYG{o}{+}\PYG{l+s+s2}{\PYGZdq{}\PYGZob{}delay=\PYGZdq{}}\PYG{o}{+}\PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{delay1}\PYG{p}{)}\PYG{o}{+}\PYG{l+s+s2}{\PYGZdq{}ms;\PYGZcb{}\PYGZdq{}} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{} \PYGZhy{}\PYGZhy{}\PYGZgt{} \PYGZdq{}} \PYG{o}{+}\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{o}{+}\PYG{n}{nomSommet1}\PYG{o}{+}\PYG{l+s+s2}{\PYGZdq{}[\PYGZdq{}}\PYG{o}{+}\PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{num\PYGZus{}sommet1}\PYG{p}{)}\PYG{o}{+}\PYG{l+s+s2}{\PYGZdq{}].channelsI++\PYGZdq{}} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{};}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+		\PYG{n}{fic}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}t\PYGZbs{}t\PYGZbs{}t}\PYG{l+s+s2}{\PYGZdq{}} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{o}{+}\PYG{n}{nomSommet0}\PYG{o}{+}\PYG{l+s+s2}{\PYGZdq{}[\PYGZdq{}}\PYG{o}{+}\PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{num\PYGZus{}sommet0}\PYG{p}{)}\PYG{o}{+}\PYG{l+s+s2}{\PYGZdq{}].channelsI++\PYGZdq{}} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{} \PYGZlt{}\PYGZhy{}\PYGZhy{} \PYGZdq{}} \PYG{o}{+}\PYG{l+s+s2}{\PYGZdq{}\PYGZob{}delay=\PYGZdq{}}\PYG{o}{+}\PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{delay2}\PYG{p}{)}\PYG{o}{+}\PYG{l+s+s2}{\PYGZdq{}ms;\PYGZcb{}\PYGZdq{}} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{} \PYGZlt{}\PYGZhy{}\PYGZhy{} \PYGZdq{}} \PYG{o}{+}  \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{o}{+}\PYG{n}{nomSommet1}\PYG{o}{+}\PYG{l+s+s2}{\PYGZdq{}[\PYGZdq{}}\PYG{o}{+}\PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{num\PYGZus{}sommet1}\PYG{p}{)}\PYG{o}{+}\PYG{l+s+s2}{\PYGZdq{}].channelsO++\PYGZdq{}} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{};}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+	\PYG{n}{fic}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZcb{}\PYGZdq{}}\PYG{p}{)}
+	\PYG{n}{fic}\PYG{o}{.}\PYG{n}{close}\PYG{p}{()}
+
+	\PYG{c+c1}{\PYGZsh{}Writing .dot file \PYGZsh{}Graphviz}
+	\PYG{n}{g}\PYG{o}{.}\PYG{n}{write\PYGZus{}dot}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}loraGraph.dot\PYGZdq{}}\PYG{p}{)}
+\PYG{k}{else}\PYG{p}{:}
+	\PYG{k}{print} \PYG{l+s+s2}{\PYGZdq{}6 arguments is needed, the right way to use this python script is :}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}
+	\PYG{k}{print} \PYG{l+s+s2}{\PYGZdq{}python loraGraph.py \PYGZlt{}NUMBER\PYGZus{}LORAWANGATEWAY\PYGZgt{} \PYGZlt{}NUMBER\PYGZus{}LORAGATEWAY\PYGZgt{} \PYGZlt{}NUMBER\PYGZus{}ISOLATED\PYGZus{}NODES\PYGZgt{} \PYGZlt{}LOWER BOUND\PYGZgt{} \PYGZlt{}UPPER BOUND\PYGZgt{}\PYGZdq{}}
+\end{Verbatim}

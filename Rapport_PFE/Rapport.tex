@@ -21,10 +21,28 @@
 \usepackage{fontspec}
 \usepackage{minted}
 \usepackage[toc,page]{appendix} 
+\usepackage[nottoc]{tocbibind}
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{dirtree}
+
+
+
+\newcommand*\DNA{\textsc{dna}}
+
+\newcommand*\Let[2]{\State #1 $\gets$ #2}
+\algrenewcommand\algorithmicrequire{\textbf{Precondition:}}
+\algrenewcommand\algorithmicensure{\textbf{Postcondition:}}
+
+\floatname{algorithm}{Algorithme}
+\renewcommand{\listalgorithmname}{Liste des Algorithmes}
+
+
 
 \pagestyle{fancy}
 \renewcommand\headrulewidth{1pt}
-\fancyhead[L]{Projet de fin d'étude }
+\fancyhead[L]{Gestion des noeuds isolés en LoRa}
 \fancyhead[R]{URCA}
 \renewcommand\footrulewidth{1pt}
 \fancyfoot[L]{HERARD Joffrey}
@@ -43,6 +61,8 @@
 \renewcommand\appendixpagename{Annexes}	
 \renewcommand\appendixname{Annexes}
 \renewcommand\appendixtocname{Annexes}
+
+
 
 
 \titleformat{\chapter}[display]
@@ -72,7 +92,7 @@
   \cleardoublepage
   }
 \makeatother
-\title{\begin{center}Projet de fin d'étude:\end{center} Gestion des noeuds isolés en  LoRa }
+\title{\begin{center}Projet de fin d'étude:\end{center} Gestion des noeuds isolés en LoRa }
 \author{ Joffrey HÉRARD 
 \begin{center}Responsable : Olivier FLAUZAC\end{center}}
 \date{2017-2018}
@@ -83,7 +103,7 @@
 \setlength{\parskip}{0.5em}
 \newpage
 \section{Introduction}
-
+Dans ce rapport, il va être sujet d'aborder les technologies du \textit{LoRaWAN}, du\textit{ LoRa} en commencant par definirs ces termes. Ensuite aborder ainsi que expliquer les problémes présent dans une architecture \textit{LoRaWAN} ainsi que les solutions possible pour résoudre ces problèmes. Il va être question avant toute implémentation de faire des simulations sur le modèle de communication \textit{LoRa} avec les algorithme présenter auparavant .Nous allons aborder comment programmer et donc implémenter cette solution dans un capteur. Nous utiliserons notamment dans un premier temps l'implémentation dans des capteurs \textit{LoPy} puis les capteurs Semtech. Le rapport ce termineras sur un ensemble de résultats sous forme statistiques et verbales pour commenter ceux-ci.  
 \newpage
 \section{LoRaWAN}
 Comment connecter les milliards de capteurs qui seront potentiellement déployés dans le monde et qui participeront à la construction des villes intelligentes, de la mobilité et de l'industrie du futur ? \newline
@@ -138,8 +158,8 @@ Cette figure représente une architecture classique d'un réseau LoRaWAN. Typiqu
 Une des particularités d’un réseau LoRaWAN, est qu’un équipement ne communique pas exclusivement à travers un concentrateur. Tous les concentrateurs couvrant l’équipement peuvent recevoir les données transmises par ce dernier.
 Cela facilite grandement la communication avec les équipements en mobilité en dispensant le réseau de mécanismes de hand-over (passage d’un concentrateur à un autre) qui auraient pour effet de complexifier sa gestion et très probablement de réduire ses performances. Par contre, lorsque le serveur envoie un message à destination d’un équipement, c’est par le biais d’un seul concentrateur. C’est le cas en particulier des messages requérant un acquittement par le serveur.
  assure l'échange entre le serveur de réseaux et les serveurs d'applications : AppsKey. La sécurité après ces serveurs n'est plus géré par la spécification LoRaWAN.
+ 
 
-\newpage
 \subsubsection{Sécurité d'un réseaux LoRaWAN}
 Une question importante est aussi celle de la sécurité a travers le réseaux, on parle de capteurs voir d'un ensemble d'informations qui vont communiqué, donc c'est une question importante, et surtout ça concerne l'Internet des Objets dans son ensemble .
 La sécurité est assuré de bout en bout par un chiffrement AES-128 bits, elles sont aux nombre de deux, la première qui couvre les capteurs jusqu'au serveur réseaux nommé NwkSKey.
@@ -433,34 +453,142 @@ Ici nous allons nous intéréssé surtout à l'ensemble des algorithmes soumis p
 
 \newpage
 \subsection{Algorithme}
+Cette section va exposé et expliqué l'ensemble des algorithmes présentés.
+\subsubsection{Algorithme 1/1 : 1 IN <-> 1 LGW}
+\begin{algorithm}
+  \caption{ 1/1 : 1 IN <-> 1 LGW}
+  \begin{algorithmic}[1]
+    \Require{$x$ and $y$ are packed \DNA{} strings of equal length $n$}
+    \Statex
+    \Function{Distance}{$x, y$}
+      \Let{$z$}{$x \oplus y$} \Comment{$\oplus$: bitwise exclusive-or}
+      \Let{$\delta$}{$0$}
+      \For{$i \gets 1 \textrm{ to } n$}
+        \If{$z_i \neq 0$}
+          \Let{$\delta$}{$\delta + 1$}
+        \EndIf
+      \EndFor
+      \State \Return{$\delta$}
+    \EndFunction
+  \end{algorithmic}
+\end{algorithm}
+
 \newpage
-\subsection{Chronogramme}
+\subsubsection{Algorithme k/1 : k IN <-> 1 LGW}
+\begin{algorithm}
+  \caption{ k/1 : k IN <-> 1 LGW}
+  \begin{algorithmic}[1]
+    \Require{$x$ and $y$ are packed \DNA{} strings of equal length $n$}
+    \Statex
+    \Function{Distance}{$x, y$}
+      \Let{$z$}{$x \oplus y$} \Comment{$\oplus$: bitwise exclusive-or}
+      \Let{$\delta$}{$0$}
+      \For{$i \gets 1 \textrm{ to } n$}
+        \If{$z_i \neq 0$}
+          \Let{$\delta$}{$\delta + 1$}
+        \EndIf
+      \EndFor
+      \State \Return{$\delta$}
+    \EndFunction
+  \end{algorithmic}
+\end{algorithm}
+\newpage
+\subsection{Chronogrammes}
+\subsubsection{Phase de découverte et d'enregistrement}
 \begin{figure}[h!]
 \centering
 \includegraphics[scale=0.6]{Discovery.png} 
 \caption{Phase de découverte}
 \end{figure}
-
+\paragraph{Coté Isolated node}Au début le noeud isolé se reveille, il envoie des messages \textbf{Discover}. Si une LoRA Gateway répond par un message \textbf{Accept} le noeud répond alors avec un message  \textbf{Register} pour confirmer son appairage avec la LoRa Gateway.
+\paragraph{Coté LoRa Gateway}
+La LoRa Gateway avant toute opération avec n'importe quel élement de l'environnement doit s'appairer avec une gateway LoRaWAN avec la requete  \textbf{Join Request}.
+\paragraph{Coté LoRaWAN Gateway}
+La gateway LoRaWAN executé un déroulement normal. Elle répond au requete join avec un message  \textbf{Join Accept}
+\newpage
+\subsubsection{Phase de collecte}
 \begin{figure}[h!]
 \centering
 \includegraphics[scale=0.6]{Collect.png} 
 \caption{Phase de collecte}
 \end{figure}
 
+\paragraph{Coté Isolated node} Le noeud se reveille à un slot prévu entre la LoRa Gateway et le noeud. Tout ceci afin de recevoir la demande de donnée de la part de la gateway LoRa. Le noeud répond avec les données dans un message nommé  \textbf{Data Response}.
+\paragraph{Coté LoRa Gateway}
+La LoRa Gateway va se reveiller pour collecter les données des noeuds qui lui sont accroché. Elle envoit donc un message  \textbf{Request Data} . Une fois que toutes les données sont reçues, la Gateway assemble les données et envoie à la LoRaWAN gateway. 
+\paragraph{Coté LoRaWAN Gateway}
+La LoRaWAN Gateway accuse la reception des données envoyées par la gateway LoRa.
+\textbf{Send ACK}
+
+
 \newpage
 \section{Simulation}
 
-\subsection{Omnet++}
+\subsection{Le simulateur : Omnet++}
+OMNeT ++ est une bibliothèque et une structure de simulation C ++ extensible, modulaire et basée sur des composants, principalement utilisé pour la construction de simulateurs de réseau. Le terme "réseau" est entendu dans un sens plus large qui inclut les réseaux de communication câblés et sans fil, les réseaux sur puce, les réseaux de mise en file d'attente, et ainsi de suite. Les fonctionnalités spécifiques au domaine telles que la prise en charge de réseaux de capteurs, de réseaux ad-hoc sans fil, de protocoles Internet, de modélisation de performances, de réseaux photoniques, etc., sont fournies par des frameworks de modèles, développés en tant que projets indépendants. OMNeT ++ offre un IDE basé sur Eclipse, un environnement d'exécution graphique et une foule d'autres outils. Il existe des extensions pour la simulation en temps réel, l'émulation de réseau, l'intégration de base de données, l'intégration SystemC et plusieurs autres fonctions.
+Même si OMNeT ++ n'est pas un simulateur de réseau en soi, il a acquis une grande popularité en tant que plate-forme de simulation de réseau dans la communauté scientifique ainsi que dans les milieux industriels, et a constitué une importante communauté d'utilisateurs.
+Afin de réaliser un ensemble de test/simulation nous avons utilisé Omnet pour ce projet.
 
+Le code des fichiers $C^{++}$ est mis à disposition en Annexes.
 \subsection{Génération des graphes}
+Nous avons choisi d'utiliser iGraph, afin de generer des graphes aléatoire
+iGraph est une collection de bibliothèque pour créer et manipuler des graphiques et analyser des réseaux. Il est écrit en C et existe également en tant que paquets Python et R. Il existe de plus une interface pour Mathematica. Le logiciel est largement utilisé dans la recherche universitaire en sciences de réseau et dans des domaines connexes.
+igraph a été développé par Gábor Csárdi et Tamás Nepusz. Le code source des paquets iGraph a été écrit en C. iGraph est disponible gratuitement sous GNU General Public License Version 2.
+
+La génération se fait en plusieurs étapes : 
+\begin{enumerate}
+\item Récupération des arguments : Nombres de LoRaWAN Gateway, LoRa Gateway et de Isolated node.	
+\item Création du graphe et ajout du nombre de sommets dont on a besoin.
+\item On connecte les LoRaGateway à une LoRaWAN gateway, par définitions ils sont enregistré à au moins une gateway LoRaWAN.
+\item On connecte des Isolated Node de manière aléatoire à une LoRa Gateway (au moins une)
+\item Ensuite on applique un deuxième tour d'association de noeud à des gateway 	basé sur une méthode  Erdös Renyi : On définit la probabilité d'existence entre deux nœuds, pour chaque couple de nœud, on tire au sort un nombre, si le nombre est inférieur on met le lien.
+\item On écrit le fichier .ned qui décrit la configuration du graphe crée. 
+
+\begin{minted}[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightGray,
+fontsize=\footnotesize,
+linenos
+]{python}
+fic.write("\t\t\t" + ""+nomSommet0+"["+str(num_sommet0)+"].channelsO++" + " --> "
++"{delay="+str(delay1)+"ms;}" + " --> " +
+""+nomSommet1+"["+str(num_sommet1)+"].channelsI++" + ";\n")
+fic.write("\t\t\t" + ""+nomSommet0+"["+str(num_sommet0)+"].channelsI++" + " <-- "
+ +"{delay="+str(delay2)+"ms;}" + " <-- " +
+   ""+nomSommet1+"["+str(num_sommet1)+"].channelsO++" + ";\n")
+\end{minted}
+
+\end{enumerate}
+Par exemple voici le résultat graphique réalisé avec GraphViz :
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.45]{LoRaGraph.jpg} 
+\caption{Exemple de Graphe de sortie du script }
+\end{figure}
+Le code de génération de graphe aléatoire est mis à disposition dans son intégralité en Annexes.
+\subsection{Représentation des échanges radio}
+Dans cette version purement algorithmique sur Omnet++, la radio est definit par sa porté qui est donc la possibilité de communiqué avec un device. Si une arrête existe alors une communication est possible. Afin d'être plus réaliste, les arrêtes on pour attribut une latence, qui est générer aléatoirement au moment de la création du graphe. La radio étant des ondes quand un device envois un message il l'envoit sur tous les liens qui lui sont attribué.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[scale=1]{ex_radio.png} 
+\caption{Exemple de communication radio}
+\end{figure}
+
+
 \newpage
 \subsection{Exemples de simulations graphiques}
+Afin de simplifié, les messages contiennent le nom du message et possedent un code couleur propre et unique. Une LoRa Gateway possède une couleur propre à son groupe ( elle même et les Isolated nodes associés), les INs ont aussi cette couleur.
 \subsubsection{Simulation sur une chaine}
 \begin{figure}[!ht]
 \centering
 \includegraphics[scale=0.6]{chaine.png} 
 \caption{Exemple de chaine}
 \end{figure}
+Ceci est une image sortie de la simulation graphique, la première réalisé, un exemple typique de chaine avec seulement un élement de chaque composant. C'est le premièr exemple de test réalisé. Ce fut aussi le terrain de devellopement pour affiner le comportement individuel et verifier le fonctionnement correct de chaque composant. Cette simulation ci seras l'exemple typique du première algorithme.
 \newpage
 \subsubsection{Simulation avec 3 IN sur une LGW}
 \begin{figure}[!ht]
@@ -468,6 +596,7 @@ Ici nous allons nous intéréssé surtout à l'ensemble des algorithmes soumis p
 \includegraphics[scale=0.6]{3IN.png} 
 \caption{Exemple avec 3 Isolated Nodes}
 \end{figure}
+Ceci est le deuxième exemple de simulation pour gérer l'enregistrement multiple.Ici nous avons donc toujours une LoRaWAN gateway qui est connecté a une LoRa Gateway qui doit gérer trois Isolated Node Cette simulation ci seras l'exemple typique du deuxième algorithme.
 \newpage
 \subsubsection{Simulation à plus grande echelle }
 \begin{figure}[!ht]
@@ -475,6 +604,13 @@ Ici nous allons nous intéréssé surtout à l'ensemble des algorithmes soumis p
 \includegraphics[scale=0.45]{fat.png} 
 \caption{Exemple à grande echelle}
 \end{figure}
+Ceci est le troisème exemple de simulation pour gérer l'enregistrement multiple ainsi que l'unicité d'un enregistrement sur une Gateway LoRa d'un device.Ici nous avons donc toujours une LoRaWAN gateway qui est connecté a quatre LoRa Gateway qui doit gérer X Isolated Node Cette simulation ci seras l'exemple typique du deuxième algorithme. Mais aussi d'un troisème cas de figure possible. Cette exemple est surtout présent pour montrer et pousser la simulation à être plus proche de la réalité.
+L'exemple présenté ci-contre fait aussi transparaitre les exemples ou les communications sont difficiles. Un noeud peut pendant un certain temps ne faire que envoyer des messages \textbf{Discover} très longtemps. Pour plusieurs raisons, notamment celle-ci : 
+\begin{itemize}
+\item Problème de latence sur le reseaux de communication. 
+\item Problème de bruit radio (Plusieurs emissions sont réalisé en même temps de la part de plusieurs device, que ce soit sur le device de recepetion ou d'émission provocant la corrupition des messages)
+\item Problème de phase réception, en effet des slots sont prévue ainsi que deux fenêtre de réception dans la specification LoRa. Il se peut que deux device pas encore synchroniser est du mal à l'être .
+\end{itemize}
 \newpage
 \section{Programmation}
 
@@ -487,12 +623,114 @@ Ici nous allons nous intéréssé surtout à l'ensemble des algorithmes soumis p
 TO DO 
 \newpage
 \listoffigures
-
+\newpage
+\listofalgorithms
 \newpage
 \begin{appendices} 
 \section{Code iGraph} 
-\inputminted{csharp}{../igraph/loraGraph.py}
+\inputminted{python}{../igraph/loraGraph.py}
 \newpage
 \section{Code Omnet++} 
+\subsection{Fichier .h}
+\inputminted[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightGray,
+fontsize=\footnotesize,
+linenos
+]{c++}{../src/frequency.h}
+
+\newpage
+
+\inputminted[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightGray,
+fontsize=\footnotesize,
+linenos
+]{c++}{../src/IsoN.h}
+
+
+\newpage
+
+\inputminted[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightGray,
+fontsize=\footnotesize,
+linenos
+]{c++}{../src/LGW.h}
+
+
+\newpage
+
+\inputminted[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightGray,
+fontsize=\footnotesize,
+linenos
+]{c++}{../src/LWGW.h}
+
+
+\newpage
+
+\inputminted[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightGray,
+fontsize=\footnotesize,
+linenos
+]{c++}{../src/messageLoRA.h}
+\newpage
+\subsection{Fichier .cpp}
+L'intégralité des codes se trouve dans l'archive jointe au présent rapport : 
+\dirtree{%
+ .1 Racine.
+  .2 omnetpp.ini .
+  .2 Makefile .
+  .2 README.md .
+  .2 igraph .
+   .3 loraGraph.py .
+   .3 README .
+  .2 out .
+   .3 clang-debug .
+    .4 src .
+     .5 Fichier de debug
+   .3 clang-release .
+    .4 src .
+     .5 Fichier de release
+  .2 old .
+   .3 src .
+    .4 Ancien fichier source d'une ancienne méthode d'enregistrement des noeuds.
+  .2 results .
+  .2 lopy .
+   .3 README.md .
+   .3 test .
+    .4 Fichiers de tests 
+   .3 current .
+    .4 IsolatedNode.py .
+    .4 messageLoRa.py .
+    .4 LoRaGateway.py .
+    .4 nota\_DO\_NOT\_DELETE.txt .
+  .2 simulations .
+   .3 omnetpp.ini .
+   .3 network.ned .
+   .3 lora.ned .
+   .3 run .
+   .3 package.ned .
+  .2 Rapport\_PFE .
+   .3 Rapport.pdf 
+  .2 src .
+   .3 Code source de Omnet++.
+}
+
+
 \end{appendices} 
+
 \end{document}

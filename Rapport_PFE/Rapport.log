@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99996 (TeX Live 2016) (preloaded format=xelatex 2017.5.11)  27 FEB 2018 15:06
+This is XeTeX, Version 3.14159265-2.6-0.99996 (TeX Live 2016) (preloaded format=xelatex 2017.5.11)  27 FEB 2018 19:53
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -892,44 +892,99 @@ Package: appendix 2009/09/02 v1.2b extra appendix facilities
 \c@@ppsavesec=\count275
 \c@@ppsaveapp=\count276
 )
-\c@ask=\count277
+(/usr/local/texlive/2016/texmf-dist/tex/latex/tocbibind/tocbibind.sty
+Package: tocbibind 2010/10/13 v1.5k extra ToC listings
+Package tocbibind Info: The document has section divisions on input line 50.
+
+
+Package tocbibind Note: Using section or other style headings.
+
+) (/usr/local/texlive/2016/texmf-dist/tex/latex/algorithmicx/algpseudocode.sty
+Package: algpseudocode 
+
+(/usr/local/texlive/2016/texmf-dist/tex/latex/algorithmicx/algorithmicx.sty
+Package: algorithmicx 2005/04/27 v1.2 Algorithmicx
+
+Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
+\c@ALG@line=\count277
+\c@ALG@rem=\count278
+\c@ALG@nested=\count279
+\ALG@tlm=\skip79
+\ALG@thistlm=\skip80
+\c@ALG@Lnr=\count280
+\c@ALG@blocknr=\count281
+\c@ALG@storecount=\count282
+\c@ALG@tmpcounter=\count283
+\ALG@tmplength=\skip81
+)
+Document Style - pseudocode environments for use with the `algorithmicx' style
+) (/usr/local/texlive/2016/texmf-dist/tex/latex/algorithms/algorithm.sty
+Invalid UTF-8 byte or sequence at line 11 replaced by U+FFFD.
+Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating enviro
+nment
+\@float@every@algorithm=\toks39
+\c@algorithm=\count284
+)
+(/usr/local/texlive/2016/texmf-dist/tex/generic/dirtree/dirtree.sty
+Package: dirtree 2012/12/11 v0.32 package wrapper for dirtree
+
+(/usr/local/texlive/2016/texmf-dist/tex/generic/dirtree/dirtree.tex
+`dirtree' v0.32, 2012/12/11 (jcc)
+\DT@offset=\dimen256
+\DT@width=\dimen257
+\DT@sep=\dimen258
+\DT@all=\dimen259
+\DT@rulewidth=\dimen260
+\DT@dotwidth=\dimen261
+\DTbaselineskip=\dimen262
+\DT@counti=\count285
+\DT@countii=\count286
+\DT@countiii=\count287
+\DT@countiv=\count288
+\DT@indent=\dimen263
+\DT@parskip=\dimen264
+\DT@baselineskip=\dimen265
+)
+File: dirtree.tex 2012/12/11 v0.32 `dirtree' (jcc)
+)
+\c@ask=\count289
 runsystem(which "pygmentize" && touch "Rapport.aex")...executed.
 
 runsystem(rm "Rapport.aex")...executed.
 
-
-(./Rapport.aux)
+ (./Rapport.aux)
 \openout1 = `Rapport.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 55.
-LaTeX Font Info:    ... okay on input line 55.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 55.
-LaTeX Font Info:    ... okay on input line 55.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 55.
-LaTeX Font Info:    ... okay on input line 55.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 55.
-LaTeX Font Info:    ... okay on input line 55.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 55.
-LaTeX Font Info:    ... okay on input line 55.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 55.
-LaTeX Font Info:    ... okay on input line 55.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 55.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 55.
- (/usr/local/texlive/2016/texmf-dist/tex/latex/base/ts1cmr.fd
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 75.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 75.
+
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 55.
-LaTeX Font Info:    Checking defaults for EU1/lmr/m/n on input line 55.
-LaTeX Font Info:    ... okay on input line 55.
-LaTeX Font Info:    Checking defaults for T3/cmr/m/n on input line 55.
-LaTeX Font Info:    Try loading font information for T3+cmr on input line 55.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for EU1/lmr/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for T3/cmr/m/n on input line 75.
+LaTeX Font Info:    Try loading font information for T3+cmr on input line 75.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/tipa/t3cmr.fd
 File: t3cmr.fd 2001/12/31 TIPA font definitions
 )
-LaTeX Font Info:    ... okay on input line 55.
-LaTeX Info: Redefining \dots on input line 55.
-LaTeX Info: Redefining \up on input line 55.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Info: Redefining \dots on input line 75.
+LaTeX Info: Redefining \up on input line 75.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: xetex
@@ -965,13 +1020,13 @@ LaTeX Info: Redefining \up on input line 55.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-\c@lstlisting=\count278
+\c@lstlisting=\count290
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: float package is loaded.
 Package caption Info: End \AtBeginDocument code.
 Package lastpage Info: Please have a look at the pageslts package at
 (lastpage)             https://www.ctan.org/pkg/pageslts
-(lastpage)             ! on input line 55.
+(lastpage)             ! on input line 75.
 .................................................
 . fontspec info: "setup-math"
 . 
@@ -979,56 +1034,56 @@ Package lastpage Info: Please have a look at the pageslts package at
 .................................................
 \symlegacymaths=\mathgroup6
 LaTeX Font Info:    Overwriting symbol font `legacymaths' in version `bold'
-(Font)                  OT1/cmr/m/n --> OT1/cmr/bx/n on input line 55.
-LaTeX Font Info:    Redeclaring math accent \acute on input line 55.
-LaTeX Font Info:    Redeclaring math accent \grave on input line 55.
-LaTeX Font Info:    Redeclaring math accent \ddot on input line 55.
-LaTeX Font Info:    Redeclaring math accent \tilde on input line 55.
-LaTeX Font Info:    Redeclaring math accent \bar on input line 55.
-LaTeX Font Info:    Redeclaring math accent \breve on input line 55.
-LaTeX Font Info:    Redeclaring math accent \check on input line 55.
-LaTeX Font Info:    Redeclaring math accent \hat on input line 55.
-LaTeX Font Info:    Redeclaring math accent \dot on input line 55.
-LaTeX Font Info:    Redeclaring math accent \mathring on input line 55.
-LaTeX Font Info:    Redeclaring math symbol \Gamma on input line 55.
-LaTeX Font Info:    Redeclaring math symbol \Delta on input line 55.
-LaTeX Font Info:    Redeclaring math symbol \Theta on input line 55.
-LaTeX Font Info:    Redeclaring math symbol \Lambda on input line 55.
-LaTeX Font Info:    Redeclaring math symbol \Xi on input line 55.
-LaTeX Font Info:    Redeclaring math symbol \Pi on input line 55.
-LaTeX Font Info:    Redeclaring math symbol \Sigma on input line 55.
-LaTeX Font Info:    Redeclaring math symbol \Upsilon on input line 55.
-LaTeX Font Info:    Redeclaring math symbol \Phi on input line 55.
-LaTeX Font Info:    Redeclaring math symbol \Psi on input line 55.
-LaTeX Font Info:    Redeclaring math symbol \Omega on input line 55.
-LaTeX Font Info:    Redeclaring math symbol \mathdollar on input line 55.
-LaTeX Font Info:    Redeclaring symbol font `operators' on input line 55.
+(Font)                  OT1/cmr/m/n --> OT1/cmr/bx/n on input line 75.
+LaTeX Font Info:    Redeclaring math accent \acute on input line 75.
+LaTeX Font Info:    Redeclaring math accent \grave on input line 75.
+LaTeX Font Info:    Redeclaring math accent \ddot on input line 75.
+LaTeX Font Info:    Redeclaring math accent \tilde on input line 75.
+LaTeX Font Info:    Redeclaring math accent \bar on input line 75.
+LaTeX Font Info:    Redeclaring math accent \breve on input line 75.
+LaTeX Font Info:    Redeclaring math accent \check on input line 75.
+LaTeX Font Info:    Redeclaring math accent \hat on input line 75.
+LaTeX Font Info:    Redeclaring math accent \dot on input line 75.
+LaTeX Font Info:    Redeclaring math accent \mathring on input line 75.
+LaTeX Font Info:    Redeclaring math symbol \Gamma on input line 75.
+LaTeX Font Info:    Redeclaring math symbol \Delta on input line 75.
+LaTeX Font Info:    Redeclaring math symbol \Theta on input line 75.
+LaTeX Font Info:    Redeclaring math symbol \Lambda on input line 75.
+LaTeX Font Info:    Redeclaring math symbol \Xi on input line 75.
+LaTeX Font Info:    Redeclaring math symbol \Pi on input line 75.
+LaTeX Font Info:    Redeclaring math symbol \Sigma on input line 75.
+LaTeX Font Info:    Redeclaring math symbol \Upsilon on input line 75.
+LaTeX Font Info:    Redeclaring math symbol \Phi on input line 75.
+LaTeX Font Info:    Redeclaring math symbol \Psi on input line 75.
+LaTeX Font Info:    Redeclaring math symbol \Omega on input line 75.
+LaTeX Font Info:    Redeclaring math symbol \mathdollar on input line 75.
+LaTeX Font Info:    Redeclaring symbol font `operators' on input line 75.
 LaTeX Font Info:    Encoding `OT1' has changed to `EU1' for symbol font
-(Font)              `operators' in the math version `normal' on input line 55.
+(Font)              `operators' in the math version `normal' on input line 75.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  OT1/cmr/m/n --> EU1/lmr/m/n on input line 55.
+(Font)                  OT1/cmr/m/n --> EU1/lmr/m/n on input line 75.
 LaTeX Font Info:    Encoding `OT1' has changed to `EU1' for symbol font
-(Font)              `operators' in the math version `bold' on input line 55.
+(Font)              `operators' in the math version `bold' on input line 75.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  OT1/cmr/bx/n --> EU1/lmr/m/n on input line 55.
+(Font)                  OT1/cmr/bx/n --> EU1/lmr/m/n on input line 75.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  EU1/lmr/m/n --> EU1/lmr/m/n on input line 55.
+(Font)                  EU1/lmr/m/n --> EU1/lmr/m/n on input line 75.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  OT1/cmr/m/it --> EU1/lmr/m/it on input line 55.
+(Font)                  OT1/cmr/m/it --> EU1/lmr/m/it on input line 75.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  OT1/cmr/bx/n --> EU1/lmr/bx/n on input line 55.
+(Font)                  OT1/cmr/bx/n --> EU1/lmr/bx/n on input line 75.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
-(Font)                  OT1/cmss/m/n --> EU1/lmss/m/n on input line 55.
+(Font)                  OT1/cmss/m/n --> EU1/lmss/m/n on input line 75.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
-(Font)                  OT1/cmtt/m/n --> EU1/lmtt/m/n on input line 55.
+(Font)                  OT1/cmtt/m/n --> EU1/lmtt/m/n on input line 75.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  EU1/lmr/m/n --> EU1/lmr/bx/n on input line 55.
+(Font)                  EU1/lmr/m/n --> EU1/lmr/bx/n on input line 75.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmr/bx/it --> EU1/lmr/bx/it on input line 55.
+(Font)                  OT1/cmr/bx/it --> EU1/lmr/bx/it on input line 75.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/bx/n --> EU1/lmss/bx/n on input line 55.
+(Font)                  OT1/cmss/bx/n --> EU1/lmss/bx/n on input line 75.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> EU1/lmtt/bx/n on input line 55.
+(Font)                  OT1/cmtt/m/n --> EU1/lmtt/bx/n on input line 75.
 (./_minted-Rapport/default-pyg-prefix.pygstyle) [1
 
 ] (./Rapport.toc
@@ -1041,26 +1096,26 @@ LaTeX Font Info:    Try loading font information for U+msb on input line 4.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-))
+) [2
+
+])
 \tf@toc=\write6
 \openout6 = `Rapport.toc'.
 
- [2
-
-] [3]
+ [3]
 [4] [5]
 File: couchelora.png Graphic file (type QTm)
  <use  "couchelora.png" > [6] [7]
 File: networkArch.png Graphic file (type QTm)
  <use  "networkArch.png" > [8] [9]
-[10] [11]
+[10]
 File: A_phyload.png Graphic file (type QTm)
- <use  "A_phyload.png" > [12]
+ <use  "A_phyload.png" > [11]
 File: A_mac_header.png Graphic file (type QTm)
- <use  "A_mac_header.png" > [13] [14]
-[15] [16] [17]
+ <use  "A_mac_header.png" > [12] [13] [14]
+[15] [16]
 File: option_random_B.png Graphic file (type QTm)
- <use  "option_random_B.png" > [18]
+ <use  "option_random_B.png" > [17]
 File: classeB_Mac_Commands.png Graphic file (type QTm)
 
 <use  "classeB_Mac_Commands.png" >
@@ -1070,26 +1125,52 @@ File: beacon_frame_2.png Graphic file (type QTm)
 
 <use  "beacon_frame_2.png" >
 File: beacon_gwspecific.png Graphic file (type QTm)
- <use  "beacon_gwspecific.png" > [19] [20] [21]
+ <use  "beacon_gwspecific.png" > [18] [19] [20]
 File: probleme.png Graphic file (type QTm)
 
-<use  "probleme.png" > [22] [23] [24]
+<use  "probleme.png" > [21] [22] [23] [24]
 File: Discovery.png Graphic file (type QTm)
- <use  "Discovery.png" >
+ <use  "Discovery.png" > [25]
 File: Collect.png Graphic file (type QTm)
 
-<use  "Collect.png" > [25] [26]
+<use  "Collect.png" > [26] [27]
+\openout3 = `Rapport.pyg'.
+
+\openout5 = `Rapport.mintedcmd'.
+
+runsystem(python -c "import hashlib; hasher = hashlib.sha1(); f = open(\"Rappor
+t.mintedcmd\", \"rb\"); hasher.update(f.read()); f.close(); f = open(\"Rapport.
+pyg\", \"rb\"); hasher.update(f.read()); f.close(); f = open(\"Rapport.mintedmd
+5\", \"w\"); macro = \"\\edef\\minted@hash\" + chr(123) + hasher.hexdigest() + 
+chr(125) + \"\"; f.write(\"\\makeatletter\" + macro + \"\\makeatother\\endinput
+\n \"); f.close();")...executed.
+
+ (./Rapport.mintedmd5)
+(./_minted-Rapport/64e37f99045a8e8437ef771e53daf56f7ad24659.pygtex
+LaTeX Font Info:    Font shape `EU1/lmtt/bx/n' in size <9> not available
+(Font)              Font shape `EU1/lmtt/b/n' tried instead on input line 2.
+)
+File: LoRaGraph.jpg Graphic file (type QTm)
+
+<use  "LoRaGraph.jpg" > [28]
+File: ex_radio.png Graphic file (type QTm)
+ <use  "ex_radio.png" > [29]
 File: chaine.png Graphic file (type QTm)
- <use  "chaine.png" > [27]
+ <use  "chaine.png" >
+[30]
 File: 3IN.png Graphic file (type QTm)
- <use  "3IN.png" >
-[28]
+ <use  "3IN.png" > [31]
 File: fat.png Graphic file (type QTm)
- <use  "fat.png" > [29] [30] [31] [32] (./Rapport.lof)
+ <use  "fat.png" > [32] [33] [34] [35]
+(./Rapport.lof)
 \tf@lof=\write7
 \openout7 = `Rapport.lof'.
 
- [33]
+ [36] (./Rapport.loa)
+\tf@loa=\write8
+\openout8 = `Rapport.loa'.
+
+ [37]
 \openout5 = `Rapport.mintedcmd'.
 
 runsystem(python -c "import hashlib; hasher = hashlib.sha1(); f = open(\"Rappor
@@ -1099,27 +1180,92 @@ rt.mintedmd5\", \"w\"); macro = \"\\edef\\minted@hash\" + chr(123) + hasher.hex
 digest() + chr(125) + \"\"; f.write(\"\\makeatletter\" + macro + \"\\makeatothe
 r\\endinput\n \"); f.close();")...executed.
 
-
-(./Rapport.mintedmd5)
-(./_minted-Rapport/407025b86f9c434ad756340a7456ee3d72fe41ec.pygtex
+ (./Rapport.mintedmd5)
+(./_minted-Rapport/a64bced270005a473b7e7ae01f2cf2806522cc4d.pygtex
 LaTeX Font Info:    Font shape `EU1/lmtt/bx/n' in size <10.95> not available
 (Font)              Font shape `EU1/lmtt/b/n' tried instead on input line 4.
- [34]
-[35] [36]) [37] 
+ [38]
+[39] [40]) [41]
+\openout5 = `Rapport.mintedcmd'.
+
+runsystem(python -c "import hashlib; hasher = hashlib.sha1(); f = open(\"Rappor
+t.mintedcmd\", \"rb\"); hasher.update(f.read()); f.close(); f = open(\"../src/f
+requency.h\", \"rb\"); hasher.update(f.read()); f.close(); f = open(\"Rapport.m
+intedmd5\", \"w\"); macro = \"\\edef\\minted@hash\" + chr(123) + hasher.hexdige
+st() + chr(125) + \"\"; f.write(\"\\makeatletter\" + macro + \"\\makeatother\\e
+ndinput\n \"); f.close();")...executed.
+
+ (./Rapport.mintedmd5)
+(./_minted-Rapport/2fd151c0ba0e40aa20df5b62691b254bac859a8e.pygtex) [42]
+\openout5 = `Rapport.mintedcmd'.
+
+runsystem(python -c "import hashlib; hasher = hashlib.sha1(); f = open(\"Rappor
+t.mintedcmd\", \"rb\"); hasher.update(f.read()); f.close(); f = open(\"../src/I
+soN.h\", \"rb\"); hasher.update(f.read()); f.close(); f = open(\"Rapport.minted
+md5\", \"w\"); macro = \"\\edef\\minted@hash\" + chr(123) + hasher.hexdigest() 
++ chr(125) + \"\"; f.write(\"\\makeatletter\" + macro + \"\\makeatother\\endinp
+ut\n \"); f.close();")...executed.
+
+
+(./Rapport.mintedmd5)
+(./_minted-Rapport/81d7ea982572ea10d9e2ad475ce7b501fc4b73f0.pygtex) [43]
+\openout5 = `Rapport.mintedcmd'.
+
+runsystem(python -c "import hashlib; hasher = hashlib.sha1(); f = open(\"Rappor
+t.mintedcmd\", \"rb\"); hasher.update(f.read()); f.close(); f = open(\"../src/L
+GW.h\", \"rb\"); hasher.update(f.read()); f.close(); f = open(\"Rapport.mintedm
+d5\", \"w\"); macro = \"\\edef\\minted@hash\" + chr(123) + hasher.hexdigest() +
+ chr(125) + \"\"; f.write(\"\\makeatletter\" + macro + \"\\makeatother\\endinpu
+t\n \"); f.close();")...executed.
+
+
+(./Rapport.mintedmd5)
+(./_minted-Rapport/93beb2581a5074cbde522dfe4bea598a72bdf2ab.pygtex) [44]
+\openout5 = `Rapport.mintedcmd'.
+
+runsystem(python -c "import hashlib; hasher = hashlib.sha1(); f = open(\"Rappor
+t.mintedcmd\", \"rb\"); hasher.update(f.read()); f.close(); f = open(\"../src/L
+WGW.h\", \"rb\"); hasher.update(f.read()); f.close(); f = open(\"Rapport.minted
+md5\", \"w\"); macro = \"\\edef\\minted@hash\" + chr(123) + hasher.hexdigest() 
++ chr(125) + \"\"; f.write(\"\\makeatletter\" + macro + \"\\makeatother\\endinp
+ut\n \"); f.close();")...executed.
+
+
+(./Rapport.mintedmd5)
+(./_minted-Rapport/c1fa568afde35bd28fab6f667ef6162bbda27191.pygtex) [45]
+\openout5 = `Rapport.mintedcmd'.
+
+runsystem(python -c "import hashlib; hasher = hashlib.sha1(); f = open(\"Rappor
+t.mintedcmd\", \"rb\"); hasher.update(f.read()); f.close(); f = open(\"../src/m
+essageLoRA.h\", \"rb\"); hasher.update(f.read()); f.close(); f = open(\"Rapport
+.mintedmd5\", \"w\"); macro = \"\\edef\\minted@hash\" + chr(123) + hasher.hexdi
+gest() + chr(125) + \"\"; f.write(\"\\makeatletter\" + macro + \"\\makeatother\
+\endinput\n \"); f.close();")...executed.
+
+
+(./Rapport.mintedmd5)
+(./_minted-Rapport/cb99cb8f35467fe0ac93dd5edfc41221966f8d69.pygtex) [46]
+
 AED: lastpage setting LastPage
-[38]
+[47]
 runsystem(rm "Rapport.mintedcmd")...executed.
 
 runsystem(rm "Rapport.mintedmd5")...executed.
 
- (./Rapport.aux) ) 
-Here is how much of TeX's memory you used:
- 23246 strings out of 493591
- 423635 string characters out of 6143546
- 489250 words of memory out of 5000000
- 26375 multiletter control sequences out of 15000+600000
- 9201 words of font info for 51 fonts, out of 8000000 for 9000
- 1347 hyphenation exceptions out of 8191
- 37i,11n,43p,10366b,499s stack positions out of 5000i,500n,10000p,200000b,80000s
+runsystem(rm "Rapport.pyg")...executed.
 
-Output written on Rapport.pdf (38 pages).
+ (./Rapport.aux)
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 24059 strings out of 493591
+ 436595 string characters out of 6143546
+ 499932 words of memory out of 5000000
+ 27123 multiletter control sequences out of 15000+600000
+ 9241 words of font info for 56 fonts, out of 8000000 for 9000
+ 1347 hyphenation exceptions out of 8191
+ 37i,11n,43p,10366b,575s stack positions out of 5000i,500n,10000p,200000b,80000s
+
+Output written on Rapport.pdf (47 pages).
