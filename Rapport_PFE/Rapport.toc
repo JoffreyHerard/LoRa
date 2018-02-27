@@ -1,3 +1,86 @@
 \select@language {french}
-\contentsline {section}{\numberline {1}Introduction}{3}
-\contentsline {section}{\numberline {2}Conclusion}{4}
+\contentsline {section}{\numberline {1}Introduction}{4}
+\contentsline {section}{\numberline {2}LoRaWAN}{5}
+\contentsline {subsection}{\numberline {2.1}Convention de nommage }{5}
+\contentsline {subsection}{\numberline {2.2}LPWAN}{5}
+\contentsline {subsection}{\numberline {2.3}LoRaWAN}{6}
+\contentsline {subsubsection}{\numberline {2.3.1}LoRa Alliance}{6}
+\contentsline {subsubsection}{\numberline {2.3.2}Les différentes couches d'un réseaux LoRaWAN}{6}
+\contentsline {subsubsection}{\numberline {2.3.3}Différence entre le LoRa et LoRaWAN}{8}
+\contentsline {subsubsection}{\numberline {2.3.4}Architecture d'un réseaux LoRaWAN}{8}
+\contentsline {subsubsection}{\numberline {2.3.5}Sécurité d'un réseaux LoRaWAN}{10}
+\contentsline {subsubsection}{\numberline {2.3.6}Classe A : All end-devices}{11}
+\contentsline {paragraph}{Méssage couche physique }{11}
+\contentsline {subparagraph}{Messages uplink}{11}
+\contentsline {subparagraph}{Messages downlink}{11}
+\contentsline {subparagraph}{Fenêtre de réception}{11}
+\contentsline {subparagraph}{Première fenêtre de réception, débit de données, démarrage}{11}
+\contentsline {subparagraph}{Seconde fenêtre de réception, débit de données, démarrage}{11}
+\contentsline {subparagraph}{Durée de la fenêtre}{12}
+\contentsline {subparagraph}{Activité du receveur durant la fenêtre de réception}{12}
+\contentsline {subparagraph}{Envoi d'un message à travers le réseaux vers un appareil}{12}
+\contentsline {subparagraph}{A noté}{12}
+\contentsline {paragraph}{Message couche MAC }{12}
+\contentsline {subparagraph}{Couche MAC (PHYPayload)}{12}
+\contentsline {subparagraph}{En tête MAC. ( MHDR field)}{13}
+\contentsline {subparagraph}{ Type de messages (MType bit field)}{13}
+\contentsline {subparagraph}{Données des messages}{13}
+\contentsline {subparagraph}{ Le payload d'un message sur la couche MAC (MACPayload)}{13}
+\contentsline {subparagraph}{ En-tête (FHDR)}{13}
+\contentsline {subparagraph}{Champ du port (Fport)}{13}
+\contentsline {subparagraph}{Chiffrement du Payload sur une trame MAC (FRMPayload)}{14}
+\contentsline {subparagraph}{calcul du MIC}{14}
+\contentsline {paragraph}{Commandes MAC}{14}
+\contentsline {paragraph}{Activation d'un end-device}{14}
+\contentsline {subparagraph}{Adresse des device (DevAddr)}{14}
+\contentsline {subparagraph}{Identification de l'application (AppEUI)}{14}
+\contentsline {subparagraph}{Clé de session réseaux (NwkSkey)}{15}
+\contentsline {subparagraph}{Clé de session d'application (AppSKey)}{15}
+\contentsline {paragraph}{Activation avec Over the Air (OTA)}{15}
+\contentsline {subparagraph}{Identifiant des device (DevEUI)}{15}
+\contentsline {subparagraph}{Clé de l'application(AppKey)}{15}
+\contentsline {subparagraph}{Procédure Join}{15}
+\contentsline {subparagraph}{Message Join-request}{15}
+\contentsline {subparagraph}{Méssage Join-accept }{15}
+\contentsline {paragraph}{Activation par Personallisation }{15}
+\contentsline {subsubsection}{\numberline {2.3.7}Classe B : Beacon}{16}
+\contentsline {paragraph}{Introduction}{16}
+\contentsline {paragraph}{Principe de la synchronisation du réseaux initialiser en downlink}{16}
+\contentsline {paragraph}{Trame de liaison montante en mode Classe B}{16}
+\contentsline {subparagraph}{Format de la trame physique}{16}
+\contentsline {subparagraph}{Messages MAC en Unicast et Multicast}{17}
+\contentsline {paragraph}{Acquisition du beacon et tracking }{17}
+\contentsline {subparagraph}{Temps de fonctionnement minimum sans balise}{17}
+\contentsline {subparagraph}{Extension de l'opération beacon-less à la réception}{17}
+\contentsline {subparagraph}{Minimiser la dérive du timing}{17}
+\contentsline {paragraph}{Synchronisation d'un emplacement en liaison descendante}{17}
+\contentsline {subparagraph}{ Définitions}{18}
+\contentsline {subparagraph}{Emplacement aléatoire}{18}
+\contentsline {paragraph}{Beaconing (Option de classe B)}{19}
+\contentsline {subparagraph}{ Couche physique de la balise}{19}
+\contentsline {subparagraph}{Format de la trame de Beaconing}{19}
+\contentsline {subparagraph}{Beaconing : format du champ GwSpecific }{20}
+\contentsline {subparagraph}{ Gateway coordonées GPS: InfoDesc = 0,1 ou 2}{20}
+\contentsline {subparagraph}{ Timing précis sur le Beaconing}{20}
+\contentsline {subsubsection}{\numberline {2.3.8}Classe C : Continiously listening}{21}
+\contentsline {subparagraph}{Temps de la deuxième fenêtre de réception pour la classe C}{21}
+\contentsline {subparagraph}{ Multicast liaison descendante}{21}
+\contentsline {section}{\numberline {3}Problème}{22}
+\contentsline {section}{\numberline {4}Solutions}{23}
+\contentsline {subsection}{\numberline {4.1}Algorithme}{24}
+\contentsline {subsection}{\numberline {4.2}Chronogramme}{25}
+\contentsline {section}{\numberline {5}Simulation}{26}
+\contentsline {subsection}{\numberline {5.1}Omnet++}{26}
+\contentsline {subsection}{\numberline {5.2}Génération des graphes}{26}
+\contentsline {subsection}{\numberline {5.3}Exemples de simulations graphiques}{27}
+\contentsline {subsubsection}{\numberline {5.3.1}Simulation sur une chaine}{27}
+\contentsline {subsubsection}{\numberline {5.3.2}Simulation avec 3 IN sur une LGW}{28}
+\contentsline {subsubsection}{\numberline {5.3.3}Simulation à plus grande echelle }{29}
+\contentsline {section}{\numberline {6}Programmation}{30}
+\contentsline {subsection}{\numberline {6.1}LoPy}{30}
+\contentsline {subsection}{\numberline {6.2}Semtech}{30}
+\contentsline {section}{\numberline {7}Résultats}{31}
+\contentsline {section}{\numberline {8}Conclusion}{32}
+\contentsline {section}{Annexes}{34}
+\contentsline {section}{\numberline {A}Code iGraph}{34}
+\contentsline {section}{\numberline {B}Code Omnet++}{38}
