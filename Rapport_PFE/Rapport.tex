@@ -103,16 +103,16 @@
 \setlength{\parskip}{0.5em}
 \newpage
 \section{Introduction}
-Dans ce rapport, il va être sujet d'aborder les technologies du \textit{LoRaWAN}, du\textit{ LoRa} en commencant par definirs ces termes. Ensuite aborder ainsi que expliquer les problémes présent dans une architecture \textit{LoRaWAN} ainsi que les solutions possible pour résoudre ces problèmes. Il va être question avant toute implémentation de faire des simulations sur le modèle de communication \textit{LoRa} avec les algorithme présenter auparavant .Nous allons aborder comment programmer et donc implémenter cette solution dans un capteur. Nous utiliserons notamment dans un premier temps l'implémentation dans des capteurs \textit{LoPy} puis les capteurs Semtech. Le rapport ce termineras sur un ensemble de résultats sous forme statistiques et verbales pour commenter ceux-ci.  
+Dans ce rapport, il va être sujet d'aborder les technologies du \textit{LoRaWAN}, du \textit{LoRa} en commencant par definirs ces termes. Ensuite aborder ainsi que expliquer les problémes présent dans une architecture \textit{LoRaWAN} ainsi que les solutions possible pour résoudre ces problèmes. Il va être question avant toute implémentation de faire des simulations sur le modèle de communication \textit{LoRa} avec les algorithme présenter auparavant .Nous allons aborder comment programmer et donc implémenter cette solution dans un capteur. Nous utiliserons notamment dans un premier temps l'implémentation dans des capteurs \textit{LoPy} puis les capteurs \textit{Semtech}. Le rapport ce termineras sur un ensemble de résultats sous forme statistiques et verbales pour commenter ceux-ci.  
 \newpage
 \section{LoRaWAN}
 Comment connecter les milliards de capteurs qui seront potentiellement déployés dans le monde et qui participeront à la construction des villes intelligentes, de la mobilité et de l'industrie du futur ? \newline
-Il existe bon nombre de réponses à cette question mais nous pourrons en trouver assurément du côté des LPWAN. Par conséquent nous commenceront par développer ce modèle avant de décrire la spécification de version 1.0 de LoRaWAN, basé sur LoRa.
+Il existe bon nombre de réponses à cette question mais nous pourrons en trouver assurément du côté des LPWAN. Par conséquent nous commenceront par développer ce modèle avant de décrire la spécification de version 1.0 de  \textit{LoRaWAN}, basé sur \textit{LoRa}.
 \subsection{Convention de nommage }
 Afin de conserver une certaine cohérence vis à vis de la spécification des termes anglo-saxons, nous avons préféré les conserver dans ce document. Toute fois, vous en trouverez une brève définition ci-dessous : 
 \begin{itemize}
 \item End-devices : Définissent les périphériques cibles comme les capteurs par exemple.
-\item Isolated-devices/Isolated Nodes : Définissent les périphériques cibles comme les capteurs par exemple  mais cette fois ci. Isolé par rapport à une gateway LoRaWAN.
+\item Isolated-devices/Isolated Nodes : Définissent les périphériques cibles comme les capteurs par exemple  mais cette fois ci. Isolé par rapport à une gateway  \textit{LoRaWAN}.
 \item Uplink : Correspond aux chemins réseaux des end-devices vers le serveur réseaux. 
 \item Downlink : Correspond aux chemins réseaux du serveur vers le end-devices. 
 \item Gateway : Correspond aux concentrateurs réseaux. 
@@ -122,14 +122,14 @@ Afin de conserver une certaine cohérence vis à vis de la spécification des te
 
 
 \subsection{LPWAN}
-Pour certaines applications (villes intelligentes, maintenance prédictive, agriculture connectée, etc.), il s'agit de déployer des centaines de milliers de capteurs (monitoring énergétique, qualité de l'air, gestion des déchets) fonctionnant sur pile et communiquant quotidiennement de très faibles quantités de données, à faible débit vers des serveurs sur Internet (cloud).Les réseaux LPWA, comme le laisse deviner l'acronyme, sont des réseaux sans fil basse consommation, bas débit et longue portée, optimisés pour les équipements aux ressources limitées pour lesquels une autonomie de plusieurs années est requise. Ces réseaux conviennent particulièrement aux applications qui n'exigent pas un débit élevé.
+Pour certaines applications (villes intelligentes, maintenance prédictive, agriculture connectée, etc.), il s'agit de déployer des centaines de milliers de capteurs (monitoring énergétique, qualité de l'air, gestion des déchets) fonctionnant sur pile et communiquant quotidiennement de très faibles quantités de données, à faible débit vers des serveurs sur Internet (cloud).Les réseaux LPWAN, comme le laisse deviner l'acronyme, sont des réseaux sans fil basse consommation, bas débit et longue portée, optimisés pour les équipements aux ressources limitées pour lesquels une autonomie de plusieurs années est requise. Ces réseaux conviennent particulièrement aux applications qui n'exigent pas un débit élevé.
 Contrairement aux opérateurs mobiles les LPWAN utilisent des bandes de fréquences à usage libre, disponibles mondialement et sans licence : ISM (Industriel, Scientifique et Médical). Compte tenu des faibles débits et de la faible occupation spectrale des signaux, il faut en moyenne, pour un réseau LPWAN, 10 fois moins d'antennes pour couvrir la même surface qu'un réseau cellulaire traditionnel.
 \subsection{LoRaWAN}
-LoRaWan (Long Range Radio Wide Area Network) est un réseau LPWAN basé sur la technologie radio LoRa.
+\textit{LoRaWAN} (Long Range Radio Wide Area Network) est un réseau LPWAN basé sur la technologie radio \textit{LoRa}.
 Cette technologie, développée par Cycleo en 2009 puis rachetée, 3 ans après, par l'américain Semtech, utilise une technique d'étalement de spectre pour la transmission des signaux radio (chirp spread spectrum). 
-La technologie LoRa, à travers le réseau LoRaWan, est poussée par un consortium d'industriels et d'opérateurs nommé LoRa Alliance qui regroupe notamment IBM, Cisco, Bouygues Télécom, etc…
+La technologie \textit{LoRa}, à travers le réseau  \textit{LoRaWAN}, est poussée par un consortium d'industriels et d'opérateurs nommé \textit{LoRa} Alliance qui regroupe notamment IBM, Cisco, Bouygues Télécom, etc…
 \subsubsection{LoRa Alliance}
-La LoRa Alliance est une association dont le but, non lucratif, est de standardiser le réseau LoRaWAN pour apporter à l'internet des objets (IoT) un moyen fiable pour se connecter à Internet. Cette association a été créée par Semtech et de nombreux acteurs industriels garantissent aujourd'hui l'interopérabilité et la standardisation de la technologie LoRa. 
+La \textit{LoRa} Alliance est une association dont le but, non lucratif, est de standardiser le réseau  \textit{LoRaWAN} pour apporter à l'internet des objets (IoT) un moyen fiable pour se connecter à Internet. Cette association a été créée par Semtech et de nombreux acteurs industriels garantissent aujourd'hui l'interopérabilité et la standardisation de la technologie \textit{LoRa}. 
 
 
 
@@ -143,10 +143,10 @@ La LoRa Alliance est une association dont le but, non lucratif, est de standardi
 \includegraphics[scale=0.6]{couchelora.png}
 \caption{Les différentes couches d'un réseau LoRaWAN}
 \end{figure}
-On peut alors constater que la couche physique fournie par la technologie LoRa n'est pas suffisante pour assurer la communication réseau. En définissant le protocole réseau (LoRa MAC), pour une communication d'équipements LoRA à travers un réseau, le protocole LoRaWAN assure une communication bi-directionnelle et définit trois classes d'équipements différents. Nous définirons celles-ci dans la partie de notre étude consacrée à l'explication des différences sur les messages, les fenêtres de réception...
+On peut alors constater que la couche physique fournie par la technologie \textit{LoRa} n'est pas suffisante pour assurer la communication réseau. En définissant le protocole réseau (\textit{LoRa} MAC), pour une communication d'équipements \textit{LoRa} à travers un réseau, le protocole  \textit{LoRaWAN} assure une communication bi-directionnelle et définit trois classes d'équipements différents. Nous définirons celles-ci dans la partie de notre étude consacrée à l'explication des différences sur les messages, les fenêtres de réception...
 \newpage
 \subsubsection{Différence entre le LoRa et LoRaWAN}
-D'un côté, LoRaWAN est un modèle d'architecture réseaux qui exploite la technologie radio LoRa pour faire communiquer les gateways avec les périphériques et les capteurs. En outre, nous détaillerons les particularités de cette architecture réseaux dans le point suivant. A noter, au sein de notre document, la présence de raccourcis d'écriture désignant LoRa comme la communication spécifiée en réseau LoRaWAN mais il s'agira bel et bien d'échanges effectués en LoRa avec une couche LoRa MAC. 
+D'un côté,  \textit{LoRaWAN} est un modèle d'architecture réseaux qui exploite la technologie radio \textit{LoRa} pour faire communiquer les gateways avec les périphériques et les capteurs. En outre, nous détaillerons les particularités de cette architecture réseaux dans le point suivant. A noter, au sein de notre document, la présence de raccourcis d'écriture désignant \textit{LoRa} comme la communication spécifiée en réseau  \textit{LoRaWAN} mais il s'agira bel et bien d'échanges effectués en \textit{LoRa} avec une couche \textit{LoRa} MAC. 
  
 \subsubsection{Architecture d'un réseaux LoRaWAN}
 \begin{figure}[h!]
@@ -154,10 +154,10 @@ D'un côté, LoRaWAN est un modèle d'architecture réseaux qui exploite la tech
 \includegraphics[scale=0.6]{networkArch.png}
 \caption{Architecture d'un réseaux LoRaWAN}
 \end{figure}
-Cette figure représente une architecture classique d'un réseau LoRaWAN. Typiquement un réseau LoRaWAN est en topologie "star of star" étoile en étoile, le centre de cette topologie est le serveur de réseau qui assure la gestion du débit adaptatif, de la sécurité des données ou encore de la redondance des données. Celui ci est entouré d'un côté par les gateways connectés en ethernet/4G au serveur de réseau, auquel les end-devices seront connectés, eux en LoRa. D'autre part du serveur réseaux, nous avons les serveur d'applications lié par ethernet, ces mêmes serveur d'application lié elle mêmes à une interface web ( échange HTTP, MQTT).
-Une des particularités d’un réseau LoRaWAN, est qu’un équipement ne communique pas exclusivement à travers un concentrateur. Tous les concentrateurs couvrant l’équipement peuvent recevoir les données transmises par ce dernier.
+Cette figure représente une architecture classique d'un réseau  \textit{LoRaWAN}. Typiquement un réseau  \textit{LoRaWAN} est en topologie "star of star" étoile en étoile, le centre de cette topologie est le serveur de réseau qui assure la gestion du débit adaptatif, de la sécurité des données ou encore de la redondance des données. Celui ci est entouré d'un côté par les gateways connectés en ethernet/4G au serveur de réseau, auquel les end-devices seront connectés, eux en \textit{LoRa}. D'autre part du serveur réseaux, nous avons les serveur d'applications lié par ethernet, ces mêmes serveur d'application lié elle mêmes à une interface web ( échange HTTP, MQTT).
+Une des particularités d’un réseau  \textit{LoRaWAN}, est qu’un équipement ne communique pas exclusivement à travers un concentrateur. Tous les concentrateurs couvrant l’équipement peuvent recevoir les données transmises par ce dernier.
 Cela facilite grandement la communication avec les équipements en mobilité en dispensant le réseau de mécanismes de hand-over (passage d’un concentrateur à un autre) qui auraient pour effet de complexifier sa gestion et très probablement de réduire ses performances. Par contre, lorsque le serveur envoie un message à destination d’un équipement, c’est par le biais d’un seul concentrateur. C’est le cas en particulier des messages requérant un acquittement par le serveur.
- assure l'échange entre le serveur de réseaux et les serveurs d'applications : AppsKey. La sécurité après ces serveurs n'est plus géré par la spécification LoRaWAN.
+ assure l'échange entre le serveur de réseaux et les serveurs d'applications : AppsKey. La sécurité après ces serveurs n'est plus géré par la spécification  \textit{LoRaWAN}.
  
 
 \subsubsection{Sécurité d'un réseaux LoRaWAN}
@@ -186,7 +186,7 @@ Envoyé par les appareils, reçu par le serveur réseaux et ceux-ci traversant u
 
 \begin{itemize}
 \item  Preambule
-\item  PHDR : LoRa en-tête physique 
+\item  PHDR : \textit{LoRa} en-tête physique 
 \item  PHDR\_CRC : en tête affublé d'une en tête CRC
 \item  PHYPayload : Le payload
 \item  le champ CRC
@@ -195,7 +195,7 @@ Envoyé par les appareils, reçu par le serveur réseaux et ceux-ci traversant u
 
 \begin{itemize}
 \item  Preambule
-\item  PHDR : LoRa en-tête physique 
+\item  PHDR : \textit{LoRa} en-tête physique 
 \item  PHDR\_CRC : en tête affublé d'une en tête CRC
 \item  PHYPayload : Le payload
 \end{itemize}
@@ -242,7 +242,7 @@ La taille maximum M d'un MACPayload est spécifique à la région
 
 \newpage
 \subparagraph{En tête MAC. ( MHDR field)}
-L'en tête MAC spécifie le type de message (MType) et est encodé par la couche LoRaWAN.
+L'en tête MAC spécifie le type de message (MType) et est encodé par la couche  \textit{LoRaWAN}.
 \begin{figure}[h!]
 \centering
 \includegraphics[scale=0.6]{A_mac_header.png}
@@ -275,7 +275,7 @@ Si le champ payload  de la trame n'est pas vide, le champ de port doit être pr�
 
 \subparagraph{Chiffrement du Payload sur une trame MAC (FRMPayload)}
 Si une trame de données transporte un payload, FRMPayload doit être chiffrée avant l'envoi du  message.
-Le code d'intégrité de chiffrement du payload de trame MAC (FRMPayload et MIC) est calculé. Le schéma de chiffrement utilisé est basé sur l'algorithme générique utilisant AES avec une longueur de clé de 128 bits. Par défaut, le chiffrement / déchiffrement est effectué par la couche LoRaWAN pour tous les FPort. Le chiffrement / déchiffrement peut être effectué au-dessus de la couche LoRaWAN pour des FPorts spécifiques sauf 0, si cela est plus pratique pour l'application. Les informations  à partir d'un noeud concernant le protocole de chiffrement / déchiffrement de FPort à l'extérieur de la couche LoRaWAN doivent être communiquées au serveur à l'aide d'un canal hors bande .
+Le code d'intégrité de chiffrement du payload de trame MAC (FRMPayload et MIC) est calculé. Le schéma de chiffrement utilisé est basé sur l'algorithme générique utilisant AES avec une longueur de clé de 128 bits. Par défaut, le chiffrement / déchiffrement est effectué par la couche  \textit{LoRaWAN} pour tous les FPort. Le chiffrement / déchiffrement peut être effectué au-dessus de la couche  \textit{LoRaWAN} pour des FPorts spécifiques sauf 0, si cela est plus pratique pour l'application. Les informations  à partir d'un noeud concernant le protocole de chiffrement / déchiffrement de FPort à l'extérieur de la couche \textit{LoRaWAN} doivent être communiquées au serveur à l'aide d'un canal hors bande .
 \subparagraph{calcul du MIC}
 
 msg = MHDR | FHDR | FPort | FRMPayload
@@ -288,7 +288,7 @@ MIC = cmac[0..3]
 Pour l'administration de réseau, un ensemble de commandes MAC peut être échangé exclusivement entre le serveur de réseau et la couche MAC d'un périphérique . Les commandes de couche MAC ne sont jamais visibles par l'application, le serveur d'applications ou l'application s'exécutant sur le périphérique .
 Une trame de données unique peut contenir n'importe quelle séquence de commandes MAC, greffées dans le champ FOpts ou, lorsqu'elles sont envoyées en tant que trame de données séparée, dans le champ FRMPayload avec le champ FPort défini sur 0. Les commandes MAC superposées sont toujours envoyées sans chiffrement et ne doit pas dépasser 15 octets. Les commandes MAC envoyées en tant que FRMPayload sont toujours chiffrées et ne doivent pas dépasser la longueur FRMPayload maximale.
 \paragraph{Activation d'un end-device}
-Pour participer dans un réseaux LoRaWAN chaque end-device doit être personalisé et activé.
+Pour participer dans un réseaux  \textit{LoRaWAN} chaque end-device doit être personalisé et activé.
 
 \subparagraph{Adresse des device (DevAddr)}
 32 bits identifient le end-devices dans le réseaux courant.
@@ -324,8 +324,8 @@ Le device contient directement le DevAddr, NwkSKey et AppSKey à la place de Dev
 \newpage
 \subsubsection{Classe B : Beacon}
 \paragraph{Introduction}
-Cette section décrit la couche LoRaWAN Classe B optimisée pour les appareils alimentés par batterie qui peuvent être mobiles ou montés à un emplacement fixe.
-Les terminaux doivent mettre en œuvre une opération de classe B lorsqu'il est nécessaire d'ouvrir des fenêtres de réception à des intervalles de temps fixes afin d'activer les messages downlink. L'option LoRaWAN Classe B ajoute une fenêtre de réception synchronisée sur le device. L'une des limitations de LoRaWAN Class A est la méthode ALOHA d'envoi de données à partir du périphérique; il ne permet pas de connaître le moment de la réaction lorsque l'application client ou le serveur souhaite s'adresser aux périphérique. L'objectif de la classe B est d'avoir un device disponible pour la réception à une heure prévisible, en plus des fenêtres de réception qui suivent la transmission aléatoire d'un méssage uplink du périphérique de classe A. La classe B est obtenue en envoyant à la passerelle un beacon sur une base régulière pour synchroniser tous les devices dans le réseau de sorte que l'appareil puisse ouvrir une courte fenêtre de réception supplémentaire (appelée "ping slot") à un moment prévisible pendant un intervalle de temps périodique.
+Cette section décrit la couche  \textit{LoRaWAN} Classe B optimisée pour les appareils alimentés par batterie qui peuvent être mobiles ou montés à un emplacement fixe.
+Les terminaux doivent mettre en œuvre une opération de classe B lorsqu'il est nécessaire d'ouvrir des fenêtres de réception à des intervalles de temps fixes afin d'activer les messages downlink. L'option \textit{LoRaWAN} Classe B ajoute une fenêtre de réception synchronisée sur le device. L'une des limitations de \textit{LoRaWAN} Class A est la méthode ALOHA d'envoi de données à partir du périphérique; il ne permet pas de connaître le moment de la réaction lorsque l'application client ou le serveur souhaite s'adresser aux périphérique. L'objectif de la classe B est d'avoir un device disponible pour la réception à une heure prévisible, en plus des fenêtres de réception qui suivent la transmission aléatoire d'un méssage uplink du périphérique de classe A. La classe B est obtenue en envoyant à la passerelle un beacon sur une base régulière pour synchroniser tous les devices dans le réseau de sorte que l'appareil puisse ouvrir une courte fenêtre de réception supplémentaire (appelée "ping slot") à un moment prévisible pendant un intervalle de temps périodique.
 
 \paragraph{Principe de la synchronisation du réseaux initialiser en downlink}
 Pour qu'un réseau puisse prendre en charge les terminaux de classe B, toutes les passerelles doivent diffuser de manière synchrone un beacon fournissant une référence de synchronisation aux terminaux. Sur la base de cette référence de temporisation, les devices peuvent périodiquement ouvrir des fenêtres de réception, appelées ci-après des intervalles, qui peuvent être utilisées par l'infrastructure de réseau pour initier une communication downlink. Un message downlink utilisant l'un de ces emplacements est appelée un slot-ping. La passerelle choisie pour initier cette communication downlink est sélectionnée par le serveur de réseau sur la base des indicateurs de qualité de signal de la dernière liaison uplink de l'appareil . Pour cette raison, si un périphérique se déplace et détecte une modification de l'identité annoncée dans le beacon reçue, il doit envoyer envoyé en uplink afin que le serveur puisse mettre à jour la base de données du chemin de routage descendant.
@@ -337,7 +337,7 @@ Les trames en uplink en mode Classe B sont identiques aux uplink de classe A à 
 \subparagraph{Format de la trame physique}
 Un Ping en downlink utilise le même format qu'une trame downlink de classe A, mais pourrait suivre un plan de fréquence de canal différent.
 \subparagraph{Messages MAC en Unicast et Multicast}
-Les messages peuvent être «unicast» ou «multicast». Les messages monodiffusion sont envoyés à un seul terminal et les messages multidiffusion sont envoyés à plusieurs terminaux. Tous les périphériques d'un groupe de multidiffusion doivent partager la même adresse de multidiffusion et les mêmes clés de chiffrement. La spécification LoRaWAN Classe B ne spécifie aucun moyen pour configurer à distance un tel groupe de multidiffusion ou pour distribuer de manière sécurisée le matériel de clé de multidiffusion requis. Cela doit être effectué pendant la personnalisation du noeud ou via la couche d'application.
+Les messages peuvent être «unicast» ou «multicast». Les messages monodiffusion sont envoyés à un seul terminal et les messages multidiffusion sont envoyés à plusieurs terminaux. Tous les périphériques d'un groupe de multidiffusion doivent partager la même adresse de multidiffusion et les mêmes clés de chiffrement. La spécification  \textit{LoRaWAN} Classe B ne spécifie aucun moyen pour configurer à distance un tel groupe de multidiffusion ou pour distribuer de manière sécurisée le matériel de clé de multidiffusion requis. Cela doit être effectué pendant la personnalisation du noeud ou via la couche d'application.
 
 \paragraph{Acquisition du beacon et tracking }
 Avant de passer de la classe A à la classe B, le device doit d'abord recevoir un beacon pour aligner sa référence d'horloge interne avec le réseau. Une fois en classe B, le périphérique final doit périodiquement rechercher et recevoir un beacon pour annuler toute dérive de son d'horloge interne, par rapport à la synchronisation du réseau. Un périphérique de classe B peut être temporairement incapable de recevoir des beacons (hors de portée des passerelles réseau, présence d'interférences, ..). Dans ce cas, le terminal doit élargir progressivement ses fenêtres de réception de beacon et de ping pour prendre en compte une éventuelle dérive de son horloge interne.
@@ -376,7 +376,7 @@ pingOffset = (Rand[0] + Rand[1]x 256) modulo pingPeriod
 
 \paragraph{Beaconing (Option de classe B)}
 \subparagraph{ Couche physique de la balise}
-En plus de relayer les messages entre les terminaux et les serveurs de réseau, toutes les passerelles participent à la mise en place de mécanismes de synchronisation en envoyant des beacon à des intervalles fixes réguliers configurables par le serveur réseau (BEACON\_INTERVAL). Toutes les balises sont transmises en mode implicite de paquet radio, c'est-à-dire sans entête physique LoRa et sans CRC ajouté par la radio. Le préambule de la balise commence par (plus long que par défaut) les symboles non modulés. Cela permet aux dispositifs d'extrémité de mettre en œuvre une recherche par balise à faible puissance. La longueur de la trame du beacon est étroitement liée au fonctionnement de la couche physique radio. Par conséquent, la longueur réelle de la trame peut changer d'une implémentation de région à une autre.
+En plus de relayer les messages entre les terminaux et les serveurs de réseau, toutes les passerelles participent à la mise en place de mécanismes de synchronisation en envoyant des beacon à des intervalles fixes réguliers configurables par le serveur réseau (BEACON\_INTERVAL). Toutes les balises sont transmises en mode implicite de paquet radio, c'est-à-dire sans entête physique \textit{LoRa} et sans CRC ajouté par la radio. Le préambule de la balise commence par (plus long que par défaut) les symboles non modulés. Cela permet aux dispositifs d'extrémité de mettre en œuvre une recherche par balise à faible puissance. La longueur de la trame du beacon est étroitement liée au fonctionnement de la couche physique radio. Par conséquent, la longueur réelle de la trame peut changer d'une implémentation de région à une autre.
 
 \subparagraph{Format de la trame de Beaconing}
 
@@ -421,7 +421,7 @@ De même que pour la classe B, les périphériques de classe C peuvent recevoir 
 
 \newpage
 \section{Problème}
-Un problème est relevé après tout ce résumé de la spécification LoRaWAN. Il y a un problème qui se révele assez vite. En effet, le LoRaWAN est basé sur un modèle d'infrastructure. Par exemple, quand est-il d'un noeud qui n'est pas visible par une loRaWAN Gateway? Il y a deux cas de figures simple : le premier cas est celui  ou le noeud n'est visible d'aucun device et d'aucune gateway LoRaWAN. Dans ce cas il n'y a rien à faire le noeud est isolé de manière permanente. Le deuxième cas de figure est celui qui nous intéresse particulièrement ici, en effet le noeud isolé est visible par un end-device qui lui est à porté d'une LoRaWAN Gateway tout comme l'illustre le schéma suivant :
+Un problème est relevé après tout ce résumé de la spécification  \textit{LoRaWAN}. Il y a un problème qui se révele assez vite. En effet, le  \textit{LoRaWAN} est basé sur un modèle d'infrastructure. Par exemple, quand est-il d'un noeud qui n'est pas visible par une  \textit{LoRaWAN} Gateway? Il y a deux cas de figures simple : le premier cas est celui  ou le noeud n'est visible d'aucun device et d'aucune gateway  \textit{LoRaWAN}. Dans ce cas il n'y a rien à faire le noeud est isolé de manière permanente. Le deuxième cas de figure est celui qui nous intéresse particulièrement ici, en effet le noeud isolé est visible par un end-device qui lui est à porté d'une  \textit{LoRaWAN} Gateway tout comme l'illustre le schéma suivant :
 
 
 \begin{figure}[h!]
@@ -432,7 +432,7 @@ Un problème est relevé après tout ce résumé de la spécification LoRaWAN. I
 
 \newpage
 \section{Solutions}
-Il y a  plusieurs piste de solutions afin de résoudre ce problème. Un end node visible par un noeud isolé peut etre redefinie comme une passerelle $\rightarrow$ On définit donc une LoRa Gateway (noté LGW à travers le document)
+Il y a  plusieurs piste de solutions afin de résoudre ce problème. Un end node visible par un noeud isolé peut etre redefinie comme une passerelle $\rightarrow$ On définit donc une \textit{LoRa} Gateway (noté LGW à travers le document)
 Il y a donc une redéfinition des acteurs :
 \begin{itemize}
 \item LoRaWAN Gateway (LWGW)
@@ -500,11 +500,11 @@ Cette section va exposé et expliqué l'ensemble des algorithmes présentés.
 \includegraphics[scale=0.6]{Discovery.png} 
 \caption{Phase de découverte}
 \end{figure}
-\paragraph{Coté Isolated node}Au début le noeud isolé se reveille, il envoie des messages \textbf{Discover}. Si une LoRA Gateway répond par un message \textbf{Accept} le noeud répond alors avec un message  \textbf{Register} pour confirmer son appairage avec la LoRa Gateway.
+\paragraph{Coté Isolated node}Au début le noeud isolé se reveille, il envoie des messages \textbf{Discover}. Si une \textit{LoRa} Gateway répond par un message \textbf{Accept} le noeud répond alors avec un message  \textbf{Register} pour confirmer son appairage avec la \textit{LoRa} Gateway.
 \paragraph{Coté LoRa Gateway}
-La LoRa Gateway avant toute opération avec n'importe quel élement de l'environnement doit s'appairer avec une gateway LoRaWAN avec la requete  \textbf{Join Request}.
+La \textit{LoRa} Gateway avant toute opération avec n'importe quel élement de l'environnement doit s'appairer avec une gateway \textit{LoRaWAN} avec la requete  \textbf{Join Request}.
 \paragraph{Coté LoRaWAN Gateway}
-La gateway LoRaWAN executé un déroulement normal. Elle répond au requete join avec un message  \textbf{Join Accept}
+La gateway \textit{LoRaWAN} executé un déroulement normal. Elle répond au requete join avec un message  \textbf{Join Accept}
 \newpage
 \subsubsection{Phase de collecte}
 \begin{figure}[h!]
@@ -513,11 +513,11 @@ La gateway LoRaWAN executé un déroulement normal. Elle répond au requete join
 \caption{Phase de collecte}
 \end{figure}
 
-\paragraph{Coté Isolated node} Le noeud se reveille à un slot prévu entre la LoRa Gateway et le noeud. Tout ceci afin de recevoir la demande de donnée de la part de la gateway LoRa. Le noeud répond avec les données dans un message nommé  \textbf{Data Response}.
+\paragraph{Coté Isolated node} Le noeud se reveille à un slot prévu entre la \textit{LoRa} Gateway et le noeud. Tout ceci afin de recevoir la demande de donnée de la part de la gateway \textit{LoRa}. Le noeud répond avec les données dans un message nommé  \textbf{Data Response}.
 \paragraph{Coté LoRa Gateway}
-La LoRa Gateway va se reveiller pour collecter les données des noeuds qui lui sont accroché. Elle envoit donc un message  \textbf{Request Data} . Une fois que toutes les données sont reçues, la Gateway assemble les données et envoie à la LoRaWAN gateway. 
+La \textit{LoRa} Gateway va se reveiller pour collecter les données des noeuds qui lui sont accroché. Elle envoit donc un message  \textbf{Request Data} . Une fois que toutes les données sont reçues, la Gateway assemble les données et envoie à la  \textit{LoRaWAN} gateway. 
 \paragraph{Coté LoRaWAN Gateway}
-La LoRaWAN Gateway accuse la reception des données envoyées par la gateway LoRa.
+La \textit{LoRaWAN} Gateway accuse la reception des données envoyées par la gateway \textit{LoRa}.
 \textbf{Send ACK}
 
 
@@ -537,9 +537,9 @@ igraph a été développé par Gábor Csárdi et Tamás Nepusz. Le code source d
 
 La génération se fait en plusieurs étapes : 
 \begin{enumerate}
-\item Récupération des arguments : Nombres de LoRaWAN Gateway, LoRa Gateway et de Isolated node.	
+\item Récupération des arguments : Nombres de  \textit{LoRaWAN} Gateway, \textit{LoRa} Gateway et de Isolated node.	
 \item Création du graphe et ajout du nombre de sommets dont on a besoin.
-\item On connecte les LoRaGateway à une LoRaWAN gateway, par définitions ils sont enregistré à au moins une gateway LoRaWAN.
+\item On connecte les  \textit{LoRaWAN} à une  \textit{LoRaWAN} gateway, par définitions ils sont enregistré à au moins une gateway  \textit{LoRaWAN}.
 \item On connecte des Isolated Node de manière aléatoire à une LoRa Gateway (au moins une)
 \item Ensuite on applique un deuxième tour d'association de noeud à des gateway 	basé sur une méthode  Erdös Renyi : On définit la probabilité d'existence entre deux nœuds, pour chaque couple de nœud, on tire au sort un nombre, si le nombre est inférieur on met le lien.
 \item On écrit le fichier .ned qui décrit la configuration du graphe crée. 
@@ -581,7 +581,7 @@ Dans cette version purement algorithmique sur Omnet++, la radio est definit par 
 
 \newpage
 \subsection{Exemples de simulations graphiques}
-Afin de simplifié, les messages contiennent le nom du message et possedent un code couleur propre et unique. Une LoRa Gateway possède une couleur propre à son groupe ( elle même et les Isolated nodes associés), les INs ont aussi cette couleur.
+Afin de simplifié, les messages contiennent le nom du message et possedent un code couleur propre et unique. Une \textit{LoRa} Gateway possède une couleur propre à son groupe ( elle même et les Isolated nodes associés), les INs ont aussi cette couleur.
 \subsubsection{Simulation sur une chaine}
 \begin{figure}[!ht]
 \centering
@@ -596,7 +596,7 @@ Ceci est une image sortie de la simulation graphique, la première réalisé, un
 \includegraphics[scale=0.6]{3IN.png} 
 \caption{Exemple avec 3 Isolated Nodes}
 \end{figure}
-Ceci est le deuxième exemple de simulation pour gérer l'enregistrement multiple.Ici nous avons donc toujours une LoRaWAN gateway qui est connecté a une LoRa Gateway qui doit gérer trois Isolated Node Cette simulation ci seras l'exemple typique du deuxième algorithme.
+Ceci est le deuxième exemple de simulation pour gérer l'enregistrement multiple.Ici nous avons donc toujours une  \textit{LoRaWAN} gateway qui est connecté a une \textit{LoRa} Gateway qui doit gérer trois Isolated Node Cette simulation ci seras l'exemple typique du deuxième algorithme.
 \newpage
 \subsubsection{Simulation à plus grande echelle }
 \begin{figure}[!ht]
@@ -604,12 +604,12 @@ Ceci est le deuxième exemple de simulation pour gérer l'enregistrement multipl
 \includegraphics[scale=0.45]{fat.png} 
 \caption{Exemple à grande echelle}
 \end{figure}
-Ceci est le troisème exemple de simulation pour gérer l'enregistrement multiple ainsi que l'unicité d'un enregistrement sur une Gateway LoRa d'un device.Ici nous avons donc toujours une LoRaWAN gateway qui est connecté a quatre LoRa Gateway qui doit gérer X Isolated Node Cette simulation ci seras l'exemple typique du deuxième algorithme. Mais aussi d'un troisème cas de figure possible. Cette exemple est surtout présent pour montrer et pousser la simulation à être plus proche de la réalité.
+Ceci est le troisème exemple de simulation pour gérer l'enregistrement multiple ainsi que l'unicité d'un enregistrement sur une Gateway \textit{LoRa} d'un device.Ici nous avons donc toujours une  \textit{LoRaWAN} gateway qui est connecté a quatre \textit{LoRa} Gateway qui doit gérer X Isolated Node Cette simulation ci seras l'exemple typique du deuxième algorithme. Mais aussi d'un troisème cas de figure possible. Cette exemple est surtout présent pour montrer et pousser la simulation à être plus proche de la réalité.
 L'exemple présenté ci-contre fait aussi transparaitre les exemples ou les communications sont difficiles. Un noeud peut pendant un certain temps ne faire que envoyer des messages \textbf{Discover} très longtemps. Pour plusieurs raisons, notamment celle-ci : 
 \begin{itemize}
 \item Problème de latence sur le reseaux de communication. 
 \item Problème de bruit radio (Plusieurs emissions sont réalisé en même temps de la part de plusieurs device, que ce soit sur le device de recepetion ou d'émission provocant la corrupition des messages)
-\item Problème de phase réception, en effet des slots sont prévue ainsi que deux fenêtre de réception dans la specification LoRa. Il se peut que deux device pas encore synchroniser est du mal à l'être .
+\item Problème de phase réception, en effet des slots sont prévue ainsi que deux fenêtre de réception dans la specification \textit{LoRa}. Il se peut que deux device pas encore synchroniser est du mal à l'être .
 \end{itemize}
 \newpage
 \section{Programmation}
@@ -625,6 +625,7 @@ TO DO
 \listoffigures
 \newpage
 \listofalgorithms
+\addcontentsline{toc}{section}{Liste des algorithmes}
 \newpage
 \begin{appendices} 
 \section{Code iGraph} 
@@ -690,8 +691,10 @@ linenos
 \newpage
 \subsection{Fichier .cpp}
 L'intégralité des codes se trouve dans l'archive jointe au présent rapport : 
+\newpage
+\section{Arborescence des fichiers} 
 \dirtree{%
- .1 Racine.
+ .1 Racine du projet.
   .2 omnetpp.ini .
   .2 Makefile .
   .2 README.md .
@@ -701,10 +704,10 @@ L'intégralité des codes se trouve dans l'archive jointe au présent rapport :
   .2 out .
    .3 clang-debug .
     .4 src .
-     .5 Fichier de debug
+     .5 Fichier de debug.
    .3 clang-release .
     .4 src .
-     .5 Fichier de release
+     .5 Fichier de release.
   .2 old .
    .3 src .
     .4 Ancien fichier source d'une ancienne méthode d'enregistrement des noeuds.
@@ -712,7 +715,7 @@ L'intégralité des codes se trouve dans l'archive jointe au présent rapport :
   .2 lopy .
    .3 README.md .
    .3 test .
-    .4 Fichiers de tests 
+    .4 Fichiers de tests .
    .3 current .
     .4 IsolatedNode.py .
     .4 messageLoRa.py .
@@ -725,7 +728,7 @@ L'intégralité des codes se trouve dans l'archive jointe au présent rapport :
    .3 run .
    .3 package.ned .
   .2 Rapport\_PFE .
-   .3 Rapport.pdf 
+   .3 Rapport.pdf.
   .2 src .
    .3 Code source de Omnet++.
 }

@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99996 (TeX Live 2016) (preloaded format=xelatex 2017.5.11)  27 FEB 2018 19:53
+This is XeTeX, Version 3.14159265-2.6-0.99996 (TeX Live 2016) (preloaded format=xelatex 2017.5.11)  27 FEB 2018 20:09
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1245,27 +1245,23 @@ gest() + chr(125) + \"\"; f.write(\"\\makeatletter\" + macro + \"\\makeatother\
 
 (./Rapport.mintedmd5)
 (./_minted-Rapport/cb99cb8f35467fe0ac93dd5edfc41221966f8d69.pygtex) [46]
-
+[47] 
 AED: lastpage setting LastPage
-[47]
+[48]
 runsystem(rm "Rapport.mintedcmd")...executed.
 
 runsystem(rm "Rapport.mintedmd5")...executed.
 
 runsystem(rm "Rapport.pyg")...executed.
 
- (./Rapport.aux)
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
- ) 
+ (./Rapport.aux) ) 
 Here is how much of TeX's memory you used:
- 24059 strings out of 493591
- 436595 string characters out of 6143546
+ 24071 strings out of 493591
+ 436739 string characters out of 6143546
  499932 words of memory out of 5000000
- 27123 multiletter control sequences out of 15000+600000
+ 27135 multiletter control sequences out of 15000+600000
  9241 words of font info for 56 fonts, out of 8000000 for 9000
  1347 hyphenation exceptions out of 8191
- 37i,11n,43p,10366b,575s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 37i,11n,43p,10366b,579s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on Rapport.pdf (47 pages).
+Output written on Rapport.pdf (48 pages).

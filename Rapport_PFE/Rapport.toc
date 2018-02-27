@@ -93,8 +93,10 @@
 \contentsline {section}{\numberline {7}Résultats}{34}
 \contentsline {section}{\numberline {8}Conclusion}{35}
 \contentsline {section}{Table des figures}{36}
+\contentsline {section}{Liste des algorithmes}{37}
 \contentsline {section}{Annexes}{38}
 \contentsline {section}{\numberline {A}Code iGraph}{38}
 \contentsline {section}{\numberline {B}Code Omnet++}{42}
 \contentsline {subsection}{\numberline {B.1}Fichier .h}{42}
 \contentsline {subsection}{\numberline {B.2}Fichier .cpp}{47}
+\contentsline {section}{\numberline {C}Arborescence des fichiers}{48}
