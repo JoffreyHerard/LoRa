@@ -19,7 +19,7 @@ class messageLoRa:
         if message != '':
             self.messageName,self.kind,self.frequency,self.slots,self.id_src,self.id_dest,self.data= message.split(",")
         else:
-            print("Received nothing")
+            ##print("Received nothing")
     def get_name(self):
         return self.messageName
 

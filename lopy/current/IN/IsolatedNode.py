@@ -12,7 +12,6 @@ from messageLoRa import messageLoRa
 lora = LoRa(mode=LoRa.LORA, region=LoRa.EU868)
 s = socket.socket(socket.AF_LORA, socket.SOCK_RAW)
 s.setblocking(False)
-
 id=1
 timer=0
 data=0
@@ -23,14 +22,15 @@ registered=False
 ack_Data=False
 frequency=1.0
 old_phase=frequency
-slot=2
+slot=1
 myLoRa=-1
 tryDataReq=-1
 
 
 def notDiscovered():
     #send some data
-    print("PHASE NOT DISCOVERED STARTED\n")
+    global tryDiscover
+    print("PHASE NOT DISCOVERED STARTED "+str(tryDiscover))
     s.send('Discover,'+str(1)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(-1)+','+str(-1))
     print("Discover sent by "+str(id))
     data=s.recv(128)
@@ -38,12 +38,12 @@ def notDiscovered():
     msg.fillMessage(data)
     if msg.messageName == "Accept":
         myLoRa=msg.id_src
-    #Something understandable ? Accept message? anything else ?
-    # wait a random amount of time
-    time.sleep(machine.rng() & 0x0F)
+    tryDiscover+=1
+    time.sleep(slot)
     print("PHASE NOT DISCOVERED ENDED\n")
 def notRegistered():
     #send some data
+    global tryRegister
     print("PHASE NOT REGISTERED STARTED\n")
     s.send('Register,'+str(3)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(myLoRa)+','+str(-1))
     print("Register sent")
@@ -55,10 +55,11 @@ def notRegistered():
         registered=True
     else:
         tryRegister+=1
-        time.sleep(machine.rng() & 0x0F)
+        time.sleep(slot)
     print("PHASE NOT REGISTERED ENDED\n")
 def sendData():
     #send some data
+    global tryDataReq
     print("PHASE SEND DATA STARTED\n")
     s.send('DataRes,'+str(5)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(myLoRa)+','+str(data))
     print("DataResponse sent")
@@ -69,7 +70,7 @@ def sendData():
         ack_Data=True
     else:
         tryDataReq+=1
-        time.sleep(machine.rng() & 0x0F)
+        time.sleep(slot)
     print("PHASE SEND DATA ENDED\n")
 while True:
     #We are not discovered yet
