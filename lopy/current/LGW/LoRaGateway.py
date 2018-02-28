@@ -12,34 +12,61 @@ NbIN=0
 idRegistered=[]
 isRegistered=[]
 frequency=1
-discovered
+discovered=False
 old_phase=frequency
-slots=2
+slot=2
 MyLW=0
 nb_harvest=0
 mycolor="blue"
 def pairing_phase(msg):
+    global slot
+    global idRegistered
     print("PAIRING PHASE WITH "+str(msg.id_src)+" STARTED")
     s.send('Accept,'+str(2)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(msg.id_src)+','+str(-1))
     idRegistered.append(msg.id_src)
     print("PAIRING PHASE WITH "+str(msg.id_src)+" ENDED")
 def registering_phase(msg):
+    global isRegistered
+    global slot
     print("REGISTERING PHASE WITH "+str(msg.id_src)+" STARTED")
     s.send('DataReq,'+str(4)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(msg.id_src)+','+str(-1))
-    isRegistered.append(msg.id_src)
+    if msg.id_src in isRegistered:
+        print("Added before")
+    else:
+        isRegistered.append(msg.id_src)
     print("REGISTERING PHASE WITH "+str(msg.id_src)+" ENDED")
-def standard():
+def ack_data(msg):
     #print("STANDARD PHASE STARTED")
+    global slot
+    print("I received data : "+str(msg.data))
+    s.send('ack,'+str(4)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(msg.id_src)+','+str(-1))
+    #print("STANDARD PHASE ENDED")
+def standard():
+    print("STANDARD PHASE STARTED")
+    global isRegistered
+    global slot
     for idDest in isRegistered:
         s.send('DataReq,'+str(4)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(idDest)+','+str(-1))
-    #print("STANDARD PHASE ENDED")
+        dataHarvested = s.recv(128)
+        msgH =messageLoRa()
+        msgH.fillMessage(dataHarvested)
+        while msgH.id_src != idDest and msgH.id_dest == id and msgH.kind == "5":
+            dataHarvested = s.recv(128)
+            msgH =messageLoRa()
+            msgH.fillMessage(dataHarvested)
+    print("STANDARD PHASE ENDED")
 def handle_message(data):
     msg =messageLoRa()
     msg.fillMessage(data)
-    if msg.kind == 1:
+    if msg.kind == "1":
         pairing_phase(msg)
-    if msg.kind == 3:
+    else:
+        print("not kind 1")
+    if msg.kind == "3" and msg.id_dest == str(id):
         registering_phase(msg)
+    else:
+        print("not kind 3")
+    time.sleep(5)
 #TANT QUE PAS JOIN
 # create an OTAA authentication parameters
 #pp_eui = binascii.unhexlify('70 B3 D5 7E F0 00 49 E1'.replace(' ',''))

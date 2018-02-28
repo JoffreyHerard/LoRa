@@ -30,6 +30,8 @@ tryDataReq=-1
 def notDiscovered():
     #send some data
     global tryDiscover
+    global discovered
+    global myLoRa
     print("PHASE NOT DISCOVERED STARTED "+str(tryDiscover))
     s.send('Discover,'+str(1)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(-1)+','+str(-1))
     print("Discover sent by "+str(id))
@@ -38,12 +40,16 @@ def notDiscovered():
     msg.fillMessage(data)
     if msg.messageName == "Accept":
         myLoRa=msg.id_src
+        print("Receive ACCEPT msg")
+        discovered=True
     tryDiscover+=1
     time.sleep(slot)
     print("PHASE NOT DISCOVERED ENDED\n")
 def notRegistered():
     #send some data
     global tryRegister
+    global registered
+    global myLoRa
     print("PHASE NOT REGISTERED STARTED\n")
     s.send('Register,'+str(3)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(myLoRa)+','+str(-1))
     print("Register sent")
@@ -60,17 +66,22 @@ def notRegistered():
 def sendData():
     #send some data
     global tryDataReq
+    global data
+    global myLoRa
+    global id
+    global slots
+    global frequency
     print("PHASE SEND DATA STARTED\n")
     s.send('DataRes,'+str(5)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(myLoRa)+','+str(data))
     print("DataResponse sent")
-    data=s.recv(128)
-    msg =messageLoRa()
-    msg.fillMessage(data)
-    if msg.messageName == "ack" and msg.id_src== myLoRa:
-        ack_Data=True
-    else:
-        tryDataReq+=1
-        time.sleep(slot)
+    #data_r=s.recv(128)
+    #msg =messageLoRa()
+    #msg.fillMessage(data_r)
+    #if msg.messageName == "ack" and msg.id_src== myLoRa:
+    #    ack_Data=True
+    #else:
+    #    tryDataReq+=1
+    #    time.sleep(slot)
     print("PHASE SEND DATA ENDED\n")
 while True:
     #We are not discovered yet
@@ -78,8 +89,12 @@ while True:
         notDiscovered()
     while not registered and discovered:
         notRegistered()
-    while not ack_Data :
+
+    dataR=s.recv(128)
+    msg =messageLoRa()
+    msg.fillMessage(dataR)
+    if msg.kind=="4":
         sendData()
+        print("I sent my data")
     data+=1
-    ack_Data=False
     time.sleep(slot)
