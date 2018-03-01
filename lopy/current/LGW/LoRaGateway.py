@@ -21,9 +21,9 @@ mycolor="blue"
 isListening=True
 class TimerL:
 
-    def __init__(self):
+    def __init__(self,timing):
         self.seconds = 0
-        self.__alarm = Timer.Alarm(self._seconds_handler, 20, periodic=True)
+        self.__alarm = Timer.Alarm(self._seconds_handler, timing, periodic=True)
 
     def _seconds_handler(self, alarm):
         global isListening
@@ -33,14 +33,14 @@ def pairing_phase(msg):
     global slot
     global idRegistered
     print("PAIRING PHASE WITH "+str(msg.id_src)+" STARTED")
-    s.send('Accept,'+str(2)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(msg.id_src)+','+str(-1))
+    s.send('Accept,'+str(2)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(msg.id_src)+','+str(-1)+','+str(slot))
     idRegistered.append(msg.id_src)
     print("PAIRING PHASE WITH "+str(msg.id_src)+" ENDED")
 def registering_phase(msg):
     global isRegistered
     global slot
     print("REGISTERING PHASE WITH "+str(msg.id_src)+" STARTED")
-    s.send('DataReq,'+str(4)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(msg.id_src)+','+str(-1))
+    s.send('DataReq,'+str(4)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(msg.id_src)+','+str(-1)+','+str(slot))
     if msg.id_src in isRegistered:
         print("Added before")
     else:
@@ -50,14 +50,14 @@ def ack_data(msg):
     #print("STANDARD PHASE STARTED")
     global slot
     print("I received data : "+str(msg.data))
-    s.send('ack,'+str(4)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(msg.id_src)+','+str(-1))
+    s.send('ack,'+str(4)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(msg.id_src)+','+str(-1)+','+str(slot))
     #print("STANDARD PHASE ENDED")
 def standard():
     print("STANDARD PHASE STARTED")
     global isRegistered
     global slot
     for idDest in isRegistered:
-        s.send('DataReq,'+str(4)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(idDest)+','+str(-1))
+        s.send('DataReq,'+str(4)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(idDest)+','+str(-1)+','+str(slot))
         dataHarvested = s.recv(128)
         msgH =messageLoRa()
         msgH.fillMessage(dataHarvested)
@@ -94,6 +94,7 @@ def handle_message(data):
 s = socket.socket(socket.AF_LORA, socket.SOCK_RAW)
 s.setblocking(False)
 #FIN TANT QUE PAS JOIN
+clock = TimerL(slot)
 while True:
     if isListening:
         data = s.recv(128)

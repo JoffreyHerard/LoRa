@@ -26,9 +26,9 @@ isListening=True
 
 class TimerL:
 
-    def __init__(self):
+    def __init__(self,timing):
         self.seconds = 0
-        self.__alarm = Timer.Alarm(self._seconds_handler, 20, periodic=True)
+        self.__alarm = Timer.Alarm(self._seconds_handler, timing, periodic=True)
 
     def _seconds_handler(self, alarm):
         global isListening
@@ -40,7 +40,7 @@ def notDiscovered():
     global discovered
     global myLoRa
     print("PHASE NOT DISCOVERED STARTED "+str(tryDiscover))
-    s.send('Discover,'+str(1)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(-1)+','+str(-1))
+    s.send('Discover,'+str(1)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(-1)+','+str(-1)+','+str(-1))
     print("Discover sent by "+str(id))
     data=s.recv(128)
     msg =messageLoRa()
@@ -50,7 +50,6 @@ def notDiscovered():
         print("Receive ACCEPT msg")
         discovered=True
     tryDiscover+=1
-    time.sleep(slot)
     print("PHASE NOT DISCOVERED ENDED\n")
 def notRegistered():
     #send some data
@@ -58,7 +57,7 @@ def notRegistered():
     global registered
     global myLoRa
     print("PHASE NOT REGISTERED STARTED\n")
-    s.send('Register,'+str(3)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(myLoRa)+','+str(-1))
+    s.send('Register,'+str(3)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(myLoRa)+','+str(-1)+','+str(-1))
     print("Register sent")
     # get any data received...
     data=s.recv(128)
@@ -68,7 +67,6 @@ def notRegistered():
         registered=True
     else:
         tryRegister+=1
-        time.sleep(slot)
     print("PHASE NOT REGISTERED ENDED\n")
 def sendData():
     #send some data
@@ -79,7 +77,7 @@ def sendData():
     global slots
     global frequency
     print("PHASE SEND DATA STARTED\n")
-    s.send('DataRes,'+str(5)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(myLoRa)+','+str(data))
+    s.send('DataRes,'+str(5)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(myLoRa)+','+str(data)+','+str(-1))
     print("DataResponse sent")
     #data_r=s.recv(128)
     #msg =messageLoRa()
@@ -90,20 +88,23 @@ def sendData():
     #    tryDataReq+=1
     #    time.sleep(slot)
     print("PHASE SEND DATA ENDED\n")
-clock = TimerL()
+clock = TimerL(slot)
 while True:
     if isListening:
         #We are not discovered yet
         while not discovered:
             notDiscovered()
+            time.sleep(machine.rng())
         while not registered and discovered:
             notRegistered()
+            time.sleep(machine.rng())
 
         dataR=s.recv(128)
         msg =messageLoRa()
         msg.fillMessage(dataR)
         if msg.kind=="4":
             sendData()
+            clock = TimerL(msg.listeningtime)
             print("I sent my data")
         data+=1
     else:

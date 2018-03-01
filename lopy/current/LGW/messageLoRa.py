@@ -6,6 +6,7 @@ class messageLoRa:
     id_dest=-1
     data=-1
     kind=0
+    listeningtime=0
     def __init__(self):
         self.messageName="not set yet"
         self.kind=-1
@@ -17,10 +18,9 @@ class messageLoRa:
     def fillMessage(self, data):
         message=data.decode()
         if message != '':
-            print(message)
-            self.messageName,self.kind,self.frequency,self.slots,self.id_src,self.id_dest,self.data= message.split(",")
+            self.messageName,self.kind,self.frequency,self.slots,self.id_src,self.id_dest,self.data,self.listeningtime= message.split(",")
         else:
-            print("\n")
+            print("Received nothing")
     def get_name(self):
         return self.messageName
 
