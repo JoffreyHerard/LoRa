@@ -15,6 +15,7 @@ class messageLoRa:
         self.id_src=-1
         self.id_dest=-1
         self.data=-1
+        self.listeningtime=0
     def fillMessage(self, data):
         message=data.decode()
         if message != '':
