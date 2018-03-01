@@ -18,6 +18,17 @@ slot=2
 MyLW=0
 nb_harvest=0
 mycolor="blue"
+isListening=True
+class TimerL:
+
+    def __init__(self):
+        self.seconds = 0
+        self.__alarm = Timer.Alarm(self._seconds_handler, 20, periodic=True)
+
+    def _seconds_handler(self, alarm):
+        global isListening
+        if isListening:
+            isListening=False
 def pairing_phase(msg):
     global slot
     global idRegistered
@@ -84,6 +95,10 @@ s = socket.socket(socket.AF_LORA, socket.SOCK_RAW)
 s.setblocking(False)
 #FIN TANT QUE PAS JOIN
 while True:
-    data = s.recv(128)
-    handle_message(data)
-    standard()
+    if isListening:
+        data = s.recv(128)
+        handle_message(data)
+        standard()
+    else:
+        time.sleep(slot)
+        isListening=True

@@ -4,11 +4,8 @@ import machine
 import time
 import messageLoRa
 from messageLoRa import messageLoRa
-# Please pick the region that matches where you are using the device:
-# Asia = LoRa.AS923
-# Australia = LoRa.AU915
-# Europe = LoRa.EU868
-# United States = LoRa.US915
+from machine import Timer
+
 lora = LoRa(mode=LoRa.LORA, region=LoRa.EU868)
 s = socket.socket(socket.AF_LORA, socket.SOCK_RAW)
 s.setblocking(False)
@@ -22,11 +19,21 @@ registered=False
 ack_Data=False
 frequency=1.0
 old_phase=frequency
-slot=1
+slot=10
 myLoRa=-1
 tryDataReq=-1
+isListening=True
 
+class TimerL:
 
+    def __init__(self):
+        self.seconds = 0
+        self.__alarm = Timer.Alarm(self._seconds_handler, 20, periodic=True)
+
+    def _seconds_handler(self, alarm):
+        global isListening
+        if isListening:
+            isListening=False
 def notDiscovered():
     #send some data
     global tryDiscover
@@ -83,18 +90,24 @@ def sendData():
     #    tryDataReq+=1
     #    time.sleep(slot)
     print("PHASE SEND DATA ENDED\n")
+clock = TimerL()
 while True:
-    #We are not discovered yet
-    while not discovered:
-        notDiscovered()
-    while not registered and discovered:
-        notRegistered()
+    if isListening:
+        #We are not discovered yet
+        while not discovered:
+            notDiscovered()
+        while not registered and discovered:
+            notRegistered()
 
-    dataR=s.recv(128)
-    msg =messageLoRa()
-    msg.fillMessage(dataR)
-    if msg.kind=="4":
-        sendData()
-        print("I sent my data")
-    data+=1
-    time.sleep(slot)
+        dataR=s.recv(128)
+        msg =messageLoRa()
+        msg.fillMessage(dataR)
+        if msg.kind=="4":
+            sendData()
+            print("I sent my data")
+        data+=1
+    else:
+        #I will sleep
+        print ("I SLEEP OK ! LET ME SLEEP IN PEACE")
+        time.sleep(slot)
+        isListening=True
