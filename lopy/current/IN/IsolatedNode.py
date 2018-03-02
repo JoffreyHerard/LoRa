@@ -2,9 +2,49 @@ from network import LoRa
 import socket
 import machine
 import time
-import messageLoRa
 from messageLoRa import messageLoRa
 from machine import Timer
+
+
+
+
+#frequency accepts values between 863000000 and 870000000
+#FROM SPEC LORAWAN LORA
+#868000000 F1
+#868100000 F2
+#868300000 F3
+#868500000 F4
+#864100000 F5
+#864300000 F6
+#864500000 F7
+def change_frequency(frequency_d):
+    current_frequency=lora.frequency()
+    if current_frequency != frequency_d:
+        print("FREQUENCY WAS CHANGED FROM :"+str(current_frequency)+" TO= ")
+        if frequency_d == 1:
+            lora.frequency(868000000)
+            print("868000000")
+        if frequency_d == 2:
+            lora.frequency(868100000)
+            print("868100000")
+        if frequency_d == 3:
+            lora.frequency(868300000)
+            print("868300000")
+        if frequency_d == 4:
+            lora.frequency(868500000)
+            print("868500000")
+        if frequency_d == 5:
+            lora.frequency(864100000)
+            print("864100000")
+        if frequency_d == 6:
+            lora.frequency(864300000)
+            print("864300000")
+        if frequency_d == 7:
+            lora.frequency(864500000)
+            print("864500000")
+    else:
+        print("FREQUENCY ALREADY CHANGED")
+
 
 lora = LoRa(mode=LoRa.LORA, region=LoRa.EU868)
 s = socket.socket(socket.AF_LORA, socket.SOCK_RAW)
@@ -47,6 +87,8 @@ def notDiscovered():
     msg.fillMessage(data)
     if msg.messageName == "Accept":
         myLoRa=msg.id_src
+        frequency=msg.frequency
+        change_frequency(msg.frequency)
         print("Receive ACCEPT msg")
         discovered=True
     tryDiscover+=1
@@ -89,6 +131,8 @@ def sendData():
     #    time.sleep(slot)
     print("PHASE SEND DATA ENDED\n")
 clock = TimerL(slot)
+
+
 while True:
     if isListening:
         #We are not discovered yet
