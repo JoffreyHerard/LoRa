@@ -1,22 +1,17 @@
 from network import LoRa
 import socket
 import machine
+import uos
 import time
+import pycom
+import messageLoRa
 from messageLoRa import messageLoRa
 from machine import Timer
 
-
-
-
-#frequency accepts values between 863000000 and 870000000
-#FROM SPEC LORAWAN LORA
-#868000000 F1
-#868100000 F2
-#868300000 F3
-#868500000 F4
-#864100000 F5
-#864300000 F6
-#864500000 F7
+pycom.heartbeat(False)
+def Random():
+    result = (uos.urandom(1)[0] / 256)*1
+    return result
 def change_frequency(frequency_d):
     current_frequency=lora.frequency()
     if current_frequency != frequency_d:
@@ -42,10 +37,6 @@ def change_frequency(frequency_d):
         if frequency_d == 7:
             lora.frequency(864500000)
             print("864500000")
-    else:
-        print("FREQUENCY ALREADY CHANGED")
-
-
 lora = LoRa(mode=LoRa.LORA, region=LoRa.EU868)
 s = socket.socket(socket.AF_LORA, socket.SOCK_RAW)
 s.setblocking(False)
@@ -65,20 +56,21 @@ tryDataReq=-1
 isListening=True
 
 class TimerL:
-
     def __init__(self,timing):
         self.seconds = 0
         self.__alarm = Timer.Alarm(self._seconds_handler, timing, periodic=True)
-
     def _seconds_handler(self, alarm):
         global isListening
+        alarm.cancel() # stop it
         if isListening:
             isListening=False
 def notDiscovered():
-    #send some data
     global tryDiscover
     global discovered
     global myLoRa
+    global id
+    global frequency
+    global slot
     print("PHASE NOT DISCOVERED STARTED "+str(tryDiscover))
     s.send('Discover,'+str(1)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(-1)+','+str(-1)+','+str(-1))
     print("Discover sent by "+str(id))
@@ -116,43 +108,40 @@ def sendData():
     global data
     global myLoRa
     global id
-    global slots
+    global slot
     global frequency
     print("PHASE SEND DATA STARTED\n")
     s.send('DataRes,'+str(5)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(myLoRa)+','+str(data)+','+str(-1))
     print("DataResponse sent")
-    #data_r=s.recv(128)
-    #msg =messageLoRa()
-    #msg.fillMessage(data_r)
-    #if msg.messageName == "ack" and msg.id_src== myLoRa:
-    #    ack_Data=True
-    #else:
-    #    tryDataReq+=1
-    #    time.sleep(slot)
     print("PHASE SEND DATA ENDED\n")
-clock = TimerL(slot)
-
-
 while True:
     if isListening:
+        print("I am awake : my LoRaGW is "+str(myLoRa)+" and my slot is "+str(slot))
+        pycom.rgbled(0x007f00) # green
         #We are not discovered yet
         while not discovered:
             notDiscovered()
-            time.sleep(machine.rng())
+            rnd=Random()
+            print("Try Discover in "+str(rnd))
+            time.sleep(rnd)
         while not registered and discovered:
             notRegistered()
-            time.sleep(machine.rng())
-
+            rnd=Random()
+            print("Try Register in "+str(rnd))
+            time.sleep(rnd)
         dataR=s.recv(128)
         msg =messageLoRa()
         msg.fillMessage(dataR)
         if msg.kind=="4":
             sendData()
-            clock = TimerL(msg.listeningtime)
+            slot=int(msg.listeningtime)
+            clock = TimerL(float(msg.listeningtime))
             print("I sent my data")
         data+=1
     else:
-        #I will sleep
-        print ("I SLEEP OK ! LET ME SLEEP IN PEACE")
+        pycom.rgbled(0x7f0000) #red
+        print("I am sleeping")
+        del clock
         time.sleep(slot)
         isListening=True
+        clock = TimerL(slot)
