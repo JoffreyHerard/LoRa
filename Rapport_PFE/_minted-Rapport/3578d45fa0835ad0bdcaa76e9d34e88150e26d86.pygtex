@@ -1,0 +1,11 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{class} \PYG{n+nc}{TimerL}\PYG{p}{:}
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,}\PYG{n}{timing}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{seconds} \PYG{o}{=} \PYG{l+m+mi}{0}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}\PYGZus{}alarm} \PYG{o}{=} \PYG{n}{Timer}\PYG{o}{.}\PYG{n}{Alarm}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}seconds\PYGZus{}handler}\PYG{p}{,} \PYG{n}{timing}\PYG{p}{,} \PYG{n}{periodic}\PYG{o}{=}\PYG{n+nb+bp}{True}\PYG{p}{)}
+    \PYG{k}{def} \PYG{n+nf}{\PYGZus{}seconds\PYGZus{}handler}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{alarm}\PYG{p}{):}
+        \PYG{k}{global} \PYG{n}{isListening}
+        \PYG{n}{alarm}\PYG{o}{.}\PYG{n}{cancel}\PYG{p}{()} \PYG{c+c1}{\PYGZsh{} stop it}
+        \PYG{k}{if} \PYG{n}{isListening}\PYG{p}{:}
+            \PYG{n}{isListening}\PYG{o}{=}\PYG{n+nb+bp}{False}
+\end{Verbatim}

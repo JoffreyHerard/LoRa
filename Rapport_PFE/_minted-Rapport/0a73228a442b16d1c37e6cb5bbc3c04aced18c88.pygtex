@@ -1,0 +1,21 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf}{change\PYGZus{}frequency}\PYG{p}{(}\PYG{n}{frequency\PYGZus{}d}\PYG{p}{):}
+    \PYG{n}{current\PYGZus{}frequency}\PYG{o}{=}\PYG{n}{lora}\PYG{o}{.}\PYG{n}{frequency}\PYG{p}{()}
+    \PYG{k}{if} \PYG{n}{current\PYGZus{}frequency} \PYG{o}{!=} \PYG{n}{frequency\PYGZus{}d}\PYG{p}{:}
+        \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}FREQUENCY WAS CHANGED FROM :\PYGZdq{}}\PYG{o}{+}\PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{current\PYGZus{}frequency}\PYG{p}{)}\PYG{o}{+}\PYG{l+s+s2}{\PYGZdq{} TO= \PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n}{frequency\PYGZus{}d} \PYG{o}{==} \PYG{l+m+mi}{1}\PYG{p}{:}
+            \PYG{n}{lora}\PYG{o}{.}\PYG{n}{frequency}\PYG{p}{(}\PYG{l+m+mi}{868000000}\PYG{p}{)}
+            \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}868000000\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n}{frequency\PYGZus{}d} \PYG{o}{==} \PYG{l+m+mi}{2}\PYG{p}{:}
+            \PYG{n}{lora}\PYG{o}{.}\PYG{n}{frequency}\PYG{p}{(}\PYG{l+m+mi}{868100000}\PYG{p}{)}
+            \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}868100000\PYGZdq{}}\PYG{p}{)}
+        \PYG{p}{[}\PYG{o}{.....}\PYG{p}{]}
+            \PYG{n}{lora}\PYG{o}{.}\PYG{n}{frequency}\PYG{p}{(}\PYG{l+m+mi}{864100000}\PYG{p}{)}
+            \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}864100000\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n}{frequency\PYGZus{}d} \PYG{o}{==} \PYG{l+m+mi}{6}\PYG{p}{:}
+            \PYG{n}{lora}\PYG{o}{.}\PYG{n}{frequency}\PYG{p}{(}\PYG{l+m+mi}{864300000}\PYG{p}{)}
+            \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}864300000\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n}{frequency\PYGZus{}d} \PYG{o}{==} \PYG{l+m+mi}{7}\PYG{p}{:}
+            \PYG{n}{lora}\PYG{o}{.}\PYG{n}{frequency}\PYG{p}{(}\PYG{l+m+mi}{864500000}\PYG{p}{)}
+            \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}864500000\PYGZdq{}}\PYG{p}{)}
+\end{Verbatim}

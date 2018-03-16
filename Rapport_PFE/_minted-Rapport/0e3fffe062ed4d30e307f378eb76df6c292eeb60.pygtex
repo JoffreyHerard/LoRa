@@ -1,0 +1,17 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf}{sendData}\PYG{p}{():}
+    \PYG{c+c1}{\PYGZsh{}send some data}
+    \PYG{k}{global} \PYG{n}{tryDataReq}
+    \PYG{k}{global} \PYG{n}{data}
+    \PYG{k}{global} \PYG{n}{myLoRa}
+    \PYG{k}{global} \PYG{n+nb}{id}
+    \PYG{k}{global} \PYG{n}{slot}
+    \PYG{k}{global} \PYG{n}{frequency}
+    \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}PHASE SEND DATA STARTED}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{s}\PYG{o}{.}\PYG{n}{send}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}DataRes,\PYGZsq{}}\PYG{o}{+}\PYG{n+nb}{str}\PYG{p}{(}\PYG{l+m+mi}{5}\PYG{p}{)}\PYG{o}{+}\PYG{l+s+s1}{\PYGZsq{},\PYGZsq{}}
+        \PYG{o}{+}\PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{frequency}\PYG{p}{)}\PYG{o}{+}\PYG{l+s+s1}{\PYGZsq{},\PYGZsq{}}\PYG{o}{+}\PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{slot}\PYG{p}{)}\PYG{o}{+}\PYG{l+s+s1}{\PYGZsq{},\PYGZsq{}}\PYG{o}{+}
+        \PYG{n+nb}{str}\PYG{p}{(}\PYG{n+nb}{id}\PYG{p}{)}\PYG{o}{+}\PYG{l+s+s1}{\PYGZsq{},\PYGZsq{}}\PYG{o}{+}\PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{myLoRa}\PYG{p}{)}\PYG{o}{+}\PYG{l+s+s1}{\PYGZsq{},\PYGZsq{}}\PYG{o}{+}\PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{data}\PYG{p}{)}
+        \PYG{o}{+}\PYG{l+s+s1}{\PYGZsq{},\PYGZsq{}}\PYG{o}{+}\PYG{n+nb}{str}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{))}
+    \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}DataResponse sent\PYGZdq{}}\PYG{p}{)}
+    \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}PHASE SEND DATA ENDED}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+\end{Verbatim}

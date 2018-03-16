@@ -1,0 +1,12 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf}{pairing\PYGZus{}phase}\PYG{p}{(}\PYG{n}{msg}\PYG{p}{):}
+    \PYG{k}{global} \PYG{n}{slot}
+    \PYG{k}{global} \PYG{n}{idRegistered}
+    \PYG{c+c1}{\PYGZsh{}print(\PYGZdq{}PAIRING PHASE WITH \PYGZdq{}+str(msg.id\PYGZus{}src)+\PYGZdq{} STARTED\PYGZdq{})}
+    \PYG{n}{s}\PYG{o}{.}\PYG{n}{send}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Accept,\PYGZsq{}}\PYG{o}{+}\PYG{n+nb}{str}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{p}{)}\PYG{o}{+}\PYG{l+s+s1}{\PYGZsq{},\PYGZsq{}}\PYG{o}{+}
+    	\PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{frequency}\PYG{p}{)}\PYG{o}{+}\PYG{l+s+s1}{\PYGZsq{},\PYGZsq{}}\PYG{o}{+}\PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{slot}\PYG{p}{)}\PYG{o}{+}
+    	\PYG{l+s+s1}{\PYGZsq{},\PYGZsq{}}\PYG{o}{+}\PYG{n+nb}{str}\PYG{p}{(}\PYG{n+nb}{id}\PYG{p}{)}\PYG{o}{+}\PYG{l+s+s1}{\PYGZsq{},\PYGZsq{}}\PYG{o}{+}\PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{msg}\PYG{o}{.}\PYG{n}{id\PYGZus{}src}\PYG{p}{)}\PYG{o}{+}
+    	\PYG{l+s+s1}{\PYGZsq{},\PYGZsq{}}\PYG{o}{+}\PYG{n+nb}{str}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{o}{+}\PYG{l+s+s1}{\PYGZsq{},\PYGZsq{}}\PYG{o}{+}\PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{slot}\PYG{p}{))}
+    \PYG{n}{idRegistered}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{msg}\PYG{o}{.}\PYG{n}{id\PYGZus{}src}\PYG{p}{)}
+    \PYG{c+c1}{\PYGZsh{}print(\PYGZdq{}PAIRING PHASE WITH \PYGZdq{}+str(msg.id\PYGZus{}src)+\PYGZdq{} ENDED\PYGZdq{})}
+\end{Verbatim}

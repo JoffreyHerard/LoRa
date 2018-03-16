@@ -1,0 +1,25 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf}{notDiscovered}\PYG{p}{():}
+    \PYG{k}{global} \PYG{n}{tryDiscover}
+    \PYG{k}{global} \PYG{n}{discovered}
+    \PYG{k}{global} \PYG{n}{myLoRa}
+    \PYG{k}{global} \PYG{n+nb}{id}
+    \PYG{k}{global} \PYG{n}{frequency}
+    \PYG{k}{global} \PYG{n}{slot}
+    \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}PHASE NOT DISCOVERED STARTED \PYGZdq{}}\PYG{o}{+}\PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{tryDiscover}\PYG{p}{))}
+    \PYG{n}{s}\PYG{o}{.}\PYG{n}{send}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Discover,\PYGZsq{}}\PYG{o}{+}\PYG{n+nb}{str}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{o}{+}\PYG{l+s+s1}{\PYGZsq{},\PYGZsq{}}
+        \PYG{o}{+}\PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{frequency}\PYG{p}{)}\PYG{o}{+}\PYG{l+s+s1}{\PYGZsq{},\PYGZsq{}}\PYG{o}{+}\PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{slot}\PYG{p}{)}\PYG{o}{+}\PYG{l+s+s1}{\PYGZsq{},\PYGZsq{}}\PYG{o}{+}
+        \PYG{n+nb}{str}\PYG{p}{(}\PYG{n+nb}{id}\PYG{p}{)}\PYG{o}{+}\PYG{l+s+s1}{\PYGZsq{},\PYGZsq{}}\PYG{o}{+}\PYG{n+nb}{str}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{o}{+}\PYG{l+s+s1}{\PYGZsq{},\PYGZsq{}}\PYG{o}{+}\PYG{n+nb}{str}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{o}{+}\PYG{l+s+s1}{\PYGZsq{},\PYGZsq{}}\PYG{o}{+}\PYG{n+nb}{str}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{))}
+    \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Discover sent by \PYGZdq{}}\PYG{o}{+}\PYG{n+nb}{str}\PYG{p}{(}\PYG{n+nb}{id}\PYG{p}{))}
+    \PYG{n}{data}\PYG{o}{=}\PYG{n}{s}\PYG{o}{.}\PYG{n}{recv}\PYG{p}{(}\PYG{l+m+mi}{128}\PYG{p}{)}
+    \PYG{n}{msg} \PYG{o}{=}\PYG{n}{messageLoRa}\PYG{p}{()}
+    \PYG{n}{msg}\PYG{o}{.}\PYG{n}{fillMessage}\PYG{p}{(}\PYG{n}{data}\PYG{p}{)}
+    \PYG{k}{if} \PYG{n}{msg}\PYG{o}{.}\PYG{n}{messageName} \PYG{o}{==} \PYG{l+s+s2}{\PYGZdq{}Accept\PYGZdq{}}\PYG{p}{:}
+        \PYG{n}{myLoRa}\PYG{o}{=}\PYG{n}{msg}\PYG{o}{.}\PYG{n}{id\PYGZus{}src}
+        \PYG{n}{frequency}\PYG{o}{=}\PYG{n}{msg}\PYG{o}{.}\PYG{n}{frequency}
+        \PYG{n}{change\PYGZus{}frequency}\PYG{p}{(}\PYG{n}{msg}\PYG{o}{.}\PYG{n}{frequency}\PYG{p}{)}
+        \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Receive ACCEPT msg\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{discovered}\PYG{o}{=}\PYG{n+nb+bp}{True}
+    \PYG{n}{tryDiscover}\PYG{o}{+=}\PYG{l+m+mi}{1}
+    \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}PHASE NOT DISCOVERED ENDED}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+\end{Verbatim}

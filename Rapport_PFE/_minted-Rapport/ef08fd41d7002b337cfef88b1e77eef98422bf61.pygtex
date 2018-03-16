@@ -1,0 +1,16 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{while} \PYG{n+nb+bp}{True}\PYG{p}{:}
+    \PYG{k}{if} \PYG{n}{isListening}\PYG{p}{:}
+        \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}I am awake\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{pycom}\PYG{o}{.}\PYG{n}{rgbled}\PYG{p}{(}\PYG{l+m+mh}{0x007f00}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} green}
+        \PYG{n}{data} \PYG{o}{=} \PYG{n}{s}\PYG{o}{.}\PYG{n}{recv}\PYG{p}{(}\PYG{l+m+mi}{128}\PYG{p}{)}
+        \PYG{n}{handle\PYGZus{}message}\PYG{p}{(}\PYG{n}{data}\PYG{p}{)}
+        \PYG{n}{standard}\PYG{p}{()}
+    \PYG{k}{else}\PYG{p}{:}
+        \PYG{n}{pycom}\PYG{o}{.}\PYG{n}{rgbled}\PYG{p}{(}\PYG{l+m+mh}{0x7f0000}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{}red}
+        \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}I am sleeping\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{time}\PYG{o}{.}\PYG{n}{sleep}\PYG{p}{(}\PYG{n}{slot}\PYG{p}{)}
+        \PYG{n}{isListening}\PYG{o}{=}\PYG{n+nb+bp}{True}
+        \PYG{k}{del} \PYG{n}{clock}
+        \PYG{n}{clock} \PYG{o}{=} \PYG{n}{TimerL}\PYG{p}{(}\PYG{n}{slot}\PYG{p}{)}
+\end{Verbatim}

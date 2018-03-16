@@ -613,14 +613,160 @@ L'exemple présenté ci-contre fait aussi transparaitre les exemples ou les comm
 \end{itemize}
 \newpage
 \section{Programmation}
-
 \subsection{LoPy}
-\subsection{Semtech}
+Tout d'abord le lopy est  développée par la société Pycom, la plate-forme de développement et de prototypage d’applications IoT LoPy offre la particularité, unique, de rassembler sur une même carte plusieurs technologies de connectivité radio, courte et longue portées : Bluetooth, Wi-Fi, Sigfox et LoRa. Concrètement, la plate-forme LoPy utilise une implantation spécifique et optimisée du langage de script MicroPython.L'objectif de la plate-forme est de permettre aux développeurs de bâtir des applicatifs pour l’Internet des objets avec la possibilité de mettre au point une nanopasserelle LoRa qui peut, selon Pycom, connecter jusqu’à 100 cartes LoPy et donc de créer son propre réseau privé avec une portée allant jusqu’à 5 kilomètres.
+C'est donc tout naturel que pour envisager une toutes première implémentation de la gestion des noeuds isolé selon les algorithmes prévus. 
+L'intégralité des codes sources ne seras pas présenté, mais il seras présenté rapidement les parties important de chaque composant develloper.
+
+Tout d'abord un type messageLora a été crée. Celui ci contient 
+\begin{itemize}
+\item Le nom du message
+\item Le type de message $\rightarrow$ un entier
+\item La frequence du prochain slot
+\item Dans combien de temps est le prochain slot 
+\item L'identifiant du noeud à l'origine de l'emission du message 
+\item L'identifiant du noeud cible du message
+\item une eventuelle data
+\item Temps d'ecoute sur le prochain slot
+\end{itemize}
+Sur la prochaine page vous pourrez voir une partie du fichier de ddescription de la classe des message LoRa
 \newpage
-\section{Résultats}
+\inputminted[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightGray,
+fontsize=\footnotesize,
+linenos
+]{python}{code/messageLoRa.py}
+\newpage
+Tout d'abord la gestion des phase d'écoute seras gere grace à une petite classe TimerL (L comme Listening). Celle ci change la variable d'etat du capteur à l'instant t choisi .
+\inputminted[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightGray,
+fontsize=\footnotesize,
+linenos
+]{python}{code/IN/timer.py}
+Cette portion de code permet un changement rapide et simple de la frequence sur laquelle ecoute le capteur. Dans les message l'attribut frequence désigne l'entier qui seras geré par cette fonction.
+
+\inputminted[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightGray,
+fontsize=\footnotesize,
+linenos
+]{python}{code/IN/changefreq.py}
+\newpage
+
+\subsubsection{Isolated Node}
+Cette partie va être consacré au lopy désigne comme noeud isolé.
+Concernant le comportement classique et globale. Tout d'abord la fonction de Découverte, qui décrit la phase \textit{Discover} comme décrite plus haut. 
+On recoit donc un message qui si il corespond à un message de type \textit{Accept} on engrange donc dans la phase suivante, celle du registering.
+
+\inputminted[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightGray,
+fontsize=\footnotesize,
+linenos
+]{python}{code/IN/discover.py}
+
+\newpage
+Dans cette phase registering on envoit le message de type \textit{Register}
+On recoit donc un message qui si il corespond à un message de type DataReq on engrange donc dans la phase suivante, qui est celle de l'attente d'un slot puis de demande de données.
+
+\inputminted[  
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightGray,
+fontsize=\footnotesize,
+linenos
+]{python}{code/IN/register.py}
+\newpage
+Pour finir, la fonction d'envoie des données, qui fait partie d'un déroulement classique et qui répond à un message DataReq.
+
+\inputminted[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightGray,
+fontsize=\footnotesize,
+linenos
+]{python}{code/IN/send_data.py}
+
+\newpage
+
+
+\inputminted[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightGray,
+fontsize=\footnotesize,
+linenos
+]{python}{code/IN/routine_main.py}
+
+\newpage
+\subsubsection{LoRaGateway}
+
+Concernant le composant designant le comportement LoRaGateway. Tout d'abord, la partie attrité a la phase d'appairage. Tout simplement si on recçoit un message \textit{Discover} on renvoit un message \textit{Accept} puis on ajoute au tableau des idRegistered les id des machines en cours d'appairage.
+
+\inputminted[  
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightGray,
+fontsize=\footnotesize,
+linenos
+]{python}{code/LGW/pairing.py}
+Pour suivre, la fonction de finalisation de l'appairage des données, qui fait partie d'un déroulement classique et qui répond à un message Register.
+
+\inputminted[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightGray,
+fontsize=\footnotesize,
+linenos
+]{python}{code/LGW/registering.py}
+
+
+La routine qui exprime et l'attitude principale de la gateway LoRa qund elle ne recoit aucun message. C'est donc la phase de collecte des informations. Qui ce font en parcourant le tableau d'identifiant des noeuds bien appairé avec la gateway LoRa.
+\newpage
+\inputminted[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightGray,
+fontsize=\footnotesize,
+linenos
+]{python}{code/LGW/standard.py}
+
+\newpage
+Voici donc a quoi ressemble le programme global. 
+
+\inputminted[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightGray,
+fontsize=\footnotesize,
+linenos
+]{python}{code/LGW/main.py}
+
+
+
+%\newpage
+%\subsection{Semtech}
+
 \newpage
 \section{Conclusion}
-TO DO 
+Durant ce projet consacrée à la gestion des noeuds isolé en LoRa, la programmation réalisé sur les LoPy a révéle que la théorie a pu être appliqué. Cependant il n'as pas été inutile de réaliser un ensemble de simulation, afin de voir l'intégralité des messges a prévoir, les eventuels problèmes. Ainsi que la réalisation de certain timer, et d'echange. Mais aussi et surtout pour voir la quantité de message qui sont émit sur une seule et même fréquence. L'idéal serait donc d'attribuer des fréquences pour chaque noeud. Ce qui evite de surcharger une fréquence, même si statistiquement les échanges finiront par s'effectuer.
 \newpage
 \listoffigures
 \newpage

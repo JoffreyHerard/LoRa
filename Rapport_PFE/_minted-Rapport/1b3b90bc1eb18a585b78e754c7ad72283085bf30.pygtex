@@ -1,0 +1,33 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{class} \PYG{n+nc}{messageLoRa}\PYG{p}{:}
+    \PYG{n}{messageName}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}not set yet\PYGZdq{}}
+    \PYG{n}{frequency}\PYG{o}{=}\PYG{l+m+mi}{0}
+    \PYG{n}{slots}\PYG{o}{=}\PYG{l+m+mi}{0}
+    \PYG{n}{id\PYGZus{}src}\PYG{o}{=\PYGZhy{}}\PYG{l+m+mi}{1}
+    \PYG{n}{id\PYGZus{}dest}\PYG{o}{=\PYGZhy{}}\PYG{l+m+mi}{1}
+    \PYG{n}{data}\PYG{o}{=\PYGZhy{}}\PYG{l+m+mi}{1}
+    \PYG{n}{kind}\PYG{o}{=}\PYG{l+m+mi}{0}
+    \PYG{n}{listeningtime}\PYG{o}{=}\PYG{l+m+mi}{0}
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{messageName}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}not set yet\PYGZdq{}}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{kind}\PYG{o}{=\PYGZhy{}}\PYG{l+m+mi}{1}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{frequency}\PYG{o}{=}\PYG{l+m+mi}{0}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{slots}\PYG{o}{=}\PYG{l+m+mi}{0}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{id\PYGZus{}src}\PYG{o}{=\PYGZhy{}}\PYG{l+m+mi}{1}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{id\PYGZus{}dest}\PYG{o}{=\PYGZhy{}}\PYG{l+m+mi}{1}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{data}\PYG{o}{=\PYGZhy{}}\PYG{l+m+mi}{1}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{listeningtime}\PYG{o}{=}\PYG{l+m+mi}{0}
+    \PYG{k}{def} \PYG{n+nf}{fillMessage}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{data}\PYG{p}{):}
+        \PYG{n}{message}\PYG{o}{=}\PYG{n}{data}\PYG{o}{.}\PYG{n}{decode}\PYG{p}{()}
+        \PYG{k}{if} \PYG{n}{message} \PYG{o}{!=} \PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{messageName}\PYG{p}{,}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{kind}\PYG{p}{,}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{frequency}\PYG{p}{,}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{slots}\PYG{p}{,}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{id\PYGZus{}src}\PYG{p}{,}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{id\PYGZus{}dest}\PYG{p}{,}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{data}\PYG{p}{,}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{listeningtime}\PYG{o}{=} \PYG{n}{message}\PYG{o}{.}\PYG{n}{split}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{},\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Received nothing\PYGZdq{}}\PYG{p}{)}
+\end{Verbatim}

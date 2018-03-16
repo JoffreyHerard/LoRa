@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99996 (TeX Live 2016) (preloaded format=xelatex 2017.5.11)  27 FEB 2018 20:09
+This is XeTeX, Version 3.14159265-2.6-0.99996 (TeX Live 2016) (preloaded format=xelatex 2017.5.11)  16 MAR 2018 16:27
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1161,16 +1161,147 @@ File: chaine.png Graphic file (type QTm)
 File: 3IN.png Graphic file (type QTm)
  <use  "3IN.png" > [31]
 File: fat.png Graphic file (type QTm)
- <use  "fat.png" > [32] [33] [34] [35]
-(./Rapport.lof)
+ <use  "fat.png" > [32] [33]
+\openout5 = `Rapport.mintedcmd'.
+
+runsystem(python -c "import hashlib; hasher = hashlib.sha1(); f = open(\"Rappor
+t.mintedcmd\", \"rb\"); hasher.update(f.read()); f.close(); f = open(\"code/mes
+sageLoRa.py\", \"rb\"); hasher.update(f.read()); f.close(); f = open(\"Rapport.
+mintedmd5\", \"w\"); macro = \"\\edef\\minted@hash\" + chr(123) + hasher.hexdig
+est() + chr(125) + \"\"; f.write(\"\\makeatletter\" + macro + \"\\makeatother\\
+endinput\n \"); f.close();")...executed.
+
+ (./Rapport.mintedmd5)
+(./_minted-Rapport/1b3b90bc1eb18a585b78e754c7ad72283085bf30.pygtex) [34]
+\openout5 = `Rapport.mintedcmd'.
+
+runsystem(python -c "import hashlib; hasher = hashlib.sha1(); f = open(\"Rappor
+t.mintedcmd\", \"rb\"); hasher.update(f.read()); f.close(); f = open(\"code/IN/
+timer.py\", \"rb\"); hasher.update(f.read()); f.close(); f = open(\"Rapport.min
+tedmd5\", \"w\"); macro = \"\\edef\\minted@hash\" + chr(123) + hasher.hexdigest
+() + chr(125) + \"\"; f.write(\"\\makeatletter\" + macro + \"\\makeatother\\end
+input\n \"); f.close();")...executed.
+
+
+(./Rapport.mintedmd5)
+(./_minted-Rapport/3578d45fa0835ad0bdcaa76e9d34e88150e26d86.pygtex)
+\openout5 = `Rapport.mintedcmd'.
+
+runsystem(python -c "import hashlib; hasher = hashlib.sha1(); f = open(\"Rappor
+t.mintedcmd\", \"rb\"); hasher.update(f.read()); f.close(); f = open(\"code/IN/
+changefreq.py\", \"rb\"); hasher.update(f.read()); f.close(); f = open(\"Rappor
+t.mintedmd5\", \"w\"); macro = \"\\edef\\minted@hash\" + chr(123) + hasher.hexd
+igest() + chr(125) + \"\"; f.write(\"\\makeatletter\" + macro + \"\\makeatother
+\\endinput\n \"); f.close();")...executed.
+
+
+(./Rapport.mintedmd5)
+(./_minted-Rapport/0a73228a442b16d1c37e6cb5bbc3c04aced18c88.pygtex) [35]
+\openout5 = `Rapport.mintedcmd'.
+
+runsystem(python -c "import hashlib; hasher = hashlib.sha1(); f = open(\"Rappor
+t.mintedcmd\", \"rb\"); hasher.update(f.read()); f.close(); f = open(\"code/IN/
+discover.py\", \"rb\"); hasher.update(f.read()); f.close(); f = open(\"Rapport.
+mintedmd5\", \"w\"); macro = \"\\edef\\minted@hash\" + chr(123) + hasher.hexdig
+est() + chr(125) + \"\"; f.write(\"\\makeatletter\" + macro + \"\\makeatother\\
+endinput\n \"); f.close();")...executed.
+
+
+(./Rapport.mintedmd5)
+(./_minted-Rapport/51018fc249cf400e610dd538dd3aeb6a89c706ff.pygtex) [36]
+\openout5 = `Rapport.mintedcmd'.
+
+runsystem(python -c "import hashlib; hasher = hashlib.sha1(); f = open(\"Rappor
+t.mintedcmd\", \"rb\"); hasher.update(f.read()); f.close(); f = open(\"code/IN/
+register.py\", \"rb\"); hasher.update(f.read()); f.close(); f = open(\"Rapport.
+mintedmd5\", \"w\"); macro = \"\\edef\\minted@hash\" + chr(123) + hasher.hexdig
+est() + chr(125) + \"\"; f.write(\"\\makeatletter\" + macro + \"\\makeatother\\
+endinput\n \"); f.close();")...executed.
+
+
+(./Rapport.mintedmd5)
+(./_minted-Rapport/8748da65e975b6f386abdb57a8d94bd3535f00bb.pygtex) [37]
+\openout5 = `Rapport.mintedcmd'.
+
+runsystem(python -c "import hashlib; hasher = hashlib.sha1(); f = open(\"Rappor
+t.mintedcmd\", \"rb\"); hasher.update(f.read()); f.close(); f = open(\"code/IN/
+send_data.py\", \"rb\"); hasher.update(f.read()); f.close(); f = open(\"Rapport
+.mintedmd5\", \"w\"); macro = \"\\edef\\minted@hash\" + chr(123) + hasher.hexdi
+gest() + chr(125) + \"\"; f.write(\"\\makeatletter\" + macro + \"\\makeatother\
+\endinput\n \"); f.close();")...executed.
+
+
+(./Rapport.mintedmd5)
+(./_minted-Rapport/0e3fffe062ed4d30e307f378eb76df6c292eeb60.pygtex) [38]
+\openout5 = `Rapport.mintedcmd'.
+
+runsystem(python -c "import hashlib; hasher = hashlib.sha1(); f = open(\"Rappor
+t.mintedcmd\", \"rb\"); hasher.update(f.read()); f.close(); f = open(\"code/IN/
+routine_main.py\", \"rb\"); hasher.update(f.read()); f.close(); f = open(\"Rapp
+ort.mintedmd5\", \"w\"); macro = \"\\edef\\minted@hash\" + chr(123) + hasher.he
+xdigest() + chr(125) + \"\"; f.write(\"\\makeatletter\" + macro + \"\\makeatoth
+er\\endinput\n \"); f.close();")...executed.
+
+
+(./Rapport.mintedmd5)
+(./_minted-Rapport/8a667b69beb065f369b93293ea5edee29fbeeb25.pygtex) [39]
+\openout5 = `Rapport.mintedcmd'.
+
+runsystem(python -c "import hashlib; hasher = hashlib.sha1(); f = open(\"Rappor
+t.mintedcmd\", \"rb\"); hasher.update(f.read()); f.close(); f = open(\"code/LGW
+/pairing.py\", \"rb\"); hasher.update(f.read()); f.close(); f = open(\"Rapport.
+mintedmd5\", \"w\"); macro = \"\\edef\\minted@hash\" + chr(123) + hasher.hexdig
+est() + chr(125) + \"\"; f.write(\"\\makeatletter\" + macro + \"\\makeatother\\
+endinput\n \"); f.close();")...executed.
+
+
+(./Rapport.mintedmd5)
+(./_minted-Rapport/a6a19268f2013698406b59b5fadc0fb4020e1d61.pygtex)
+\openout5 = `Rapport.mintedcmd'.
+
+runsystem(python -c "import hashlib; hasher = hashlib.sha1(); f = open(\"Rappor
+t.mintedcmd\", \"rb\"); hasher.update(f.read()); f.close(); f = open(\"code/LGW
+/registering.py\", \"rb\"); hasher.update(f.read()); f.close(); f = open(\"Rapp
+ort.mintedmd5\", \"w\"); macro = \"\\edef\\minted@hash\" + chr(123) + hasher.he
+xdigest() + chr(125) + \"\"; f.write(\"\\makeatletter\" + macro + \"\\makeatoth
+er\\endinput\n \"); f.close();")...executed.
+
+
+(./Rapport.mintedmd5)
+(./_minted-Rapport/94102cc967f4ae47076ef63a1d5bf62365bf6fd2.pygtex) [40]
+\openout5 = `Rapport.mintedcmd'.
+
+runsystem(python -c "import hashlib; hasher = hashlib.sha1(); f = open(\"Rappor
+t.mintedcmd\", \"rb\"); hasher.update(f.read()); f.close(); f = open(\"code/LGW
+/standard.py\", \"rb\"); hasher.update(f.read()); f.close(); f = open(\"Rapport
+.mintedmd5\", \"w\"); macro = \"\\edef\\minted@hash\" + chr(123) + hasher.hexdi
+gest() + chr(125) + \"\"; f.write(\"\\makeatletter\" + macro + \"\\makeatother\
+\endinput\n \"); f.close();")...executed.
+
+
+(./Rapport.mintedmd5)
+(./_minted-Rapport/fe5488f88b79f57a9f65b1e5bd9e2425d107250f.pygtex) [41]
+\openout5 = `Rapport.mintedcmd'.
+
+runsystem(python -c "import hashlib; hasher = hashlib.sha1(); f = open(\"Rappor
+t.mintedcmd\", \"rb\"); hasher.update(f.read()); f.close(); f = open(\"code/LGW
+/main.py\", \"rb\"); hasher.update(f.read()); f.close(); f = open(\"Rapport.min
+tedmd5\", \"w\"); macro = \"\\edef\\minted@hash\" + chr(123) + hasher.hexdigest
+() + chr(125) + \"\"; f.write(\"\\makeatletter\" + macro + \"\\makeatother\\end
+input\n \"); f.close();")...executed.
+
+
+(./Rapport.mintedmd5)
+(./_minted-Rapport/ef08fd41d7002b337cfef88b1e77eef98422bf61.pygtex) [42]
+[43] (./Rapport.lof)
 \tf@lof=\write7
 \openout7 = `Rapport.lof'.
 
- [36] (./Rapport.loa)
+ [44] (./Rapport.loa)
 \tf@loa=\write8
 \openout8 = `Rapport.loa'.
 
- [37]
+ [45]
 \openout5 = `Rapport.mintedcmd'.
 
 runsystem(python -c "import hashlib; hasher = hashlib.sha1(); f = open(\"Rappor
@@ -1184,8 +1315,8 @@ r\\endinput\n \"); f.close();")...executed.
 (./_minted-Rapport/a64bced270005a473b7e7ae01f2cf2806522cc4d.pygtex
 LaTeX Font Info:    Font shape `EU1/lmtt/bx/n' in size <10.95> not available
 (Font)              Font shape `EU1/lmtt/b/n' tried instead on input line 4.
- [38]
-[39] [40]) [41]
+ [46]
+[47] [48]) [49]
 \openout5 = `Rapport.mintedcmd'.
 
 runsystem(python -c "import hashlib; hasher = hashlib.sha1(); f = open(\"Rappor
@@ -1196,7 +1327,7 @@ st() + chr(125) + \"\"; f.write(\"\\makeatletter\" + macro + \"\\makeatother\\e
 ndinput\n \"); f.close();")...executed.
 
  (./Rapport.mintedmd5)
-(./_minted-Rapport/2fd151c0ba0e40aa20df5b62691b254bac859a8e.pygtex) [42]
+(./_minted-Rapport/2fd151c0ba0e40aa20df5b62691b254bac859a8e.pygtex) [50]
 \openout5 = `Rapport.mintedcmd'.
 
 runsystem(python -c "import hashlib; hasher = hashlib.sha1(); f = open(\"Rappor
@@ -1208,7 +1339,7 @@ ut\n \"); f.close();")...executed.
 
 
 (./Rapport.mintedmd5)
-(./_minted-Rapport/81d7ea982572ea10d9e2ad475ce7b501fc4b73f0.pygtex) [43]
+(./_minted-Rapport/81d7ea982572ea10d9e2ad475ce7b501fc4b73f0.pygtex) [51]
 \openout5 = `Rapport.mintedcmd'.
 
 runsystem(python -c "import hashlib; hasher = hashlib.sha1(); f = open(\"Rappor
@@ -1220,7 +1351,7 @@ t\n \"); f.close();")...executed.
 
 
 (./Rapport.mintedmd5)
-(./_minted-Rapport/93beb2581a5074cbde522dfe4bea598a72bdf2ab.pygtex) [44]
+(./_minted-Rapport/93beb2581a5074cbde522dfe4bea598a72bdf2ab.pygtex) [52]
 \openout5 = `Rapport.mintedcmd'.
 
 runsystem(python -c "import hashlib; hasher = hashlib.sha1(); f = open(\"Rappor
@@ -1232,7 +1363,7 @@ ut\n \"); f.close();")...executed.
 
 
 (./Rapport.mintedmd5)
-(./_minted-Rapport/c1fa568afde35bd28fab6f667ef6162bbda27191.pygtex) [45]
+(./_minted-Rapport/c1fa568afde35bd28fab6f667ef6162bbda27191.pygtex) [53]
 \openout5 = `Rapport.mintedcmd'.
 
 runsystem(python -c "import hashlib; hasher = hashlib.sha1(); f = open(\"Rappor
@@ -1244,10 +1375,10 @@ gest() + chr(125) + \"\"; f.write(\"\\makeatletter\" + macro + \"\\makeatother\
 
 
 (./Rapport.mintedmd5)
-(./_minted-Rapport/cb99cb8f35467fe0ac93dd5edfc41221966f8d69.pygtex) [46]
-[47] 
+(./_minted-Rapport/cb99cb8f35467fe0ac93dd5edfc41221966f8d69.pygtex) [54]
+[55] 
 AED: lastpage setting LastPage
-[48]
+[56]
 runsystem(rm "Rapport.mintedcmd")...executed.
 
 runsystem(rm "Rapport.mintedmd5")...executed.
@@ -1256,12 +1387,12 @@ runsystem(rm "Rapport.pyg")...executed.
 
  (./Rapport.aux) ) 
 Here is how much of TeX's memory you used:
- 24071 strings out of 493591
- 436739 string characters out of 6143546
- 499932 words of memory out of 5000000
- 27135 multiletter control sequences out of 15000+600000
+ 24137 strings out of 493591
+ 439654 string characters out of 6143546
+ 501471 words of memory out of 5000000
+ 27146 multiletter control sequences out of 15000+600000
  9241 words of font info for 56 fonts, out of 8000000 for 9000
  1347 hyphenation exceptions out of 8191
  37i,11n,43p,10366b,579s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on Rapport.pdf (48 pages).
+Output written on Rapport.pdf (56 pages).

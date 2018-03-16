@@ -1,0 +1,22 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf}{notRegistered}\PYG{p}{():}
+    \PYG{c+c1}{\PYGZsh{}send some data}
+    \PYG{k}{global} \PYG{n}{tryRegister}
+    \PYG{k}{global} \PYG{n}{registered}
+    \PYG{k}{global} \PYG{n}{myLoRa}
+    \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}PHASE NOT REGISTERED STARTED}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{s}\PYG{o}{.}\PYG{n}{send}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Register,\PYGZsq{}}\PYG{o}{+}\PYG{n+nb}{str}\PYG{p}{(}\PYG{l+m+mi}{3}\PYG{p}{)}\PYG{o}{+}\PYG{l+s+s1}{\PYGZsq{},\PYGZsq{}}
+        \PYG{o}{+}\PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{frequency}\PYG{p}{)}\PYG{o}{+}\PYG{l+s+s1}{\PYGZsq{},\PYGZsq{}}\PYG{o}{+}\PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{slot}\PYG{p}{)}\PYG{o}{+}
+        \PYG{l+s+s1}{\PYGZsq{},\PYGZsq{}}\PYG{o}{+}\PYG{n+nb}{str}\PYG{p}{(}\PYG{n+nb}{id}\PYG{p}{)}\PYG{o}{+}\PYG{l+s+s1}{\PYGZsq{},\PYGZsq{}}\PYG{o}{+}\PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{myLoRa}\PYG{p}{)}\PYG{o}{+}
+        \PYG{l+s+s1}{\PYGZsq{},\PYGZsq{}}\PYG{o}{+}\PYG{n+nb}{str}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{o}{+}\PYG{l+s+s1}{\PYGZsq{},\PYGZsq{}}\PYG{o}{+}\PYG{n+nb}{str}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{))}
+    \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Register sent\PYGZdq{}}\PYG{p}{)}
+    \PYG{c+c1}{\PYGZsh{} get any data received...}
+    \PYG{n}{data}\PYG{o}{=}\PYG{n}{s}\PYG{o}{.}\PYG{n}{recv}\PYG{p}{(}\PYG{l+m+mi}{128}\PYG{p}{)}
+    \PYG{n}{msg} \PYG{o}{=}\PYG{n}{messageLoRa}\PYG{p}{()}
+    \PYG{n}{msg}\PYG{o}{.}\PYG{n}{fillMessage}\PYG{p}{(}\PYG{n}{data}\PYG{p}{)}
+    \PYG{k}{if} \PYG{n}{msg}\PYG{o}{.}\PYG{n}{messageName} \PYG{o}{==} \PYG{l+s+s2}{\PYGZdq{}DataReq\PYGZdq{}} \PYG{o+ow}{and} \PYG{n}{msg}\PYG{o}{.}\PYG{n}{id\PYGZus{}src}\PYG{o}{==} \PYG{n}{myLoRa}\PYG{p}{:}
+        \PYG{n}{registered}\PYG{o}{=}\PYG{n+nb+bp}{True}
+    \PYG{k}{else}\PYG{p}{:}
+        \PYG{n}{tryRegister}\PYG{o}{+=}\PYG{l+m+mi}{1}
+    \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}PHASE NOT REGISTERED ENDED}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+\end{Verbatim}

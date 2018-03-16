@@ -1,0 +1,34 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{while} \PYG{n+nb+bp}{True}\PYG{p}{:}
+    \PYG{k}{if} \PYG{n}{isListening}\PYG{p}{:}
+        \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}I am awake : my LoRaGW is \PYGZdq{}}
+            \PYG{o}{+}\PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{myLoRa}\PYG{p}{)}\PYG{o}{+}\PYG{l+s+s2}{\PYGZdq{} and my slot is \PYGZdq{}}\PYG{o}{+}\PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{slot}\PYG{p}{))}
+        \PYG{n}{pycom}\PYG{o}{.}\PYG{n}{rgbled}\PYG{p}{(}\PYG{l+m+mh}{0x007f00}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} green}
+        \PYG{c+c1}{\PYGZsh{}We are not discovered yet}
+        \PYG{k}{while} \PYG{o+ow}{not} \PYG{n}{discovered}\PYG{p}{:}
+            \PYG{n}{notDiscovered}\PYG{p}{()}
+            \PYG{n}{rnd}\PYG{o}{=}\PYG{n}{Random}\PYG{p}{()}
+            \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Try Discover in \PYGZdq{}}\PYG{o}{+}\PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{rnd}\PYG{p}{))}
+            \PYG{n}{time}\PYG{o}{.}\PYG{n}{sleep}\PYG{p}{(}\PYG{n}{rnd}\PYG{p}{)}
+        \PYG{k}{while} \PYG{o+ow}{not} \PYG{n}{registered} \PYG{o+ow}{and} \PYG{n}{discovered}\PYG{p}{:}
+            \PYG{n}{notRegistered}\PYG{p}{()}
+            \PYG{n}{rnd}\PYG{o}{=}\PYG{n}{Random}\PYG{p}{()}
+            \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Try Register in \PYGZdq{}}\PYG{o}{+}\PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{rnd}\PYG{p}{))}
+            \PYG{n}{time}\PYG{o}{.}\PYG{n}{sleep}\PYG{p}{(}\PYG{n}{rnd}\PYG{p}{)}
+        \PYG{n}{dataR}\PYG{o}{=}\PYG{n}{s}\PYG{o}{.}\PYG{n}{recv}\PYG{p}{(}\PYG{l+m+mi}{128}\PYG{p}{)}
+        \PYG{n}{msg} \PYG{o}{=}\PYG{n}{messageLoRa}\PYG{p}{()}
+        \PYG{n}{msg}\PYG{o}{.}\PYG{n}{fillMessage}\PYG{p}{(}\PYG{n}{dataR}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n}{msg}\PYG{o}{.}\PYG{n}{kind}\PYG{o}{==}\PYG{l+s+s2}{\PYGZdq{}4\PYGZdq{}}\PYG{p}{:}
+            \PYG{n}{sendData}\PYG{p}{()}
+            \PYG{n}{slot}\PYG{o}{=}\PYG{n+nb}{int}\PYG{p}{(}\PYG{n}{msg}\PYG{o}{.}\PYG{n}{listeningtime}\PYG{p}{)}
+            \PYG{n}{clock} \PYG{o}{=} \PYG{n}{TimerL}\PYG{p}{(}\PYG{n+nb}{float}\PYG{p}{(}\PYG{n}{msg}\PYG{o}{.}\PYG{n}{listeningtime}\PYG{p}{))}
+            \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}I sent my data\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{data}\PYG{o}{+=}\PYG{l+m+mi}{1}
+    \PYG{k}{else}\PYG{p}{:}
+        \PYG{n}{pycom}\PYG{o}{.}\PYG{n}{rgbled}\PYG{p}{(}\PYG{l+m+mh}{0x7f0000}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{}red}
+        \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}I am sleeping\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{del} \PYG{n}{clock}
+        \PYG{n}{time}\PYG{o}{.}\PYG{n}{sleep}\PYG{p}{(}\PYG{n}{slot}\PYG{p}{)}
+        \PYG{n}{isListening}\PYG{o}{=}\PYG{n+nb+bp}{True}
+        \PYG{n}{clock} \PYG{o}{=} \PYG{n}{TimerL}\PYG{p}{(}\PYG{n}{slot}\PYG{p}{)}
+\end{Verbatim}
