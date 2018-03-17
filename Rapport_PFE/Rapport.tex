@@ -26,7 +26,7 @@
 \usepackage{algorithm}
 \usepackage{algorithmicx}
 \usepackage{dirtree}
-
+\usepackage{hyperref}
 
 
 \newcommand*\DNA{\textsc{dna}}
@@ -766,7 +766,7 @@ linenos
 
 \newpage
 \section{Conclusion}
-Durant ce projet consacrée à la gestion des noeuds isolé en LoRa, la programmation réalisé sur les LoPy a révéle que la théorie a pu être appliqué. Cependant il n'as pas été inutile de réaliser un ensemble de simulation, afin de voir l'intégralité des messges a prévoir, les eventuels problèmes. Ainsi que la réalisation de certain timer, et d'echange. Mais aussi et surtout pour voir la quantité de message qui sont émit sur une seule et même fréquence. L'idéal serait donc d'attribuer des fréquences pour chaque noeud. Ce qui evite de surcharger une fréquence, même si statistiquement les échanges finiront par s'effectuer.
+Durant ce projet consacrée à la gestion des noeuds isolé en LoRa, la programmation réalisé sur les LoPy a révéle que la théorie a pu être appliqué. Cependant il n'as pas été inutile de réaliser un ensemble de simulation, afin de voir l'intégralité des messges à prévoir, les eventuels problèmes. Ainsi que la réalisation de certain timer, et d'echange. Mais aussi et surtout pour voir la quantité de message qui sont émit sur une seule et même fréquence. L'idéal serait donc d'attribuer des fréquences pour chaque noeud. Ce qui evite de surcharger une fréquence, même si statistiquement les échanges finiront par s'effectuer. Il est nécéssaire d'écourter au maximum les temps ou le capteur est actif. C'est donc pour cela que pour continuer ce projet il faudrais envisager un changement d'organisation sur les échanges et le nombre de noeud prix en charge sur chaque fréquence et sur chaque LoRaGateway. Il faudrais aussi envisager un changement dans la simulation pour pouvoir réaliser des tests plus poussés. Notamment une vrai implémentation du LoRa dans Omnet++ comme par exemple \href{http://flora.aalto.fi}{FloRa}. Pour finir cette ouverture, il serait plus que intéréssant de s'atteler à une programmation sur des capteurs Semtech. 
 \newpage
 \listoffigures
 \newpage

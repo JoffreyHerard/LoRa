@@ -1,102 +1,102 @@
 \select@language {french}
-\contentsline {section}{\numberline {1}Introduction}{4}
-\contentsline {section}{\numberline {2}LoRaWAN}{5}
-\contentsline {subsection}{\numberline {2.1}Convention de nommage }{5}
-\contentsline {subsection}{\numberline {2.2}LPWAN}{5}
-\contentsline {subsection}{\numberline {2.3}LoRaWAN}{6}
-\contentsline {subsubsection}{\numberline {2.3.1}LoRa Alliance}{6}
-\contentsline {subsubsection}{\numberline {2.3.2}Les différentes couches d'un réseaux LoRaWAN}{6}
-\contentsline {subsubsection}{\numberline {2.3.3}Différence entre le LoRa et LoRaWAN}{8}
-\contentsline {subsubsection}{\numberline {2.3.4}Architecture d'un réseaux LoRaWAN}{8}
-\contentsline {subsubsection}{\numberline {2.3.5}Sécurité d'un réseaux LoRaWAN}{9}
-\contentsline {subsubsection}{\numberline {2.3.6}Classe A : All end-devices}{10}
-\contentsline {paragraph}{Méssage couche physique }{10}
-\contentsline {subparagraph}{Messages uplink}{10}
-\contentsline {subparagraph}{Messages downlink}{10}
-\contentsline {subparagraph}{Fenêtre de réception}{10}
-\contentsline {subparagraph}{Première fenêtre de réception, débit de données, démarrage}{10}
-\contentsline {subparagraph}{Seconde fenêtre de réception, débit de données, démarrage}{10}
-\contentsline {subparagraph}{Durée de la fenêtre}{11}
-\contentsline {subparagraph}{Activité du receveur durant la fenêtre de réception}{11}
-\contentsline {subparagraph}{Envoi d'un message à travers le réseaux vers un appareil}{11}
-\contentsline {subparagraph}{A noté}{11}
-\contentsline {paragraph}{Message couche MAC }{11}
-\contentsline {subparagraph}{Couche MAC (PHYPayload)}{11}
-\contentsline {subparagraph}{En tête MAC. ( MHDR field)}{12}
-\contentsline {subparagraph}{ Type de messages (MType bit field)}{12}
-\contentsline {subparagraph}{Données des messages}{12}
-\contentsline {subparagraph}{ Le payload d'un message sur la couche MAC (MACPayload)}{12}
-\contentsline {subparagraph}{ En-tête (FHDR)}{12}
-\contentsline {subparagraph}{Champ du port (Fport)}{12}
-\contentsline {subparagraph}{Chiffrement du Payload sur une trame MAC (FRMPayload)}{13}
-\contentsline {subparagraph}{calcul du MIC}{13}
-\contentsline {paragraph}{Commandes MAC}{13}
-\contentsline {paragraph}{Activation d'un end-device}{13}
-\contentsline {subparagraph}{Adresse des device (DevAddr)}{13}
-\contentsline {subparagraph}{Identification de l'application (AppEUI)}{13}
-\contentsline {subparagraph}{Clé de session réseaux (NwkSkey)}{14}
-\contentsline {subparagraph}{Clé de session d'application (AppSKey)}{14}
-\contentsline {paragraph}{Activation avec Over the Air (OTA)}{14}
-\contentsline {subparagraph}{Identifiant des device (DevEUI)}{14}
-\contentsline {subparagraph}{Clé de l'application(AppKey)}{14}
-\contentsline {subparagraph}{Procédure Join}{14}
-\contentsline {subparagraph}{Message Join-request}{14}
-\contentsline {subparagraph}{Méssage Join-accept }{14}
-\contentsline {paragraph}{Activation par Personallisation }{14}
-\contentsline {subsubsection}{\numberline {2.3.7}Classe B : Beacon}{15}
-\contentsline {paragraph}{Introduction}{15}
-\contentsline {paragraph}{Principe de la synchronisation du réseaux initialiser en downlink}{15}
-\contentsline {paragraph}{Trame de liaison montante en mode Classe B}{15}
-\contentsline {subparagraph}{Format de la trame physique}{15}
-\contentsline {subparagraph}{Messages MAC en Unicast et Multicast}{16}
-\contentsline {paragraph}{Acquisition du beacon et tracking }{16}
-\contentsline {subparagraph}{Temps de fonctionnement minimum sans balise}{16}
-\contentsline {subparagraph}{Extension de l'opération beacon-less à la réception}{16}
-\contentsline {subparagraph}{Minimiser la dérive du timing}{16}
-\contentsline {paragraph}{Synchronisation d'un emplacement en liaison descendante}{16}
-\contentsline {subparagraph}{ Définitions}{17}
-\contentsline {subparagraph}{Emplacement aléatoire}{17}
-\contentsline {paragraph}{Beaconing (Option de classe B)}{18}
-\contentsline {subparagraph}{ Couche physique de la balise}{18}
-\contentsline {subparagraph}{Format de la trame de Beaconing}{18}
-\contentsline {subparagraph}{Beaconing : format du champ GwSpecific }{19}
-\contentsline {subparagraph}{ Gateway coordonées GPS: InfoDesc = 0,1 ou 2}{19}
-\contentsline {subparagraph}{ Timing précis sur le Beaconing}{19}
-\contentsline {subsubsection}{\numberline {2.3.8}Classe C : Continiously listening}{20}
-\contentsline {subparagraph}{Temps de la deuxième fenêtre de réception pour la classe C}{20}
-\contentsline {subparagraph}{ Multicast liaison descendante}{20}
-\contentsline {section}{\numberline {3}Problème}{21}
-\contentsline {section}{\numberline {4}Solutions}{22}
-\contentsline {subsection}{\numberline {4.1}Algorithme}{23}
-\contentsline {subsubsection}{\numberline {4.1.1}Algorithme 1/1 : 1 IN <-> 1 LGW}{23}
-\contentsline {subsubsection}{\numberline {4.1.2}Algorithme k/1 : k IN <-> 1 LGW}{24}
-\contentsline {subsection}{\numberline {4.2}Chronogrammes}{25}
-\contentsline {subsubsection}{\numberline {4.2.1}Phase de découverte et d'enregistrement}{25}
-\contentsline {paragraph}{Coté Isolated node}{25}
-\contentsline {paragraph}{Coté LoRa Gateway}{25}
-\contentsline {paragraph}{Coté LoRaWAN Gateway}{25}
-\contentsline {subsubsection}{\numberline {4.2.2}Phase de collecte}{26}
-\contentsline {paragraph}{Coté Isolated node}{26}
-\contentsline {paragraph}{Coté LoRa Gateway}{26}
-\contentsline {paragraph}{Coté LoRaWAN Gateway}{26}
-\contentsline {section}{\numberline {5}Simulation}{27}
-\contentsline {subsection}{\numberline {5.1}Le simulateur : Omnet++}{27}
-\contentsline {subsection}{\numberline {5.2}Génération des graphes}{27}
-\contentsline {subsection}{\numberline {5.3}Représentation des échanges radio}{29}
-\contentsline {subsection}{\numberline {5.4}Exemples de simulations graphiques}{30}
-\contentsline {subsubsection}{\numberline {5.4.1}Simulation sur une chaine}{30}
-\contentsline {subsubsection}{\numberline {5.4.2}Simulation avec 3 IN sur une LGW}{31}
-\contentsline {subsubsection}{\numberline {5.4.3}Simulation à plus grande echelle }{32}
-\contentsline {section}{\numberline {6}Programmation}{33}
-\contentsline {subsection}{\numberline {6.1}LoPy}{33}
-\contentsline {subsubsection}{\numberline {6.1.1}Isolated Node}{36}
-\contentsline {subsubsection}{\numberline {6.1.2}LoRaGateway}{40}
-\contentsline {section}{\numberline {7}Conclusion}{43}
-\contentsline {section}{Table des figures}{44}
-\contentsline {section}{Liste des algorithmes}{45}
-\contentsline {section}{Annexes}{46}
-\contentsline {section}{\numberline {A}Code iGraph}{46}
-\contentsline {section}{\numberline {B}Code Omnet++}{50}
-\contentsline {subsection}{\numberline {B.1}Fichier .h}{50}
-\contentsline {subsection}{\numberline {B.2}Fichier .cpp}{55}
-\contentsline {section}{\numberline {C}Arborescence des fichiers}{56}
+\contentsline {section}{\numberline {1}Introduction}{4}{section.1}
+\contentsline {section}{\numberline {2}LoRaWAN}{5}{section.2}
+\contentsline {subsection}{\numberline {2.1}Convention de nommage }{5}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}LPWAN}{5}{subsection.2.2}
+\contentsline {subsection}{\numberline {2.3}LoRaWAN}{6}{subsection.2.3}
+\contentsline {subsubsection}{\numberline {2.3.1}LoRa Alliance}{6}{subsubsection.2.3.1}
+\contentsline {subsubsection}{\numberline {2.3.2}Les différentes couches d'un réseaux LoRaWAN}{6}{subsubsection.2.3.2}
+\contentsline {subsubsection}{\numberline {2.3.3}Différence entre le LoRa et LoRaWAN}{8}{subsubsection.2.3.3}
+\contentsline {subsubsection}{\numberline {2.3.4}Architecture d'un réseaux LoRaWAN}{8}{subsubsection.2.3.4}
+\contentsline {subsubsection}{\numberline {2.3.5}Sécurité d'un réseaux LoRaWAN}{9}{subsubsection.2.3.5}
+\contentsline {subsubsection}{\numberline {2.3.6}Classe A : All end-devices}{10}{subsubsection.2.3.6}
+\contentsline {paragraph}{Méssage couche physique }{10}{paragraph*.3}
+\contentsline {subparagraph}{Messages uplink}{10}{subparagraph*.4}
+\contentsline {subparagraph}{Messages downlink}{10}{subparagraph*.5}
+\contentsline {subparagraph}{Fenêtre de réception}{10}{subparagraph*.6}
+\contentsline {subparagraph}{Première fenêtre de réception, débit de données, démarrage}{10}{subparagraph*.7}
+\contentsline {subparagraph}{Seconde fenêtre de réception, débit de données, démarrage}{10}{subparagraph*.8}
+\contentsline {subparagraph}{Durée de la fenêtre}{11}{subparagraph*.9}
+\contentsline {subparagraph}{Activité du receveur durant la fenêtre de réception}{11}{subparagraph*.10}
+\contentsline {subparagraph}{Envoi d'un message à travers le réseaux vers un appareil}{11}{subparagraph*.11}
+\contentsline {subparagraph}{A noté}{11}{subparagraph*.12}
+\contentsline {paragraph}{Message couche MAC }{11}{paragraph*.13}
+\contentsline {subparagraph}{Couche MAC (PHYPayload)}{11}{subparagraph*.14}
+\contentsline {subparagraph}{En tête MAC. ( MHDR field)}{12}{subparagraph*.16}
+\contentsline {subparagraph}{ Type de messages (MType bit field)}{12}{subparagraph*.18}
+\contentsline {subparagraph}{Données des messages}{12}{subparagraph*.19}
+\contentsline {subparagraph}{ Le payload d'un message sur la couche MAC (MACPayload)}{12}{subparagraph*.20}
+\contentsline {subparagraph}{ En-tête (FHDR)}{12}{subparagraph*.21}
+\contentsline {subparagraph}{Champ du port (Fport)}{12}{subparagraph*.22}
+\contentsline {subparagraph}{Chiffrement du Payload sur une trame MAC (FRMPayload)}{13}{subparagraph*.23}
+\contentsline {subparagraph}{calcul du MIC}{13}{subparagraph*.24}
+\contentsline {paragraph}{Commandes MAC}{13}{paragraph*.25}
+\contentsline {paragraph}{Activation d'un end-device}{13}{paragraph*.26}
+\contentsline {subparagraph}{Adresse des device (DevAddr)}{13}{subparagraph*.27}
+\contentsline {subparagraph}{Identification de l'application (AppEUI)}{13}{subparagraph*.28}
+\contentsline {subparagraph}{Clé de session réseaux (NwkSkey)}{14}{subparagraph*.29}
+\contentsline {subparagraph}{Clé de session d'application (AppSKey)}{14}{subparagraph*.30}
+\contentsline {paragraph}{Activation avec Over the Air (OTA)}{14}{paragraph*.31}
+\contentsline {subparagraph}{Identifiant des device (DevEUI)}{14}{subparagraph*.32}
+\contentsline {subparagraph}{Clé de l'application(AppKey)}{14}{subparagraph*.33}
+\contentsline {subparagraph}{Procédure Join}{14}{subparagraph*.34}
+\contentsline {subparagraph}{Message Join-request}{14}{subparagraph*.35}
+\contentsline {subparagraph}{Méssage Join-accept }{14}{subparagraph*.36}
+\contentsline {paragraph}{Activation par Personallisation }{14}{paragraph*.37}
+\contentsline {subsubsection}{\numberline {2.3.7}Classe B : Beacon}{15}{subsubsection.2.3.7}
+\contentsline {paragraph}{Introduction}{15}{paragraph*.38}
+\contentsline {paragraph}{Principe de la synchronisation du réseaux initialiser en downlink}{15}{paragraph*.39}
+\contentsline {paragraph}{Trame de liaison montante en mode Classe B}{15}{paragraph*.40}
+\contentsline {subparagraph}{Format de la trame physique}{15}{subparagraph*.41}
+\contentsline {subparagraph}{Messages MAC en Unicast et Multicast}{16}{subparagraph*.42}
+\contentsline {paragraph}{Acquisition du beacon et tracking }{16}{paragraph*.43}
+\contentsline {subparagraph}{Temps de fonctionnement minimum sans balise}{16}{subparagraph*.44}
+\contentsline {subparagraph}{Extension de l'opération beacon-less à la réception}{16}{subparagraph*.45}
+\contentsline {subparagraph}{Minimiser la dérive du timing}{16}{subparagraph*.46}
+\contentsline {paragraph}{Synchronisation d'un emplacement en liaison descendante}{16}{paragraph*.47}
+\contentsline {subparagraph}{ Définitions}{17}{subparagraph*.48}
+\contentsline {subparagraph}{Emplacement aléatoire}{17}{subparagraph*.49}
+\contentsline {paragraph}{Beaconing (Option de classe B)}{18}{paragraph*.52}
+\contentsline {subparagraph}{ Couche physique de la balise}{18}{subparagraph*.53}
+\contentsline {subparagraph}{Format de la trame de Beaconing}{18}{subparagraph*.54}
+\contentsline {subparagraph}{Beaconing : format du champ GwSpecific }{19}{subparagraph*.57}
+\contentsline {subparagraph}{ Gateway coordonées GPS: InfoDesc = 0,1 ou 2}{19}{subparagraph*.59}
+\contentsline {subparagraph}{ Timing précis sur le Beaconing}{19}{subparagraph*.60}
+\contentsline {subsubsection}{\numberline {2.3.8}Classe C : Continiously listening}{20}{subsubsection.2.3.8}
+\contentsline {subparagraph}{Temps de la deuxième fenêtre de réception pour la classe C}{20}{subparagraph*.61}
+\contentsline {subparagraph}{ Multicast liaison descendante}{20}{subparagraph*.62}
+\contentsline {section}{\numberline {3}Problème}{21}{section.3}
+\contentsline {section}{\numberline {4}Solutions}{22}{section.4}
+\contentsline {subsection}{\numberline {4.1}Algorithme}{23}{subsection.4.1}
+\contentsline {subsubsection}{\numberline {4.1.1}Algorithme 1/1 : 1 IN <-> 1 LGW}{23}{subsubsection.4.1.1}
+\contentsline {subsubsection}{\numberline {4.1.2}Algorithme k/1 : k IN <-> 1 LGW}{24}{subsubsection.4.1.2}
+\contentsline {subsection}{\numberline {4.2}Chronogrammes}{25}{subsection.4.2}
+\contentsline {subsubsection}{\numberline {4.2.1}Phase de découverte et d'enregistrement}{25}{subsubsection.4.2.1}
+\contentsline {paragraph}{Coté Isolated node}{25}{paragraph*.65}
+\contentsline {paragraph}{Coté LoRa Gateway}{25}{paragraph*.66}
+\contentsline {paragraph}{Coté LoRaWAN Gateway}{25}{paragraph*.67}
+\contentsline {subsubsection}{\numberline {4.2.2}Phase de collecte}{26}{subsubsection.4.2.2}
+\contentsline {paragraph}{Coté Isolated node}{26}{paragraph*.69}
+\contentsline {paragraph}{Coté LoRa Gateway}{26}{paragraph*.70}
+\contentsline {paragraph}{Coté LoRaWAN Gateway}{26}{paragraph*.71}
+\contentsline {section}{\numberline {5}Simulation}{27}{section.5}
+\contentsline {subsection}{\numberline {5.1}Le simulateur : Omnet++}{27}{subsection.5.1}
+\contentsline {subsection}{\numberline {5.2}Génération des graphes}{27}{subsection.5.2}
+\contentsline {subsection}{\numberline {5.3}Représentation des échanges radio}{29}{subsection.5.3}
+\contentsline {subsection}{\numberline {5.4}Exemples de simulations graphiques}{30}{subsection.5.4}
+\contentsline {subsubsection}{\numberline {5.4.1}Simulation sur une chaine}{30}{subsubsection.5.4.1}
+\contentsline {subsubsection}{\numberline {5.4.2}Simulation avec 3 IN sur une LGW}{31}{subsubsection.5.4.2}
+\contentsline {subsubsection}{\numberline {5.4.3}Simulation à plus grande echelle }{32}{subsubsection.5.4.3}
+\contentsline {section}{\numberline {6}Programmation}{33}{section.6}
+\contentsline {subsection}{\numberline {6.1}LoPy}{33}{subsection.6.1}
+\contentsline {subsubsection}{\numberline {6.1.1}Isolated Node}{36}{subsubsection.6.1.1}
+\contentsline {subsubsection}{\numberline {6.1.2}LoRaGateway}{40}{subsubsection.6.1.2}
+\contentsline {section}{\numberline {7}Conclusion}{43}{section.7}
+\contentsline {section}{Table des figures}{44}{section.7}
+\contentsline {section}{Liste des algorithmes}{45}{section.7}
+\contentsline {section}{Annexes}{46}{section*.77}
+\contentsline {section}{\numberline {A}Code iGraph}{46}{Annexe.a.A}
+\contentsline {section}{\numberline {B}Code Omnet++}{50}{Annexe.a.B}
+\contentsline {subsection}{\numberline {B.1}Fichier .h}{50}{subsection.a.B.1}
+\contentsline {subsection}{\numberline {B.2}Fichier .cpp}{55}{subsection.a.B.2}
+\contentsline {section}{\numberline {C}Arborescence des fichiers}{56}{Annexe.a.C}
