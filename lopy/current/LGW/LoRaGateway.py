@@ -4,10 +4,37 @@ import time
 import pycom
 import uos
 import messageLoRa
+import binascii
 from machine import Timer
 from messageLoRa import messageLoRa
 pycom.heartbeat(False)
 pycom.rgbled(0xff00)
+lora = LoRa(mode=LoRa.LORAWAN, region=LoRa.EU868)
+s = socket.socket(socket.AF_LORA, socket.SOCK_RAW)
+
+# create an OTAA authentication parameters
+app_eui = binascii.unhexlify('70 B3 D5 7E F0 00 49 E1'.replace(' ',''))
+app_key = binascii.unhexlify('30 4C 99 26 3E A5 E6 43 B5 A0 8C B3 25 4A 61 FA'.replace(' ',''))
+dev_eui = binascii.unhexlify('70B3D5499C3DD0AC')
+#dev_addr = struct.unpack(">l", binascii.unhexlify('00 00 00 05'.replace(' ','')))[0]
+# join a network using OTAA (Over the Air Activation)
+lora.join(activation=LoRa.OTAA, auth=(dev_eui,app_eui, app_key), timeout=0)
+
+# wait until the module has joined the network
+while not lora.has_joined():
+    time.sleep(2.5)
+    print('Not yet joined...')
+print('Connected to Objenious LoRaWAN!')
+
+s.setblocking(True)
+
+# send some data
+s.send(bytes([0x01, 0x02, 0x03]))
+
+# make the socket non-blocking
+# (because if there's no data received it will block forever...)
+s.setblocking(False)
+
 id=2
 timer=0
 NbIN=0
@@ -21,21 +48,9 @@ MyLW=0
 nb_harvest=0
 mycolor="blue"
 isListening=True
-
-
-
 def Random():
     result = (uos.urandom(1)[0] / 256)*5
     return result
-#frequency accepts values between 863000000 and 870000000
-#FROM SPEC LORAWAN LORA
-#868000000 F1
-#868100000 F2
-#868300000 F3
-#868500000 F4
-#864100000 F5
-#864300000 F6
-#864500000 F7
 def change_frequency(frequency_d):
     current_frequency=lora.frequency()
     if current_frequency != frequency_d:
@@ -126,29 +141,9 @@ def handle_message(data):
     msg.fillMessage(data)
     if msg.kind == "1":
         pairing_phase(msg)
-    #else:
-        #print("not kind 1")
     if msg.kind == "3" and msg.id_dest == str(id):
         registering_phase(msg)
-    #else:
-    #    print("not kind 3")
-lora = LoRa(mode=LoRa.LORAWAN, region=LoRa.EU868)
 
-# create an OTAA authentication parameters
-app_eui = binascii.unhexlify('70 B3 D5 7E F0 00 49 E1'.replace(' ',''))
-app_key = binascii.unhexlify('30 4C 99 26 3E A5 E6 43 B5 A0 8C B3 25 4A 61 FA'.replace(' ',''))
-dev_eui = binascii.unhexlify('70B3D5499C3DD0AC')
-#dev_addr = struct.unpack(">l", binascii.unhexlify('00 00 00 05'.replace(' ','')))[0]
-# join a network using OTAA (Over the Air Activation)
-lora.join(activation=LoRa.OTAA, auth=(dev_eui,app_eui, app_key), timeout=0)
-
-# wait until the module has joined the network
-while not lora.has_joined():
-    time.sleep(2.5)
-    print('Not yet joined...')
-print('Connected to Objenious LoRaWAN!')
-s = socket.socket(socket.AF_LORA, socket.SOCK_RAW)
-s.setblocking(False)
 clock = TimerL(slot)
 while True:
     if isListening:
