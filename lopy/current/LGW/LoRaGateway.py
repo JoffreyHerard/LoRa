@@ -8,7 +8,6 @@ from machine import Timer
 from messageLoRa import messageLoRa
 pycom.heartbeat(False)
 pycom.rgbled(0xff00)
-lora = LoRa(mode=LoRa.LORA, region=LoRa.EU868)
 id=2
 timer=0
 NbIN=0
@@ -133,6 +132,21 @@ def handle_message(data):
         registering_phase(msg)
     #else:
     #    print("not kind 3")
+lora = LoRa(mode=LoRa.LORAWAN, region=LoRa.EU868)
+
+# create an OTAA authentication parameters
+app_eui = binascii.unhexlify('70 B3 D5 7E F0 00 49 E1'.replace(' ',''))
+app_key = binascii.unhexlify('30 4C 99 26 3E A5 E6 43 B5 A0 8C B3 25 4A 61 FA'.replace(' ',''))
+dev_eui = binascii.unhexlify('70B3D5499C3DD0AC')
+#dev_addr = struct.unpack(">l", binascii.unhexlify('00 00 00 05'.replace(' ','')))[0]
+# join a network using OTAA (Over the Air Activation)
+lora.join(activation=LoRa.OTAA, auth=(dev_eui,app_eui, app_key), timeout=0)
+
+# wait until the module has joined the network
+while not lora.has_joined():
+    time.sleep(2.5)
+    print('Not yet joined...')
+print('Connected to Objenious LoRaWAN!')
 s = socket.socket(socket.AF_LORA, socket.SOCK_RAW)
 s.setblocking(False)
 clock = TimerL(slot)
