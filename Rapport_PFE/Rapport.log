@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99996 (TeX Live 2016) (preloaded format=xelatex 2017.5.11)  17 MAR 2018 14:27
+This is XeTeX, Version 3.14159265-2.6-0.99996 (TeX Live 2016) (preloaded format=xelatex 2017.5.11)  21 MAR 2018 20:16
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1265,14 +1265,54 @@ File: beacon_gwspecific.png Graphic file (type QTm)
 File: probleme.png Graphic file (type QTm)
 
 <use  "probleme.png" > [21] [22]
-Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
-put line 459.
- [23] [24]
-File: Discovery.png Graphic file (type QTm)
- <use  "Discovery.png" > [25]
-File: Collect.png Graphic file (type QTm)
 
-<use  "Collect.png" > [26] [27]
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 466.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\rightarrow' on input line 466.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 466.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 485.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\rightarrow' on input line 485.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 485.
+
+[23]
+LaTeX Font Info:    Font shape `EU1/lmtt/bx/n' in size <10.95> not available
+(Font)              Font shape `EU1/lmtt/b/n' tried instead on input line 563.
+Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
+put line 566.
+ [24] [25]
+Overfull \hbox (16.57892pt too wide) in paragraph at lines 649--650
+[] $\OML/cmm/m/it/10.95 sendLora\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 freq[]s
+end; candidate\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 in; freq[]listen; slot; d
+uration; freq[]next; udef\OT1/cmr/m/n/10.95 )$ 
+ []
+
+
+Overfull \hbox (34.98785pt too wide) in paragraph at lines 657--658
+[] $\OML/cmm/m/it/10.95 sendLora\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 freq[]s
+end; data[]request\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 in; freq[]listen; slo
+t; duration; freq[]next; udef\OT1/cmr/m/n/10.95 )$ 
+ []
+
+[26] [27] [28]
+File: Discovery.png Graphic file (type QTm)
+ <use  "Discovery.png" > [29]
+File: Collect.png Graphic file (type QTm)
+ <use  "Collect.png" > [30] [31]
 \openout3 = `Rapport.pyg'.
 
 \openout5 = `Rapport.mintedcmd'.
@@ -1284,23 +1324,24 @@ pyg\", \"rb\"); hasher.update(f.read()); f.close(); f = open(\"Rapport.mintedmd
 chr(125) + \"\"; f.write(\"\\makeatletter\" + macro + \"\\makeatother\\endinput
 \n \"); f.close();")...executed.
 
- (./Rapport.mintedmd5)
+
+(./Rapport.mintedmd5)
 (./_minted-Rapport/64e37f99045a8e8437ef771e53daf56f7ad24659.pygtex
 LaTeX Font Info:    Font shape `EU1/lmtt/bx/n' in size <9> not available
 (Font)              Font shape `EU1/lmtt/b/n' tried instead on input line 2.
 )
 File: LoRaGraph.jpg Graphic file (type QTm)
 
-<use  "LoRaGraph.jpg" > [28]
+<use  "LoRaGraph.jpg" > [32]
 File: ex_radio.png Graphic file (type QTm)
- <use  "ex_radio.png" > [29]
+ <use  "ex_radio.png" > [33]
 File: chaine.png Graphic file (type QTm)
  <use  "chaine.png" >
-[30]
+[34]
 File: 3IN.png Graphic file (type QTm)
- <use  "3IN.png" > [31]
+ <use  "3IN.png" > [35]
 File: fat.png Graphic file (type QTm)
- <use  "fat.png" > [32] [33]
+ <use  "fat.png" > [36] [37]
 \openout5 = `Rapport.mintedcmd'.
 
 runsystem(python -c "import hashlib; hasher = hashlib.sha1(); f = open(\"Rappor
@@ -1311,7 +1352,7 @@ est() + chr(125) + \"\"; f.write(\"\\makeatletter\" + macro + \"\\makeatother\\
 endinput\n \"); f.close();")...executed.
 
  (./Rapport.mintedmd5)
-(./_minted-Rapport/1b3b90bc1eb18a585b78e754c7ad72283085bf30.pygtex) [34]
+(./_minted-Rapport/1b3b90bc1eb18a585b78e754c7ad72283085bf30.pygtex) [38]
 \openout5 = `Rapport.mintedcmd'.
 
 runsystem(python -c "import hashlib; hasher = hashlib.sha1(); f = open(\"Rappor
@@ -1335,7 +1376,7 @@ igest() + chr(125) + \"\"; f.write(\"\\makeatletter\" + macro + \"\\makeatother
 
 
 (./Rapport.mintedmd5)
-(./_minted-Rapport/0a73228a442b16d1c37e6cb5bbc3c04aced18c88.pygtex) [35]
+(./_minted-Rapport/0a73228a442b16d1c37e6cb5bbc3c04aced18c88.pygtex) [39]
 \openout5 = `Rapport.mintedcmd'.
 
 runsystem(python -c "import hashlib; hasher = hashlib.sha1(); f = open(\"Rappor
@@ -1347,7 +1388,7 @@ endinput\n \"); f.close();")...executed.
 
 
 (./Rapport.mintedmd5)
-(./_minted-Rapport/51018fc249cf400e610dd538dd3aeb6a89c706ff.pygtex) [36]
+(./_minted-Rapport/51018fc249cf400e610dd538dd3aeb6a89c706ff.pygtex) [40]
 \openout5 = `Rapport.mintedcmd'.
 
 runsystem(python -c "import hashlib; hasher = hashlib.sha1(); f = open(\"Rappor
@@ -1359,7 +1400,7 @@ endinput\n \"); f.close();")...executed.
 
 
 (./Rapport.mintedmd5)
-(./_minted-Rapport/8748da65e975b6f386abdb57a8d94bd3535f00bb.pygtex) [37]
+(./_minted-Rapport/8748da65e975b6f386abdb57a8d94bd3535f00bb.pygtex) [41]
 \openout5 = `Rapport.mintedcmd'.
 
 runsystem(python -c "import hashlib; hasher = hashlib.sha1(); f = open(\"Rappor
@@ -1371,7 +1412,7 @@ gest() + chr(125) + \"\"; f.write(\"\\makeatletter\" + macro + \"\\makeatother\
 
 
 (./Rapport.mintedmd5)
-(./_minted-Rapport/0e3fffe062ed4d30e307f378eb76df6c292eeb60.pygtex) [38]
+(./_minted-Rapport/0e3fffe062ed4d30e307f378eb76df6c292eeb60.pygtex) [42]
 \openout5 = `Rapport.mintedcmd'.
 
 runsystem(python -c "import hashlib; hasher = hashlib.sha1(); f = open(\"Rappor
@@ -1383,7 +1424,7 @@ er\\endinput\n \"); f.close();")...executed.
 
 
 (./Rapport.mintedmd5)
-(./_minted-Rapport/8a667b69beb065f369b93293ea5edee29fbeeb25.pygtex) [39]
+(./_minted-Rapport/8a667b69beb065f369b93293ea5edee29fbeeb25.pygtex) [43]
 \openout5 = `Rapport.mintedcmd'.
 
 runsystem(python -c "import hashlib; hasher = hashlib.sha1(); f = open(\"Rappor
@@ -1407,7 +1448,7 @@ er\\endinput\n \"); f.close();")...executed.
 
 
 (./Rapport.mintedmd5)
-(./_minted-Rapport/94102cc967f4ae47076ef63a1d5bf62365bf6fd2.pygtex) [40]
+(./_minted-Rapport/94102cc967f4ae47076ef63a1d5bf62365bf6fd2.pygtex) [44]
 \openout5 = `Rapport.mintedcmd'.
 
 runsystem(python -c "import hashlib; hasher = hashlib.sha1(); f = open(\"Rappor
@@ -1419,7 +1460,7 @@ gest() + chr(125) + \"\"; f.write(\"\\makeatletter\" + macro + \"\\makeatother\
 
 
 (./Rapport.mintedmd5)
-(./_minted-Rapport/fe5488f88b79f57a9f65b1e5bd9e2425d107250f.pygtex) [41]
+(./_minted-Rapport/fe5488f88b79f57a9f65b1e5bd9e2425d107250f.pygtex) [45]
 \openout5 = `Rapport.mintedcmd'.
 
 runsystem(python -c "import hashlib; hasher = hashlib.sha1(); f = open(\"Rappor
@@ -1431,16 +1472,16 @@ input\n \"); f.close();")...executed.
 
 
 (./Rapport.mintedmd5)
-(./_minted-Rapport/ef08fd41d7002b337cfef88b1e77eef98422bf61.pygtex) [42]
-[43] (./Rapport.lof)
+(./_minted-Rapport/ef08fd41d7002b337cfef88b1e77eef98422bf61.pygtex) [46]
+[47] [48] (./Rapport.lof)
 \tf@lof=\write8
 \openout8 = `Rapport.lof'.
 
- [44] (./Rapport.loa)
+ [49] (./Rapport.loa)
 \tf@loa=\write9
 \openout9 = `Rapport.loa'.
 
- [45]
+ [50]
 \openout5 = `Rapport.mintedcmd'.
 
 runsystem(python -c "import hashlib; hasher = hashlib.sha1(); f = open(\"Rappor
@@ -1451,11 +1492,8 @@ digest() + chr(125) + \"\"; f.write(\"\\makeatletter\" + macro + \"\\makeatothe
 r\\endinput\n \"); f.close();")...executed.
 
  (./Rapport.mintedmd5)
-(./_minted-Rapport/a64bced270005a473b7e7ae01f2cf2806522cc4d.pygtex
-LaTeX Font Info:    Font shape `EU1/lmtt/bx/n' in size <10.95> not available
-(Font)              Font shape `EU1/lmtt/b/n' tried instead on input line 4.
- [46]
-[47] [48]) [49]
+(./_minted-Rapport/a64bced270005a473b7e7ae01f2cf2806522cc4d.pygtex [51]
+[52] [53]) [54]
 \openout5 = `Rapport.mintedcmd'.
 
 runsystem(python -c "import hashlib; hasher = hashlib.sha1(); f = open(\"Rappor
@@ -1466,7 +1504,7 @@ st() + chr(125) + \"\"; f.write(\"\\makeatletter\" + macro + \"\\makeatother\\e
 ndinput\n \"); f.close();")...executed.
 
  (./Rapport.mintedmd5)
-(./_minted-Rapport/2fd151c0ba0e40aa20df5b62691b254bac859a8e.pygtex) [50]
+(./_minted-Rapport/2fd151c0ba0e40aa20df5b62691b254bac859a8e.pygtex) [55]
 \openout5 = `Rapport.mintedcmd'.
 
 runsystem(python -c "import hashlib; hasher = hashlib.sha1(); f = open(\"Rappor
@@ -1478,7 +1516,7 @@ ut\n \"); f.close();")...executed.
 
 
 (./Rapport.mintedmd5)
-(./_minted-Rapport/81d7ea982572ea10d9e2ad475ce7b501fc4b73f0.pygtex) [51]
+(./_minted-Rapport/81d7ea982572ea10d9e2ad475ce7b501fc4b73f0.pygtex) [56]
 \openout5 = `Rapport.mintedcmd'.
 
 runsystem(python -c "import hashlib; hasher = hashlib.sha1(); f = open(\"Rappor
@@ -1490,7 +1528,7 @@ t\n \"); f.close();")...executed.
 
 
 (./Rapport.mintedmd5)
-(./_minted-Rapport/93beb2581a5074cbde522dfe4bea598a72bdf2ab.pygtex) [52]
+(./_minted-Rapport/93beb2581a5074cbde522dfe4bea598a72bdf2ab.pygtex) [57]
 \openout5 = `Rapport.mintedcmd'.
 
 runsystem(python -c "import hashlib; hasher = hashlib.sha1(); f = open(\"Rappor
@@ -1502,7 +1540,7 @@ ut\n \"); f.close();")...executed.
 
 
 (./Rapport.mintedmd5)
-(./_minted-Rapport/c1fa568afde35bd28fab6f667ef6162bbda27191.pygtex) [53]
+(./_minted-Rapport/c1fa568afde35bd28fab6f667ef6162bbda27191.pygtex) [58]
 \openout5 = `Rapport.mintedcmd'.
 
 runsystem(python -c "import hashlib; hasher = hashlib.sha1(); f = open(\"Rappor
@@ -1514,29 +1552,29 @@ gest() + chr(125) + \"\"; f.write(\"\\makeatletter\" + macro + \"\\makeatother\
 
 
 (./Rapport.mintedmd5)
-(./_minted-Rapport/cb99cb8f35467fe0ac93dd5edfc41221966f8d69.pygtex) [54]
-[55] 
+(./_minted-Rapport/cb99cb8f35467fe0ac93dd5edfc41221966f8d69.pygtex) [59]
+[60] 
 AED: lastpage setting LastPage
-[56]
+[61]
 runsystem(rm "Rapport.mintedcmd")...executed.
 
 runsystem(rm "Rapport.mintedmd5")...executed.
 
 runsystem(rm "Rapport.pyg")...executed.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 885.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 885.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1215.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1215.
  (./Rapport.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 885.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 885.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 1215.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 1215.
  ) 
 Here is how much of TeX's memory you used:
- 30479 strings out of 493591
- 531891 string characters out of 6143546
- 605728 words of memory out of 5000000
- 33444 multiletter control sequences out of 15000+600000
- 9601 words of font info for 57 fonts, out of 8000000 for 9000
+ 30521 strings out of 493591
+ 532528 string characters out of 6143546
+ 612379 words of memory out of 5000000
+ 33484 multiletter control sequences out of 15000+600000
+ 9617 words of font info for 59 fonts, out of 8000000 for 9000
  1347 hyphenation exceptions out of 8191
  37i,11n,48p,10366b,670s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on Rapport.pdf (56 pages).
+Output written on Rapport.pdf (61 pages).

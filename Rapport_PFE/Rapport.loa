@@ -1,2 +1,5 @@
-\contentsline {algorithm}{\numberline {1}{\ignorespaces 1/1 : 1 IN <-> 1 LGW\relax }}{23}{algorithm.1}
-\contentsline {algorithm}{\numberline {2}{\ignorespaces k/1 : k IN <-> 1 LGW\relax }}{24}{algorithm.2}
+\contentsline {algorithm}{\numberline {1}{\ignorespaces Initialisation des variables de communication\relax }}{25}{algorithm.1}
+\contentsline {algorithm}{\numberline {2}{\ignorespaces Algorithme IN 1-1\relax }}{25}{algorithm.2}
+\contentsline {algorithm}{\numberline {3}{\ignorespaces Initialisation des variables de communication\relax }}{26}{algorithm.3}
+\contentsline {algorithm}{\numberline {4}{\ignorespaces Algorithme lgw 1-1\relax }}{27}{algorithm.4}
+\contentsline {algorithm}{\numberline {5}{\ignorespaces k/1 : k IN <-> 1 LGW\relax }}{28}{algorithm.5}

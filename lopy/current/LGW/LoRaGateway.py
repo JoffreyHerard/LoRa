@@ -143,7 +143,7 @@ def handle_message(data):
         pairing_phase(msg)
     if msg.kind == "3" and msg.id_dest == str(id):
         registering_phase(msg)
-del lora        
+del lora
 lora = LoRa(mode=LoRa.LORA, region=LoRa.EU868)
 clock = TimerL(slot)
 while True:

@@ -22,13 +22,13 @@
 \usepackage{minted}
 \usepackage[toc,page]{appendix} 
 \usepackage[nottoc]{tocbibind}
-\usepackage{algpseudocode}
+\usepackage[end]{algpseudocode}
 \usepackage{algorithm}
 \usepackage{algorithmicx}
 \usepackage{dirtree}
 \usepackage{hyperref}
 
-
+\algdef{SE}[DOWHILE]{Do}{doWhile}{\algorithmicdo}[1]{\algorithmicwhile\ #1}%
 \newcommand*\DNA{\textsc{dna}}
 
 \newcommand*\Let[2]{\State #1 $\gets$ #2}
@@ -453,25 +453,348 @@ Ici nous allons nous intéréssé surtout à l'ensemble des algorithmes soumis p
 
 \newpage
 \subsection{Algorithme}
-Cette section va exposé et expliqué l'ensemble des algorithmes présentés.
-\subsubsection{Algorithme 1/1 : 1 IN <-> 1 LGW}
+
+
+L'ensemble des messsages du système sont de la forme :
+
+\begin{center}
+\texttt{< message\_type , source , destination , data >}
+\end{center}
+
+On distingue donc plusieurs messages dans le système. On considère qu'à chaque message correspond une fonction portant le nom du message, initialisant le type et la source du message, et prenant en paramètre la destination et les données.
+
+\subsubsection{les messages $IN \rightarrow LGW$}
+\begin{itemize}
+    \item les messages \texttt{discover}
+    \begin{itemize}
+      \item message mis en place pour la découverte d'une \texttt{LGW} par un \texttt{IN}
+      \item \texttt{destination = udef} : en broadcast
+      \item \texttt{data = udef} : aucune info
+    \end{itemize}
+    \item les messages \texttt{pair}
+    \begin{itemize}
+      \item message d'apairage d'un IN sur une LGW
+      \item \texttt{data = udef} : aucune info
+    \end{itemize}
+    \item les messages \texttt{data\_response}
+    \begin{itemize}
+      \item réponse à une demande de données de la part d'une LGW
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{les messages $LGW \rightarrow IN$}
+Pour l'ensemble des messages LoRa issus de la \texttt{LGW} la partie data est structurée ainsi :
+
+\begin{itemize}
+  \item \texttt{answer\_frequency} : fréquence sur laquelle l'\texttt{IN} doit répondre
+  \item \texttt{next\_slot} : délai d'ici la prochaine fenêtre d'écoute
+  \item \texttt{next\_duration} : temps fixé de la prochaine fenêtre d'écoute
+  \item \texttt{next\_frequency} : fréquence de la prochaine fenêtre d'écoute
+  \item \texttt{data} : espace de données spécifiques à l'échange
+\end{itemize}
+
+Le message devient donc :
+
+\begin{center}
+\texttt{< message\_type , source , destination , answer\_frequency , next\_slot , next\_duration , next\_frequency , data>}
+\end{center}
+
+Les différents messages \texttt{LGW} $\rightarrow$ \texttt{IN} sont donc :
+\begin{itemize}
+    \item les messages \texttt{candidate} %\textbf{(ce nom ne me plait pas !!!)}
+    \begin{itemize}
+      \item message de réponse d'une \texttt{LGW} après réception d'un \texttt{discover} d'un \texttt{IN}
+      \item \texttt{data = udef} : aucune info
+    \end{itemize}
+    \item les messages \texttt{data\_request}
+    \begin{itemize}
+      \item message de demande de données
+      \item \texttt{data = udef} si une seule donnée disponible ou \texttt{data = requested\_data} dans le cas de donnés multiples
+    \end{itemize}
+\end{itemize}
+
+\subsection{Liste des fonctions utilisées}
+
+\subsubsection{Fonction d'émission}
+
+\texttt{void sendLora(frequency , message)}
+
+\subsubsection{Fonction de réception}
+
+la fonction \texttt{listen} écoute sur la fréquence \texttt{frequency} un temps définit par \texttt{time}. Le prototype de cette fonction est :
+
+\begin{center}
+\texttt{(message,time) listen(frequency , source , message\_type , time\_listen)}
+\end{center}
+
+les valeurs des paramètres de cette fonction sont :
+\begin{itemize}
+  \item \texttt{frequency} : fréquence d'écoute
+  \item \texttt{source} : id de l'émetteur du message
+  \begin{itemize}
+    \item \texttt{source = udef} : écoute de tous les n{\oe}uds sur la fréquence définie
+  \end{itemize}
+  \item \texttt{message\_type} : type de message attendu
+  \begin{itemize}
+    \item \texttt{message\_type = udef} : écoute de tous les types de messages
+  \end{itemize}
+  \item \texttt{time\_listen} : durée de la fenêtre de réception
+  \begin{itemize}
+    \item \texttt{time\_listen = udef} : fenêtre infinie
+  \end{itemize}
+\end{itemize}
+
+Valeurs de retour :
+
+\begin{itemize}
+  \item \texttt{message} message reçu
+  \begin{itemize}
+    \item passage du message dans sa totalité
+    \item \texttt{message == udef} : pas de réception respectant les contraintes
+  \end{itemize}
+  \item \texttt{time} temps restant basé sur \texttt{time\_listen}
+  \begin{itemize}
+    \item \texttt{time == udef} : dans le cas de \texttt{time\_listen = udef}
+  \end{itemize}
+\end{itemize}
+
+\subsection{Algorithme 1 - 1}
+
+\subsubsection{Algorithme des \texttt{IN}}
+
 \begin{algorithm}
-  \caption{ 1/1 : 1 IN <-> 1 LGW}
-  \begin{algorithmic}[1]
-    \Require{$x$ and $y$ are packed \DNA{} strings of equal length $n$}
-    \Statex
-    \Function{Distance}{$x, y$}
-      \Let{$z$}{$x \oplus y$} \Comment{$\oplus$: bitwise exclusive-or}
-      \Let{$\delta$}{$0$}
-      \For{$i \gets 1 \textrm{ to } n$}
-        \If{$z_i \neq 0$}
-          \Let{$\delta$}{$\delta + 1$}
-        \EndIf
-      \EndFor
-      \State \Return{$\delta$}
-    \EndFunction
-  \end{algorithmic}
+\caption{Initialisation des variables de communication}\label{alg:intvar}
+\begin{algorithmic}[1]
+\Procedure{$init\_var$}{msg}
+\State $lgw \leftarrow msg.source$
+\State $freq\_send \rightarrow msg.answer\_frequency$
+\State $next\_time \leftarrow msg.next\_slot$
+\State $timer \leftarrow msg.next\_duration$
+\State $freq\_listen \leftarrow msg.next\_frequency$
+\EndProcedure
+\State
+\Procedure{$flush\_var$}{~}
+\State $lgw \leftarrow udef$
+\State $msg \leftarrow udef$
+\State $next\_time \leftarrow udef$
+\State $timer \leftarrow timer\_disco$
+\State $freq\_listen \leftarrow freq\_disco$
+\State $freq\_send \leftarrow freq\_disco$
+\EndProcedure
+\end{algorithmic}
 \end{algorithm}
+
+
+\begin{algorithm}
+\caption{Algorithme IN 1-1}\label{alg:in1-1}
+\begin{algorithmic}[1]
+\While{$(true)$}
+  \State $flush\_var()$
+  \State \Comment{------------------------------------------------------- \textit{phase d'apairage}}
+  \While{$(msg = udef)$}
+    \State $sendLora(freq\_listen,discover(udef,udef))$
+    \State $(msg,t) = listen(freq\_send,udef,candidate,timer + rnd())$
+  \EndWhile
+  \State $initVar(msg)$
+  \State $sendLora(freq\_send,pair(lgw,udef))$
+  \State
+  \State \Comment{----------------------------------------------\textit{Phase d'échanges}}
+  \While{$(lgw != udef)$}
+    \State $sleep(next\_time)$
+    \State $(msg,t) = listen(freq\_send,lgw,data\_request,timer)$
+    \If{$msg != udef$}
+      \State $initVar(msg)$
+      \State $sendLora(freq\_send,date\_response(lgw,local\_data)$
+    \Else
+      $flush\_var()$
+    \EndIf
+  \EndWhile
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
+
+\subsubsection{Algorithme des \texttt{LGW}}
+
+\begin{algorithm}
+\caption{Initialisation des variables de communication}\label{alg:initvarlg}
+\begin{algorithmic}[1]
+\Procedure{$init\_var$}{~}
+\State $freq\_send \rightarrow chose()$
+\State $timer \leftarrow chose()$
+\State $freq\_listen \leftarrow chose()$
+\State $freq\_next \leftarrow chose()$
+\EndProcedure
+\State
+\Procedure{$flush\_var$}{~}
+\State $timer \leftarrow timer\_disco$
+\State $freq\_listen \leftarrow freq\_disco$
+\State $freq\_send \leftarrow freq\_disco$
+\State $in \leftarrow udef$
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+\caption{Algorithme lgw 1-1}\label{alg:lgw1-1}
+\begin{algorithmic}[1]
+\State $LoRaWAN\_join()$
+\State $flush\_var()$
+\While{$(true)$}
+  \If{$(in == udef)$}
+    \State $(msg,t) = listen(freq\_listen,udef,discover,timer)$
+  \EndIf
+  \If{$(msg != udef)$}
+    \State $in \leftarrow msg.source$
+    \State $init\_var()$
+    \State $sendLora(freq\_send,candidate(in,freq\_listen,slot,duration,freq\_next,udef)$
+    \State $(msg,t) = listen(freq\_listen,in,pair,timer)$
+    \If{$(msg == udef)$}
+      \State $flush\_var()$
+    \EndIf
+  \EndIf
+  \If{$(in != udef)$}
+    \State $init\_var()$
+    \State $sendLora(freq\_send,data\_request(in,freq\_listen,slot,duration,freq\_next,udef)$
+    \State $(msg,t) = listen(freq\_listen,in,data\_response,timer)$
+    \If{$(msg != udef)$}
+      \State $send\_lora\_data(id + ":" + local\_data + ";" + in + ":" + msg.data)$
+    \Else
+      \State $send\_lora\_data(id + ":" + local\_data + ";" + in + ":" + udef)$
+      \State $flush\_var()$
+    \EndIf
+  \EndIf
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
+
+
+%Cette section va exposé et expliqué l'ensemble des algorithmes présentés.
+%Les messages dans le système sont de la forme :
+%\begin{center}
+%<type , source , destination , data ... >
+%\end{center}
+%Type de message commun : \newline
+%\begin{center}
+%\textbf{Discover : IN -> LGW}
+%
+% <type = 0 , idIn , udef>
+%
+%\textbf{Candidate : LGW -> IN}
+%
+% <type=1 , idLgw , idIn , answFreq , nextSlot , nextTdada , Nextfreq>
+%
+%\textbf{Pair : IN -> LGW}
+%
+%  <type = 2 , idIn , idLgw>
+%
+%\textbf{RequestData : LGW -> IN }
+%
+%<type=3 , idLgw , idIn , answFreq , nextSlot , nextTWait , nextFreq>
+%
+%\textbf{SendData : IN -> LGW}
+%
+%<type=4 , idIn , idLgw , data>
+%\end{center}
+%
+%Liste des fonctions utilisées
+%
+%Emission du message msg sur la fréquence freq :
+%\begin{center}
+%void sendLora(freq , msg)
+%\end{center}
+%Ecoute bloquante d'un message sur la fréquence freq :
+%\begin{center}
+%msg listen(freq)
+%\end{center}
+%
+%Ecoute bloquante d'un message Durant Twait unités de temps sur la fréquence freq
+%\begin{itemize}
+%\item retourne le message reçu (udef si aucune réception)
+%\item en cas de réception le temps écoulé jusqu'à la réception
+%\end{itemize}	
+%\begin{center}
+%(msg,time) listen(freq,Twait)
+%\end{center}
+%\paragraph{Remarque} : \textit{ les messages ne sont délivrés que si la destination est bien le nœud courant ou udef}
+%
+%
+%\newpage
+%\subsubsection{Algorithme des Isolated nodes}
+%\begin{algorithm}
+%\caption{ Isolated node }
+%\begin{algorithmic}[1]
+%\While{True}
+%	\State $lgw \gets udef$
+%	\State $msg\gets udef$
+%	\State $Twaitdata\gets udef$
+%	\State $F\gets udef$
+%	\While{msg = udef} \Comment{ A verifier si on le fait indéfiniment}
+%		\State $sendLora(Fdiscover, discover(id))$
+%		\State $(msg,t) \gets listen(Fdiscover, (Tdiscover + rnd()) )$
+%		\If {$(msg = udef)\textbf{OU}(msg.type \not= 1)$}
+%   			 \State $sleep(Tdiscover)$
+%   			 \State $msg\gets udef$
+%		\EndIf
+%	\EndWhile
+%	\State $lgw \gets msg.id$  \Comment{ Initialisation des données localest}
+%	\State $FAnswer \gets msg.answFreq$
+%	\State $nextSlot \gets msg.nextSlot$
+%	\State $TWaitData \gets msg.nextTData$
+%	\State $F \gets msg.nextFreq$
+%	\State $sendLora(FAnswer, pair(id,lgw))$  \Comment{Acceptation de l'appairage}
+%	\While{$lgw \not= udef$}
+%		\State $sleep(nextSlot)$
+%		 \Do \Comment{à voir les pb de temps de calcul !!!}
+%   			 \State $(msg,t) \gets listen(F,TwaitData)$
+% 		 \doWhile{$msg \neq udef$}  
+% 		 \If {$msg \not= udef$}
+%			\State $F \gets msg.answFreq$
+%			\State $next \gets msg.nextSlot$
+%			\State $TWaitData \gets msg.nextTData$
+%			\State $sendLora(F, sendData(id,lgw,localData))$
+%		\Else
+%			\State $lgw \gets udef$
+%			\State $next\gets udef$
+%			\State $Twaitdata\gets udef$
+%			\State $F\gets udef$
+%			\State $FListen\gets udef$
+%		\EndIf
+%	\EndWhile
+%\EndWhile
+%\end{algorithmic}
+%\end{algorithm}
+%\subsubsection{Algorithme 1/1 : 1 IN <-> 1 LGW}
+%\begin{algorithm}
+%\caption{ 1/1 : 1 IN <-> 1 LGW : LoRaGateway}
+%\begin{algorithmic}[1]
+%\State $join(F,id,appid) $
+%\State $n \gets udef$
+%\While{True}
+%	\If {$in = udef$}
+%		\State $(msg,t) \gets listen(Fdiscover,Tw)$	
+%		\If {$in \not= udef$}
+%		\State $candIn \gets msg.idIn$
+%			\State $sendLora(F1,candidate(id,candIn,FreqRep,nextSlot,nextData,nextFreq))$
+%			\State $(msg,t) \gets listen(freqRep,Tw)$
+%			\If {$msg \not= udef$ AND $candIn = msg.idIn$}
+%				\State $in \gets msg.id $
+%			\EndIf
+%		\EndIf
+%	\EndIf
+%	\If {$in \not= udef$}
+%		\State $changeParam(FreqRep,nextSlot,nextData,nextFreq)$
+%		\State $sendLora(nextFreq,Requestdata(id, in , FreqRep,nextSlot,nextData,nextFreq))$
+%		\State $(msg,t) \gets listen(FreqRep,msg)$
+%
+%	\EndIf
+%	\If {$msg \not= udef$}
+%		\State $sendDataLora(localdata + msg.data)$
+%	\Else
+%		\State $sendDataLora(localdata + error)$
+%	\EndIf
+%\EndWhile
+%\end{algorithmic}
+%\end{algorithm}
 
 \newpage
 \subsubsection{Algorithme k/1 : k IN <-> 1 LGW}
@@ -764,6 +1087,13 @@ linenos
 %\newpage
 %\subsection{Semtech}
 
+\newpage
+\section{Problèmes rencontrés}
+Lors du dévellopement sur les LoPy, il y a eu un en semble de  problème. 
+\begin{enumerate}
+\item Ce premier est du a la lever d'une exception EAGAIN, qui levée quan le système detecte au bout de trois action identique et répété dans un espace de temps assez court. Par exemple lors des tests réalisé nous etions entre les 500ms et 800ms de tolérance de répétion minimale. La mesure n'etant pas facile à cette échelle de temps, cela explique l'intervalle assez large.
+\item Le deuxième problème a été logiciel. En effet lorsque la gateway LoRa fait sont premier join request avant d'entamer tout traitement. Le lopy ne garde pas en mémoire qu'il a déjà join une gateway LoRaWAN, en effet la récupération des données des IN se fait en mode.LoRa. Or quand on veut les remonter à la LoRaWAN Gateway on doit à nouveau executer une Join Request.
+\end{enumerate}
 \newpage
 \section{Conclusion}
 Durant ce projet consacrée à la gestion des noeuds isolé en LoRa, la programmation réalisé sur les LoPy a révéle que la théorie a pu être appliqué. Cependant il n'as pas été inutile de réaliser un ensemble de simulation, afin de voir l'intégralité des messges à prévoir, les eventuels problèmes. Ainsi que la réalisation de certain timer, et d'echange. Mais aussi et surtout pour voir la quantité de message qui sont émit sur une seule et même fréquence. L'idéal serait donc d'attribuer des fréquences pour chaque noeud. Ce qui evite de surcharger une fréquence, même si statistiquement les échanges finiront par s'effectuer. Il est nécéssaire d'écourter au maximum les temps ou le capteur est actif. C'est donc pour cela que pour continuer ce projet il faudrais envisager un changement d'organisation sur les échanges et le nombre de noeud prix en charge sur chaque fréquence et sur chaque LoRaGateway. Il faudrais aussi envisager un changement dans la simulation pour pouvoir réaliser des tests plus poussés. Notamment une vrai implémentation du LoRa dans Omnet++ comme par exemple \href{http://flora.aalto.fi}{FloRa}. Pour finir cette ouverture, il serait plus que intéréssant de s'atteler à une programmation sur des capteurs Semtech. 

@@ -68,35 +68,43 @@
 \contentsline {section}{\numberline {3}Problème}{21}{section.3}
 \contentsline {section}{\numberline {4}Solutions}{22}{section.4}
 \contentsline {subsection}{\numberline {4.1}Algorithme}{23}{subsection.4.1}
-\contentsline {subsubsection}{\numberline {4.1.1}Algorithme 1/1 : 1 IN <-> 1 LGW}{23}{subsubsection.4.1.1}
-\contentsline {subsubsection}{\numberline {4.1.2}Algorithme k/1 : k IN <-> 1 LGW}{24}{subsubsection.4.1.2}
-\contentsline {subsection}{\numberline {4.2}Chronogrammes}{25}{subsection.4.2}
-\contentsline {subsubsection}{\numberline {4.2.1}Phase de découverte et d'enregistrement}{25}{subsubsection.4.2.1}
-\contentsline {paragraph}{Coté Isolated node}{25}{paragraph*.65}
-\contentsline {paragraph}{Coté LoRa Gateway}{25}{paragraph*.66}
-\contentsline {paragraph}{Coté LoRaWAN Gateway}{25}{paragraph*.67}
-\contentsline {subsubsection}{\numberline {4.2.2}Phase de collecte}{26}{subsubsection.4.2.2}
-\contentsline {paragraph}{Coté Isolated node}{26}{paragraph*.69}
-\contentsline {paragraph}{Coté LoRa Gateway}{26}{paragraph*.70}
-\contentsline {paragraph}{Coté LoRaWAN Gateway}{26}{paragraph*.71}
-\contentsline {section}{\numberline {5}Simulation}{27}{section.5}
-\contentsline {subsection}{\numberline {5.1}Le simulateur : Omnet++}{27}{subsection.5.1}
-\contentsline {subsection}{\numberline {5.2}Génération des graphes}{27}{subsection.5.2}
-\contentsline {subsection}{\numberline {5.3}Représentation des échanges radio}{29}{subsection.5.3}
-\contentsline {subsection}{\numberline {5.4}Exemples de simulations graphiques}{30}{subsection.5.4}
-\contentsline {subsubsection}{\numberline {5.4.1}Simulation sur une chaine}{30}{subsubsection.5.4.1}
-\contentsline {subsubsection}{\numberline {5.4.2}Simulation avec 3 IN sur une LGW}{31}{subsubsection.5.4.2}
-\contentsline {subsubsection}{\numberline {5.4.3}Simulation à plus grande echelle }{32}{subsubsection.5.4.3}
-\contentsline {section}{\numberline {6}Programmation}{33}{section.6}
-\contentsline {subsection}{\numberline {6.1}LoPy}{33}{subsection.6.1}
-\contentsline {subsubsection}{\numberline {6.1.1}Isolated Node}{36}{subsubsection.6.1.1}
-\contentsline {subsubsection}{\numberline {6.1.2}LoRaGateway}{40}{subsubsection.6.1.2}
-\contentsline {section}{\numberline {7}Conclusion}{43}{section.7}
-\contentsline {section}{Table des figures}{44}{section.7}
-\contentsline {section}{Liste des algorithmes}{45}{section.7}
-\contentsline {section}{Annexes}{46}{section*.77}
-\contentsline {section}{\numberline {A}Code iGraph}{46}{Annexe.a.A}
-\contentsline {section}{\numberline {B}Code Omnet++}{50}{Annexe.a.B}
-\contentsline {subsection}{\numberline {B.1}Fichier .h}{50}{subsection.a.B.1}
-\contentsline {subsection}{\numberline {B.2}Fichier .cpp}{55}{subsection.a.B.2}
-\contentsline {section}{\numberline {C}Arborescence des fichiers}{56}{Annexe.a.C}
+\contentsline {subsubsection}{\numberline {4.1.1}les messages $IN \rightarrow LGW$}{23}{subsubsection.4.1.1}
+\contentsline {subsubsection}{\numberline {4.1.2}les messages $LGW \rightarrow IN$}{23}{subsubsection.4.1.2}
+\contentsline {subsection}{\numberline {4.2}Liste des fonctions utilisées}{24}{subsection.4.2}
+\contentsline {subsubsection}{\numberline {4.2.1}Fonction d'émission}{24}{subsubsection.4.2.1}
+\contentsline {subsubsection}{\numberline {4.2.2}Fonction de réception}{24}{subsubsection.4.2.2}
+\contentsline {subsection}{\numberline {4.3}Algorithme 1 - 1}{26}{subsection.4.3}
+\contentsline {subsubsection}{\numberline {4.3.1}Algorithme des \texttt {IN}}{26}{subsubsection.4.3.1}
+\contentsline {subsubsection}{\numberline {4.3.2}Algorithme des \texttt {LGW}}{26}{subsubsection.4.3.2}
+\contentsline {subsubsection}{\numberline {4.3.3}Algorithme k/1 : k IN <-> 1 LGW}{28}{subsubsection.4.3.3}
+\contentsline {subsection}{\numberline {4.4}Chronogrammes}{29}{subsection.4.4}
+\contentsline {subsubsection}{\numberline {4.4.1}Phase de découverte et d'enregistrement}{29}{subsubsection.4.4.1}
+\contentsline {paragraph}{Coté Isolated node}{29}{paragraph*.65}
+\contentsline {paragraph}{Coté LoRa Gateway}{29}{paragraph*.66}
+\contentsline {paragraph}{Coté LoRaWAN Gateway}{29}{paragraph*.67}
+\contentsline {subsubsection}{\numberline {4.4.2}Phase de collecte}{30}{subsubsection.4.4.2}
+\contentsline {paragraph}{Coté Isolated node}{30}{paragraph*.69}
+\contentsline {paragraph}{Coté LoRa Gateway}{30}{paragraph*.70}
+\contentsline {paragraph}{Coté LoRaWAN Gateway}{30}{paragraph*.71}
+\contentsline {section}{\numberline {5}Simulation}{31}{section.5}
+\contentsline {subsection}{\numberline {5.1}Le simulateur : Omnet++}{31}{subsection.5.1}
+\contentsline {subsection}{\numberline {5.2}Génération des graphes}{31}{subsection.5.2}
+\contentsline {subsection}{\numberline {5.3}Représentation des échanges radio}{33}{subsection.5.3}
+\contentsline {subsection}{\numberline {5.4}Exemples de simulations graphiques}{34}{subsection.5.4}
+\contentsline {subsubsection}{\numberline {5.4.1}Simulation sur une chaine}{34}{subsubsection.5.4.1}
+\contentsline {subsubsection}{\numberline {5.4.2}Simulation avec 3 IN sur une LGW}{35}{subsubsection.5.4.2}
+\contentsline {subsubsection}{\numberline {5.4.3}Simulation à plus grande echelle }{36}{subsubsection.5.4.3}
+\contentsline {section}{\numberline {6}Programmation}{37}{section.6}
+\contentsline {subsection}{\numberline {6.1}LoPy}{37}{subsection.6.1}
+\contentsline {subsubsection}{\numberline {6.1.1}Isolated Node}{40}{subsubsection.6.1.1}
+\contentsline {subsubsection}{\numberline {6.1.2}LoRaGateway}{44}{subsubsection.6.1.2}
+\contentsline {section}{\numberline {7}Problèmes rencontrés}{47}{section.7}
+\contentsline {section}{\numberline {8}Conclusion}{48}{section.8}
+\contentsline {section}{Table des figures}{49}{section.8}
+\contentsline {section}{Liste des algorithmes}{50}{section.8}
+\contentsline {section}{Annexes}{51}{section*.77}
+\contentsline {section}{\numberline {A}Code iGraph}{51}{Annexe.a.A}
+\contentsline {section}{\numberline {B}Code Omnet++}{55}{Annexe.a.B}
+\contentsline {subsection}{\numberline {B.1}Fichier .h}{55}{subsection.a.B.1}
+\contentsline {subsection}{\numberline {B.2}Fichier .cpp}{60}{subsection.a.B.2}
+\contentsline {section}{\numberline {C}Arborescence des fichiers}{61}{Annexe.a.C}
