@@ -2,7 +2,7 @@ from network import LoRa
 import socket
 import time
 import binascii
-
+import struct
 # Initialize LoRa in LORAWAN mode.
 # Please pick the region that matches where you are using the device:
 # Asia = LoRa.AS923
@@ -35,12 +35,14 @@ s.setsockopt(socket.SOL_LORA, socket.SO_DR, 5)
 s.setblocking(True)
 
 # send some data
-s.send(bytes([0x01, 0x02, 0x03]))
+data1="toto:4568;titi:6544564;bob:5465456"
+taille=str(len(data1))+'s'
+databytes = struct.pack(taille, data1)
+print(databytes)
+s.send(databytes)
+# binascii.unhexlify(data).decode('utf8') pour decoder
+
 
 # make the socket non-blocking
 # (because if there's no data received it will block forever...)
 s.setblocking(False)
-
-# get any data received (if any...)
-data = s.recv(64)
-print(data)

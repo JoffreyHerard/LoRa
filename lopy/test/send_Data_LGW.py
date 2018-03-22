@@ -4,6 +4,7 @@ import time
 import pycom
 import uos
 import binascii
+import struct
 from machine import Timer
 pycom.heartbeat(False)
 pycom.rgbled(0xff00)
@@ -26,7 +27,7 @@ while not lora.has_joined():
 print('Connected to Objenious LoRaWAN!')
 s.setblocking(True)
 # send some data
-s.send(bytes([0x01, 0x02, 0x03]))
+s.send(bytes([0x32, 0x18, 0x41]))
 # make the socket non-blocking
 # (because if there's no data received it will block forever...)
 s.setblocking(False)
@@ -38,14 +39,24 @@ while(True):
     data = s.recv(128)
     message=data.decode()
     if message != '':
+        print(data)
         print("Changement radio vers LoRaWAN")
         lora = LoRa(mode=LoRa.LORAWAN, region=LoRa.EU868)
         lora.join(activation=LoRa.OTAA, auth=(dev_eui,app_eui, app_key), timeout=0)
+        data1,data2,data3=message.split(",")
+        data1=int(data1)
+        data2=int(data2)
+        data3=int(data3)
         while not lora.has_joined():
             time.sleep(2.5)
             print('Not yet joined...')
         print('Connected to Objenious LoRaWAN!')
-        s.send(bytes([0x01, 0x02, 0x03]))
-        print(data)
+        b_data1=hex(data1)
+        b_data2=hex(data2)
+        b_data3=hex(data3)
+        pack=struct.pack('x', b_data1,b_data2,b_data3)
+        print(" le pack est ")
+        print(pack)
+        s.send(pack)
         print("Changement radio vers LoRa")
         lora = LoRa(mode=LoRa.LORA, region=LoRa.EU868)
