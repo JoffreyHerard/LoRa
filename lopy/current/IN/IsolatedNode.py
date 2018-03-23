@@ -42,7 +42,7 @@ s = socket.socket(socket.AF_LORA, socket.SOCK_RAW)
 s.setblocking(False)
 id=1
 timer=0
-data=0
+data=42
 tryDiscover=0
 tryRegister=0
 discovered=False
@@ -111,7 +111,9 @@ def sendData():
     global slot
     global frequency
     print("PHASE SEND DATA STARTED\n")
-    s.send('DataRes,'+str(5)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(myLoRa)+','+str(data)+','+str(-1))
+    print('DataRes,'+str(5)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(myLoRa)+','+str(data)+','+str(70))
+    s.send('DataRes,'+str(5)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(myLoRa)+','+str(data)+','+str(70))
+    #time.sleep(20)
     print("DataResponse sent")
     print("PHASE SEND DATA ENDED\n")
 while True:
@@ -137,7 +139,7 @@ while True:
             slot=int(msg.listeningtime)
             clock = TimerL(float(msg.listeningtime))
             print("I sent my data")
-        data+=1
+
     else:
         pycom.rgbled(0x7f0000) #red
         print("I am sleeping")

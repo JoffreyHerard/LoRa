@@ -4,8 +4,9 @@ class messageLoRa:
     slots=0
     id_src=-1
     id_dest=-1
-    data=-1
+    data=0
     kind=0
+    toto=0
     listeningtime=0
     def __init__(self):
         self.messageName="not set yet"

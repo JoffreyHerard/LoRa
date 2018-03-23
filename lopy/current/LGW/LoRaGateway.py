@@ -5,12 +5,12 @@ import pycom
 import uos
 import messageLoRa
 import binascii
+import struct
 from machine import Timer
 from messageLoRa import messageLoRa
 pycom.heartbeat(False)
 pycom.rgbled(0xff00)
 lora = LoRa(mode=LoRa.LORAWAN, region=LoRa.EU868)
-s = socket.socket(socket.AF_LORA, socket.SOCK_RAW)
 
 # create an OTAA authentication parameters
 app_eui = binascii.unhexlify('70 B3 D5 7E F0 00 49 E1'.replace(' ',''))
@@ -26,6 +26,8 @@ while not lora.has_joined():
     print('Not yet joined...')
 print('Connected to Objenious LoRaWAN!')
 
+s = socket.socket(socket.AF_LORA, socket.SOCK_RAW)
+s.setsockopt(socket.SOL_LORA, socket.SO_DR, 5)
 s.setblocking(True)
 
 # send some data
@@ -88,21 +90,29 @@ class TimerL:
         alarm.cancel() # stop it
         if isListening:
             isListening=False
-def changetoLW(lora):
+def changetoLW():
+    global app_eui
+    global app_key
+    global dev_eui
+    global lora
+    global s
     lora = LoRa(mode=LoRa.LORAWAN, region=LoRa.EU868)
     lora.join(activation=LoRa.OTAA, auth=(dev_eui,app_eui, app_key), timeout=0)
     while not lora.has_joined():
+        print('CtLW : Not yet joined...')
         time.sleep(2.5)
-        print('Not yet joined...')
-    print('Connected to Objenious LoRaWAN!')
+    print('Connected to Objenious LoRaWAN again !')
+    s = socket.socket(socket.AF_LORA, socket.SOCK_RAW)
+    s.setsockopt(socket.SOL_LORA, socket.SO_DR, 5)
 def changetoLoRa(lora):
     lora = LoRa(mode=LoRa.LORA, region=LoRa.EU868)
-    print('Radio mode is LoRa now ')
+    print('Radio mode is LoRa now !')
+    time.sleep(5)
 def send_datatoLWGW(socket,dataString):
     data=dataString
     taille=str(len(data))+'s'
     databytes = struct.pack(taille, data)
-    s.send(databytes)
+    socket.send(databytes)
 def pairing_phase(msg):
     global slot
     global idRegistered
@@ -130,6 +140,7 @@ def standard():
     print("STANDARD PHASE STARTED")
     global isRegistered
     global slot
+    data_sum=""
     for idDest in isRegistered:
         print(idDest)
         print('DataReq,'+str(4)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(idDest)+','+str(-1)+','+str(slot))
@@ -150,7 +161,11 @@ def standard():
             dataHarvested = s.recv(128)
             msgH =messageLoRa()
             msgH.fillMessage(dataHarvested)
+            print("msg data =========>"+dataHarvested.decode())
+            data_sum=data_sum+str(idDest)+","+str(msgH.data)+":"
+            #time.sleep(10)
     print("STANDARD PHASE ENDED")
+    return data_sum
 def handle_message(data):
     msg =messageLoRa()
     msg.fillMessage(data)
@@ -158,8 +173,8 @@ def handle_message(data):
         pairing_phase(msg)
     if msg.kind == "3" and msg.id_dest == str(id):
         registering_phase(msg)
-del lora
-lora = LoRa(mode=LoRa.LORA, region=LoRa.EU868)
+changetoLoRa(lora)
+time.sleep(2.5)
 clock = TimerL(slot)
 while True:
     if isListening:
@@ -167,7 +182,16 @@ while True:
         pycom.rgbled(0x007f00) # green
         data = s.recv(128)
         handle_message(data)
-        standard()
+        time.sleep(0.500)
+        recolte=standard()
+        print(recolte)
+        time.sleep(0.500)
+        if recolte !="" :
+            changetoLW()
+            s.setblocking(True)
+            send_datatoLWGW(s,recolte)
+            s.setblocking(False)
+            changetoLoRa(lora)
     else:
         pycom.rgbled(0x7f0000) #red
         print("I am sleeping")
