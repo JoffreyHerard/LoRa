@@ -88,6 +88,21 @@ class TimerL:
         alarm.cancel() # stop it
         if isListening:
             isListening=False
+def changetoLW(lora):
+    lora = LoRa(mode=LoRa.LORAWAN, region=LoRa.EU868)
+    lora.join(activation=LoRa.OTAA, auth=(dev_eui,app_eui, app_key), timeout=0)
+    while not lora.has_joined():
+        time.sleep(2.5)
+        print('Not yet joined...')
+    print('Connected to Objenious LoRaWAN!')
+def changetoLoRa(lora):
+    lora = LoRa(mode=LoRa.LORA, region=LoRa.EU868)
+    print('Radio mode is LoRa now ')
+def send_datatoLWGW(socket,dataString):
+    data=dataString
+    taille=str(len(data))+'s'
+    databytes = struct.pack(taille, data)
+    s.send(databytes)
 def pairing_phase(msg):
     global slot
     global idRegistered
