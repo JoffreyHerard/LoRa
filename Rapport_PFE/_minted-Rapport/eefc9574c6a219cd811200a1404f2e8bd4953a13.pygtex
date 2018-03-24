@@ -5,7 +5,16 @@
         \PYG{n}{pycom}\PYG{o}{.}\PYG{n}{rgbled}\PYG{p}{(}\PYG{l+m+mh}{0x007f00}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} green}
         \PYG{n}{data} \PYG{o}{=} \PYG{n}{s}\PYG{o}{.}\PYG{n}{recv}\PYG{p}{(}\PYG{l+m+mi}{128}\PYG{p}{)}
         \PYG{n}{handle\PYGZus{}message}\PYG{p}{(}\PYG{n}{data}\PYG{p}{)}
-        \PYG{n}{standard}\PYG{p}{()}
+        \PYG{n}{time}\PYG{o}{.}\PYG{n}{sleep}\PYG{p}{(}\PYG{l+m+mf}{0.500}\PYG{p}{)}
+        \PYG{n}{recolte}\PYG{o}{=}\PYG{n}{standard}\PYG{p}{()}
+        \PYG{k}{print}\PYG{p}{(}\PYG{n}{recolte}\PYG{p}{)}
+        \PYG{n}{time}\PYG{o}{.}\PYG{n}{sleep}\PYG{p}{(}\PYG{l+m+mf}{0.500}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n}{recolte} \PYG{o}{!=}\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}} \PYG{p}{:}
+            \PYG{n}{changetoLW}\PYG{p}{()}
+            \PYG{n}{s}\PYG{o}{.}\PYG{n}{setblocking}\PYG{p}{(}\PYG{n+nb+bp}{True}\PYG{p}{)}
+            \PYG{n}{send\PYGZus{}datatoLWGW}\PYG{p}{(}\PYG{n}{s}\PYG{p}{,}\PYG{n}{recolte}\PYG{p}{)}
+            \PYG{n}{s}\PYG{o}{.}\PYG{n}{setblocking}\PYG{p}{(}\PYG{n+nb+bp}{False}\PYG{p}{)}
+            \PYG{n}{changetoLoRa}\PYG{p}{(}\PYG{n}{lora}\PYG{p}{)}
     \PYG{k}{else}\PYG{p}{:}
         \PYG{n}{pycom}\PYG{o}{.}\PYG{n}{rgbled}\PYG{p}{(}\PYG{l+m+mh}{0x7f0000}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{}red}
         \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}I am sleeping\PYGZdq{}}\PYG{p}{)}

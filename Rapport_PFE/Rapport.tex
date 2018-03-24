@@ -103,7 +103,7 @@
 \setlength{\parskip}{0.5em}
 \newpage
 \section{Introduction}
-Dans ce rapport, il va être sujet d'aborder les technologies du \textit{LoRaWAN}, du \textit{LoRa} en commencant par definirs ces termes. Ensuite aborder ainsi que expliquer les problémes présent dans une architecture \textit{LoRaWAN} ainsi que les solutions possible pour résoudre ces problèmes. Il va être question avant toute implémentation de faire des simulations sur le modèle de communication \textit{LoRa} avec les algorithme présenter auparavant .Nous allons aborder comment programmer et donc implémenter cette solution dans un capteur. Nous utiliserons notamment dans un premier temps l'implémentation dans des capteurs \textit{LoPy} puis les capteurs \textit{Semtech}. Le rapport ce termineras sur un ensemble de résultats sous forme statistiques et verbales pour commenter ceux-ci.  
+Dans ce rapport, il va être sujet d'aborder les technologies du \textit{LoRaWAN}, du \textit{LoRa} en commencant par définir ces termes. Ensuite aborder ainsi que expliquer les problèmes présent dans une architecture \textit{LoRaWAN} ainsi que les solutions possibles pour résoudre ces problèmes. Il va être question avant toute implémentation de faire des simulations sur le modèle de communication \textit{LoRa} avec les algorithmes présenté auparavant .Nous allons aborder comment programmer et donc implémenter cette solution dans un capteur. Nous utiliserons notamment dans un premier temps l'implémentation dans des capteurs \textit{LoPy} puis les capteurs \textit{Semtech}. Le rapport se termineras sur un ensemble de résultats sous forme statistiques et verbales pour commenter ceux-ci.  
 \newpage
 \section{LoRaWAN}
 Comment connecter les milliards de capteurs qui seront potentiellement déployés dans le monde et qui participeront à la construction des villes intelligentes, de la mobilité et de l'industrie du futur ? \newline
@@ -222,7 +222,7 @@ Si un préambule est détecté pendant l'une des fenêtres de réception, le ré
 \subparagraph{Envoi d'un message à travers le réseaux vers un appareil}
 
 Si le serveur réseau à l'intention de transmettre un message uplink , il initiera toujours la transmission précisément au début de l'une de ces deux fenêtres de réception.
-\subparagraph{A noté}
+\subparagraph{A noter}
 
 Un terminal ne doit pas transmettre un autre message uplink avant qu'il ait reçu un message downlink dans la première ou la deuxième fenêtre de réception de la transmission précédente, ou que la deuxième fenêtre de réception de la transmission précédente ait expiré.
 
@@ -421,7 +421,7 @@ De même que pour la classe B, les périphériques de classe C peuvent recevoir 
 
 \newpage
 \section{Problème}
-Un problème est relevé après tout ce résumé de la spécification  \textit{LoRaWAN}. Il y a un problème qui se révele assez vite. En effet, le  \textit{LoRaWAN} est basé sur un modèle d'infrastructure. Par exemple, quand est-il d'un noeud qui n'est pas visible par une  \textit{LoRaWAN} Gateway? Il y a deux cas de figures simple : le premier cas est celui  ou le noeud n'est visible d'aucun device et d'aucune gateway  \textit{LoRaWAN}. Dans ce cas il n'y a rien à faire le noeud est isolé de manière permanente. Le deuxième cas de figure est celui qui nous intéresse particulièrement ici, en effet le noeud isolé est visible par un end-device qui lui est à porté d'une  \textit{LoRaWAN} Gateway tout comme l'illustre le schéma suivant :
+Il y a un problème qui se révele assez vite. En effet, le  \textit{LoRaWAN} est basé sur un modèle d'infrastructure. Par exemple, quand est-il d'un noeud qui n'est pas visible par une  \textit{LoRaWAN} Gateway? Il y a deux cas de figures simple : le premier cas est celui  ou le noeud n'est visible d'aucun device et d'aucune gateway  \textit{LoRaWAN}. Dans ce cas il n'y a rien à faire le noeud est isolé de manière permanente. Le deuxième cas de figure est celui qui nous intéresse particulièrement ici, en effet le noeud isolé est visible par un end-device qui lui est à porté d'une  \textit{LoRaWAN} Gateway tout comme l'illustre le schéma suivant :
 
 
 \begin{figure}[h!]
@@ -446,7 +446,7 @@ On aurais la possibilité d'avoir deux modes :
 \item Mode concentrateur : La LoRaGateway collecte les données des Noeuds Isolés.
 \end{itemize}
 Il ya tout de même quelque problèmes pour le mode Proxy. 
-En effet il y a une certaine compléxité de la mise en oeuvre. Que ce soit au niveau de l'écoute et la captures des échanges par des end-node mais aussi de la capture par le End Node de message du Noeud isolé, ou encore de la capture par le End Node de message à destination du Noeud isolé. Il y a aussi une certaine compléxité au niveau de la gestion des synchronisation en fonction des classes energetique des objets. En classez C, le problème se revele pendant les phases démission du End-Node. En classe A et B lors dez la gestion multiple des slots de réception par le un End Node. Il y a un derniere aspect qui est pratique, en effet les bibliothèques, on écoute et collecte des message sans en etre le destinataire. Il y aurais deux solutions pour pallier à cela, soit la mise en place d'un mode promiscuité, soit d'un recodage complet de la spécification.
+En effet il y a une certaine compléxité de la mise en oeuvre. Que ce soit au niveau de l'écoute et la captures des échanges par des end-nodes mais aussi de la capture par le End Node de message du Noeud isolé, ou encore de la capture par le End Node de message à destination du Noeud isolé. Il y a aussi une certaine compléxité au niveau de la gestion des synchronisation en fonction des classes energetique des objets. En classez C, le problème se revele pendant les phases démission du End-Node. En classe A et B lors dez la gestion multiple des slots de réception par le un End Node. Il y a un derniere aspect qui est pratique, en effet les bibliothèques, on écoute et collecte des message sans en etre le destinataire. Il y aurais deux solutions pour pallier à cela, soit la mise en place d'un mode promiscuité, soit d'un recodage complet de la spécification.
 
 
 Ici nous allons nous intéréssé surtout à l'ensemble des algorithmes soumis par M.Flauzac qui décrive le fonctionnement du mode Concentrateur, afin des les appliquer en  simulation, puis de réaliser la mise en oeuvre/applications de ceux-ci.
@@ -854,9 +854,9 @@ Afin de réaliser un ensemble de test/simulation nous avons utilisé Omnet pour 
 
 Le code des fichiers $C^{++}$ est mis à disposition en Annexes.
 \subsection{Génération des graphes}
-Nous avons choisi d'utiliser iGraph, afin de generer des graphes aléatoire
+Nous avons choisi d'utiliser iGraph, afin de generer des graphes aléatoires.
 iGraph est une collection de bibliothèque pour créer et manipuler des graphiques et analyser des réseaux. Il est écrit en C et existe également en tant que paquets Python et R. Il existe de plus une interface pour Mathematica. Le logiciel est largement utilisé dans la recherche universitaire en sciences de réseau et dans des domaines connexes.
-igraph a été développé par Gábor Csárdi et Tamás Nepusz. Le code source des paquets iGraph a été écrit en C. iGraph est disponible gratuitement sous GNU General Public License Version 2.
+iGraph a été développé par Gábor Csárdi et Tamás Nepusz. Le code source des paquets iGraph a été écrit en C. iGraph est disponible gratuitement sous GNU General Public License Version 2.
 
 La génération se fait en plusieurs étapes : 
 \begin{enumerate}
@@ -1082,10 +1082,13 @@ fontsize=\footnotesize,
 linenos
 ]{python}{code/LGW/main.py}
 
+Le programme fait donc une recolte des données et les formatent de la manière suivante : 
 
+\begin{center}
+<ID\_IN1>,<DATA\_IN1>:<ID\_IN2>,<DATA\_IN2>:.... 
+\end{center}
 
-%\newpage
-%\subsection{Semtech}
+Les fonctions suivantes : \textit{changetoLW(), send_datatoLWGW(s,recolte), changetoLora(lora)} change la manière de communiqué de la LoRaGateway: soit en LoRa, soit en LoRaWAN, et bien entendu la fonction send, s'occupe de formater la chaine donné en bytes et de l'envoyer.
 
 \newpage
 \section{Problèmes rencontrés}
