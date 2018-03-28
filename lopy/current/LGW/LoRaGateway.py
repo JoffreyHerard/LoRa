@@ -14,9 +14,12 @@ lora = LoRa(mode=LoRa.LORAWAN, region=LoRa.EU868)
 
 # create an OTAA authentication parameters
 app_eui = binascii.unhexlify('70 B3 D5 7E F0 00 49 E1'.replace(' ',''))
+#TTN
+#app_key = binascii.unhexlify('7D 10 63 DB 28 2D A8 8E 66 39 7B 70 06 07 1A 6A'.replace(' ',''))
+#objenious
 app_key = binascii.unhexlify('30 4C 99 26 3E A5 E6 43 B5 A0 8C B3 25 4A 61 FA'.replace(' ',''))
 dev_eui = binascii.unhexlify('70B3D5499C3DD0AC')
-#dev_addr = struct.unpack(">l", binascii.unhexlify('00 00 00 05'.replace(' ','')))[0]
+#dev_addr = struct .unpack(">l", binascii.unhexlify('00 00 00 05'.replace(' ','')))[0]
 # join a network using OTAA (Over the Air Activation)
 lora.join(activation=LoRa.OTAA, auth=(dev_eui,app_eui, app_key), timeout=0)
 
@@ -173,6 +176,9 @@ def handle_message(data):
         pairing_phase(msg)
     if msg.kind == "3" and msg.id_dest == str(id):
         registering_phase(msg)
+    if msg.kind == "3" and msg.id_dest != str(id):
+        idRegistered.remove(msg.id_src)
+        print("Delete ID:"+str(msg.id_src)+"from the table idRegistered")
 changetoLoRa(lora)
 time.sleep(2.5)
 clock = TimerL(slot)

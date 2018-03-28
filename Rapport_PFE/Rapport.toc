@@ -19,7 +19,7 @@
 \contentsline {subparagraph}{Durée de la fenêtre}{11}{subparagraph*.9}
 \contentsline {subparagraph}{Activité du receveur durant la fenêtre de réception}{11}{subparagraph*.10}
 \contentsline {subparagraph}{Envoi d'un message à travers le réseaux vers un appareil}{11}{subparagraph*.11}
-\contentsline {subparagraph}{A noté}{11}{subparagraph*.12}
+\contentsline {subparagraph}{A noter}{11}{subparagraph*.12}
 \contentsline {paragraph}{Message couche MAC }{11}{paragraph*.13}
 \contentsline {subparagraph}{Couche MAC (PHYPayload)}{11}{subparagraph*.14}
 \contentsline {subparagraph}{En tête MAC. ( MHDR field)}{12}{subparagraph*.16}

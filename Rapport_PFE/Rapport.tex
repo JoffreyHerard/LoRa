@@ -103,7 +103,7 @@
 \setlength{\parskip}{0.5em}
 \newpage
 \section{Introduction}
-Dans ce rapport, il va être sujet d'aborder les technologies du \textit{LoRaWAN}, du \textit{LoRa} en commencant par définir ces termes. Ensuite aborder ainsi que expliquer les problèmes présent dans une architecture \textit{LoRaWAN} ainsi que les solutions possibles pour résoudre ces problèmes. Il va être question avant toute implémentation de faire des simulations sur le modèle de communication \textit{LoRa} avec les algorithmes présenté auparavant .Nous allons aborder comment programmer et donc implémenter cette solution dans un capteur. Nous utiliserons notamment dans un premier temps l'implémentation dans des capteurs \textit{LoPy} puis les capteurs \textit{Semtech}. Le rapport se termineras sur un ensemble de résultats sous forme statistiques et verbales pour commenter ceux-ci.  
+La problémablique de notre étude portant sur la gestion des noeuds isolés en \textit{LoRa} nous définirons, dans un premier temps, les technologies du \textit{LoRaWAN} et du \textit{LoRa}. Subsidiairement nous expliquerons les problèmes que peut présenter une architecture \textit{LoRaWAN} et proposerons diverses solutions pour les résoudre. Avant de procéder à l'implémentation nous exécuterons des simulations sur le modèle de communication \textit{LoRa} avec les algorithmes présentés auparavant. Par la suite, nous expliquerons comment programmer cette solution dans un capteur via l'utilisation de capteurs \textit{LoPy}. Pour finir, nous proposerons une brève conclusion.
 \newpage
 \section{LoRaWAN}
 Comment connecter les milliards de capteurs qui seront potentiellement déployés dans le monde et qui participeront à la construction des villes intelligentes, de la mobilité et de l'industrie du futur ? \newline
@@ -432,7 +432,7 @@ Il y a un problème qui se révele assez vite. En effet, le  \textit{LoRaWAN} es
 
 \newpage
 \section{Solutions}
-Il y a  plusieurs piste de solutions afin de résoudre ce problème. Un end node visible par un noeud isolé peut etre redefinie comme une passerelle $\rightarrow$ On définit donc une \textit{LoRa} Gateway (noté LGW à travers le document)
+Il y a  plusieurs pistes de solutions afin de résoudre ce problème. Un end node visible par un noeud isolé peut etre redefinie comme une passerelle $\rightarrow$ On définit donc une \textit{LoRa} Gateway (noté LGW à travers le document)
 Il y a donc une redéfinition des acteurs :
 \begin{itemize}
 \item LoRaWAN Gateway (LWGW)
@@ -442,14 +442,14 @@ Il y a donc une redéfinition des acteurs :
 
 On aurais la possibilité d'avoir deux modes : 
 \begin{itemize}
-\item Mode proxy : La LoRaGateway fait un relai en aveugle des données des Noeuds Isolés .
+\item Mode proxy : La LoRaGateway fait un relai en aveugle des données des noeuds Isolés .
 \item Mode concentrateur : La LoRaGateway collecte les données des Noeuds Isolés.
 \end{itemize}
 Il ya tout de même quelque problèmes pour le mode Proxy. 
 En effet il y a une certaine compléxité de la mise en oeuvre. Que ce soit au niveau de l'écoute et la captures des échanges par des end-nodes mais aussi de la capture par le End Node de message du Noeud isolé, ou encore de la capture par le End Node de message à destination du Noeud isolé. Il y a aussi une certaine compléxité au niveau de la gestion des synchronisation en fonction des classes energetique des objets. En classez C, le problème se revele pendant les phases démission du End-Node. En classe A et B lors dez la gestion multiple des slots de réception par le un End Node. Il y a un derniere aspect qui est pratique, en effet les bibliothèques, on écoute et collecte des message sans en etre le destinataire. Il y aurais deux solutions pour pallier à cela, soit la mise en place d'un mode promiscuité, soit d'un recodage complet de la spécification.
 
 
-Ici nous allons nous intéréssé surtout à l'ensemble des algorithmes soumis par M.Flauzac qui décrive le fonctionnement du mode Concentrateur, afin des les appliquer en  simulation, puis de réaliser la mise en oeuvre/applications de ceux-ci.
+Ici nous allons nous intéréssé surtout à l'ensemble des algorithmes soumis par M.Flauzac qui décrive le fonctionnement du mode Concentrateur, afin des les appliquer en simulation, puis de réaliser la mise en oeuvre/applications de ceux-ci.
 
 \newpage
 \subsection{Algorithme}
@@ -667,135 +667,6 @@ Valeurs de retour :
 \end{algorithmic}
 \end{algorithm}
 
-
-%Cette section va exposé et expliqué l'ensemble des algorithmes présentés.
-%Les messages dans le système sont de la forme :
-%\begin{center}
-%<type , source , destination , data ... >
-%\end{center}
-%Type de message commun : \newline
-%\begin{center}
-%\textbf{Discover : IN -> LGW}
-%
-% <type = 0 , idIn , udef>
-%
-%\textbf{Candidate : LGW -> IN}
-%
-% <type=1 , idLgw , idIn , answFreq , nextSlot , nextTdada , Nextfreq>
-%
-%\textbf{Pair : IN -> LGW}
-%
-%  <type = 2 , idIn , idLgw>
-%
-%\textbf{RequestData : LGW -> IN }
-%
-%<type=3 , idLgw , idIn , answFreq , nextSlot , nextTWait , nextFreq>
-%
-%\textbf{SendData : IN -> LGW}
-%
-%<type=4 , idIn , idLgw , data>
-%\end{center}
-%
-%Liste des fonctions utilisées
-%
-%Emission du message msg sur la fréquence freq :
-%\begin{center}
-%void sendLora(freq , msg)
-%\end{center}
-%Ecoute bloquante d'un message sur la fréquence freq :
-%\begin{center}
-%msg listen(freq)
-%\end{center}
-%
-%Ecoute bloquante d'un message Durant Twait unités de temps sur la fréquence freq
-%\begin{itemize}
-%\item retourne le message reçu (udef si aucune réception)
-%\item en cas de réception le temps écoulé jusqu'à la réception
-%\end{itemize}	
-%\begin{center}
-%(msg,time) listen(freq,Twait)
-%\end{center}
-%\paragraph{Remarque} : \textit{ les messages ne sont délivrés que si la destination est bien le nœud courant ou udef}
-%
-%
-%\newpage
-%\subsubsection{Algorithme des Isolated nodes}
-%\begin{algorithm}
-%\caption{ Isolated node }
-%\begin{algorithmic}[1]
-%\While{True}
-%	\State $lgw \gets udef$
-%	\State $msg\gets udef$
-%	\State $Twaitdata\gets udef$
-%	\State $F\gets udef$
-%	\While{msg = udef} \Comment{ A verifier si on le fait indéfiniment}
-%		\State $sendLora(Fdiscover, discover(id))$
-%		\State $(msg,t) \gets listen(Fdiscover, (Tdiscover + rnd()) )$
-%		\If {$(msg = udef)\textbf{OU}(msg.type \not= 1)$}
-%   			 \State $sleep(Tdiscover)$
-%   			 \State $msg\gets udef$
-%		\EndIf
-%	\EndWhile
-%	\State $lgw \gets msg.id$  \Comment{ Initialisation des données localest}
-%	\State $FAnswer \gets msg.answFreq$
-%	\State $nextSlot \gets msg.nextSlot$
-%	\State $TWaitData \gets msg.nextTData$
-%	\State $F \gets msg.nextFreq$
-%	\State $sendLora(FAnswer, pair(id,lgw))$  \Comment{Acceptation de l'appairage}
-%	\While{$lgw \not= udef$}
-%		\State $sleep(nextSlot)$
-%		 \Do \Comment{à voir les pb de temps de calcul !!!}
-%   			 \State $(msg,t) \gets listen(F,TwaitData)$
-% 		 \doWhile{$msg \neq udef$}  
-% 		 \If {$msg \not= udef$}
-%			\State $F \gets msg.answFreq$
-%			\State $next \gets msg.nextSlot$
-%			\State $TWaitData \gets msg.nextTData$
-%			\State $sendLora(F, sendData(id,lgw,localData))$
-%		\Else
-%			\State $lgw \gets udef$
-%			\State $next\gets udef$
-%			\State $Twaitdata\gets udef$
-%			\State $F\gets udef$
-%			\State $FListen\gets udef$
-%		\EndIf
-%	\EndWhile
-%\EndWhile
-%\end{algorithmic}
-%\end{algorithm}
-%\subsubsection{Algorithme 1/1 : 1 IN <-> 1 LGW}
-%\begin{algorithm}
-%\caption{ 1/1 : 1 IN <-> 1 LGW : LoRaGateway}
-%\begin{algorithmic}[1]
-%\State $join(F,id,appid) $
-%\State $n \gets udef$
-%\While{True}
-%	\If {$in = udef$}
-%		\State $(msg,t) \gets listen(Fdiscover,Tw)$	
-%		\If {$in \not= udef$}
-%		\State $candIn \gets msg.idIn$
-%			\State $sendLora(F1,candidate(id,candIn,FreqRep,nextSlot,nextData,nextFreq))$
-%			\State $(msg,t) \gets listen(freqRep,Tw)$
-%			\If {$msg \not= udef$ AND $candIn = msg.idIn$}
-%				\State $in \gets msg.id $
-%			\EndIf
-%		\EndIf
-%	\EndIf
-%	\If {$in \not= udef$}
-%		\State $changeParam(FreqRep,nextSlot,nextData,nextFreq)$
-%		\State $sendLora(nextFreq,Requestdata(id, in , FreqRep,nextSlot,nextData,nextFreq))$
-%		\State $(msg,t) \gets listen(FreqRep,msg)$
-%
-%	\EndIf
-%	\If {$msg \not= udef$}
-%		\State $sendDataLora(localdata + msg.data)$
-%	\Else
-%		\State $sendDataLora(localdata + error)$
-%	\EndIf
-%\EndWhile
-%\end{algorithmic}
-%\end{algorithm}
-
 \newpage
 \subsubsection{Algorithme k/1 : k IN <-> 1 LGW}
 \begin{algorithm}
@@ -827,7 +698,7 @@ Valeurs de retour :
 \paragraph{Coté LoRa Gateway}
 La \textit{LoRa} Gateway avant toute opération avec n'importe quel élement de l'environnement doit s'appairer avec une gateway \textit{LoRaWAN} avec la requete  \textbf{Join Request}.
 \paragraph{Coté LoRaWAN Gateway}
-La gateway \textit{LoRaWAN} executé un déroulement normal. Elle répond au requete join avec un message  \textbf{Join Accept}
+La gateway \textit{LoRaWAN} executé un déroulement normal. Elle répond aux requetes join avec un message  \textbf{Join Accept}
 \newpage
 \subsubsection{Phase de collecte}
 \begin{figure}[h!]
@@ -893,7 +764,7 @@ Par exemple voici le résultat graphique réalisé avec GraphViz :
 \end{figure}
 Le code de génération de graphe aléatoire est mis à disposition dans son intégralité en Annexes.
 \subsection{Représentation des échanges radio}
-Dans cette version purement algorithmique sur Omnet++, la radio est definit par sa porté qui est donc la possibilité de communiqué avec un device. Si une arrête existe alors une communication est possible. Afin d'être plus réaliste, les arrêtes on pour attribut une latence, qui est générer aléatoirement au moment de la création du graphe. La radio étant des ondes quand un device envois un message il l'envoit sur tous les liens qui lui sont attribué.
+Dans cette version purement algorithmique sur Omnet++, la radio est definit par sa porté qui est donc la possibilité de communiqué avec un device. Si une arrête existe alors une communication est possible. Afin d'être plus réaliste, les arrêtes on pour attribut une latence, qui est générer aléatoirement au moment de la création du graphe. La radio étant des ondes quand un device envoie un message il l'envoie sur tous les liens qui lui sont attribué.
 
 \begin{figure}[!ht]
 \centering
@@ -911,7 +782,7 @@ Afin de simplifié, les messages contiennent le nom du message et possedent un c
 \includegraphics[scale=0.6]{chaine.png} 
 \caption{Exemple de chaine}
 \end{figure}
-Ceci est une image sortie de la simulation graphique, la première réalisé, un exemple typique de chaine avec seulement un élement de chaque composant. C'est le premièr exemple de test réalisé. Ce fut aussi le terrain de devellopement pour affiner le comportement individuel et verifier le fonctionnement correct de chaque composant. Cette simulation ci seras l'exemple typique du première algorithme.
+Ceci est une image sortie de la simulation graphique, la première réalisé, un exemple typique de chaine avec seulement un élement de chaque composant. C'est le premier exemple de test réalisé. Ce fut aussi le terrain de devellopement pour affiner le comportement individuel et verifier le fonctionnement correct de chaque composant. Cette simulation ci seras l'exemple typique du première algorithme.
 \newpage
 \subsubsection{Simulation avec 3 IN sur une LGW}
 \begin{figure}[!ht]
@@ -1088,7 +959,7 @@ Le programme fait donc une recolte des données et les formatent de la manière 
 <ID\_IN1>,<DATA\_IN1>:<ID\_IN2>,<DATA\_IN2>:.... 
 \end{center}
 
-Les fonctions suivantes : \textit{changetoLW(), send_datatoLWGW(s,recolte), changetoLora(lora)} change la manière de communiqué de la LoRaGateway: soit en LoRa, soit en LoRaWAN, et bien entendu la fonction send, s'occupe de formater la chaine donné en bytes et de l'envoyer.
+Les fonctions suivantes : \textit{changetoLW(), send\_datatoLWGW(s,recolte), changetoLora(lora)} change la manière de communiqué de la LoRaGateway: soit en LoRa, soit en LoRaWAN, et bien entendu la fonction send, s'occupe de formater la chaine donné en bytes et de l'envoyer.
 
 \newpage
 \section{Problèmes rencontrés}
@@ -1169,7 +1040,7 @@ linenos
 ]{c++}{../src/messageLoRA.h}
 \newpage
 \subsection{Fichier .cpp}
-L'intégralité des codes se trouve dans l'archive jointe au présent rapport : 
+L'intégralité des codes se trouve dans l'archive jointe au présent rapport.
 \newpage
 \section{Arborescence des fichiers} 
 \dirtree{%
