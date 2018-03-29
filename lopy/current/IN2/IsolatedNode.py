@@ -40,9 +40,9 @@ def change_frequency(frequency_d):
 lora = LoRa(mode=LoRa.LORA, region=LoRa.EU868)
 s = socket.socket(socket.AF_LORA, socket.SOCK_RAW)
 s.setblocking(False)
-id=1
+id=2
 timer=0
-data=42
+data=66
 tryDiscover=0
 tryRegister=0
 discovered=False

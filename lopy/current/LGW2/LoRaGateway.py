@@ -24,23 +24,23 @@ dev_eui = binascii.unhexlify('70B3D5499C3DD0AC')
 lora.join(activation=LoRa.OTAA, auth=(dev_eui,app_eui, app_key), timeout=0)
 
 # wait until the module has joined the network
-#while not lora.has_joined():
-#    time.sleep(2.5)
-#    print('Not yet joined...')
+while not lora.has_joined():
+    time.sleep(2.5)
+    print('Not yet joined...')
 print('Connected to Objenious LoRaWAN!')
 
 s = socket.socket(socket.AF_LORA, socket.SOCK_RAW)
 s.setsockopt(socket.SOL_LORA, socket.SO_DR, 5)
-#s.setblocking(True)
+s.setblocking(True)
 
 # send some data
-#s.send(bytes([0x01, 0x02, 0x03]))
+s.send(bytes([0x01, 0x02, 0x03]))
 
 # make the socket non-blocking
 # (because if there's no data received it will block forever...)
 s.setblocking(False)
 
-id=3
+id=2
 timer=0
 NbIN=0
 idRegistered=[]
@@ -116,12 +116,11 @@ def send_datatoLWGW(socket,dataString):
     taille=str(len(data))+'s'
     databytes = struct.pack(taille, data)
     socket.send(databytes)
-    data=""
 def pairing_phase(msg):
     global slot
     global idRegistered
     #print("PAIRING PHASE WITH "+str(msg.id_src)+" STARTED")
-    s.send('Accept,'+str(2)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(msg.id_src)+','+str(-1)+','+str(slot*3))
+    s.send('Accept,'+str(2)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(msg.id_src)+','+str(-1)+','+str(slot))
     idRegistered.append(msg.id_src)
     #print("PAIRING PHASE WITH "+str(msg.id_src)+" ENDED")
 def registering_phase(msg):
@@ -129,8 +128,8 @@ def registering_phase(msg):
     global slot
     #print("REGISTERING PHASE WITH "+str(msg.id_src)+" STARTED")
     if msg.id_src in idRegistered:
-        s.send('DataReq,'+str(4)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(msg.id_src)+','+str(-1)+','+str(slot*3))
-
+        s.send('DataReq,'+str(4)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(msg.id_src)+','+str(-1)+','+str(slot))
+    
     if msg.id_src in isRegistered:
         print("Added before")
     else:
@@ -140,7 +139,7 @@ def ack_data(msg):
     #print("STANDARD PHASE STARTED")
     global slot
     #print("I received data : "+str(msg.data))
-    s.send('ack,'+str(4)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(msg.id_src)+','+str(-1)+','+str(slot*3))
+    s.send('ack,'+str(4)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(msg.id_src)+','+str(-1)+','+str(slot))
     #print("STANDARD PHASE ENDED")
 def standard():
     print("STANDARD PHASE STARTED")
@@ -149,27 +148,27 @@ def standard():
     data_sum=""
     for idDest in isRegistered:
         print(idDest)
-        print('DataReq,'+str(4)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(idDest)+','+str(-1)+','+str(slot*3))
-        s.send('DataReq,'+str(4)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(idDest)+','+str(-1)+','+str(slot*3))
+        print('DataReq,'+str(4)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(idDest)+','+str(-1)+','+str(slot))
+        s.send('DataReq,'+str(4)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(idDest)+','+str(-1)+','+str(slot))
 
         dataHarvested = s.recv(128)
         msgH =messageLoRa()
         msgH.fillMessage(dataHarvested)
         rnd=Random()
-        print("[FIRST Send] for "+str(idDest)+" Request data in "+str(rnd))
+        print("[FIRST Send] Request data in "+str(rnd))
         print(dataHarvested)
         time.sleep(rnd)
-        while msgH.id_src != str(idDest) or msgH.id_dest != str(id) or msgH.kind != "5" or msgH.messageName != "DataRes":
+        while msgH.id_src != idDest and msgH.id_dest != id and msgH.kind != "5":
             rnd=Random()
-            print("[Try] for "+str(idDest)+" send Request data in "+str(rnd))
+            print("[Try] send Request data in "+str(rnd))
             time.sleep(rnd)
-            s.send('DataReq,'+str(4)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(idDest)+','+str(-1)+','+str(slot*3))
+            s.send('DataReq,'+str(4)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(idDest)+','+str(-1)+','+str(slot))
             dataHarvested = s.recv(128)
             msgH =messageLoRa()
             msgH.fillMessage(dataHarvested)
             print("msg data =========>"+dataHarvested.decode())
-        data_sum=data_sum+str(idDest)+","+str(msgH.data)+":"
-
+            data_sum=data_sum+str(idDest)+","+str(msgH.data)+":"
+            #time.sleep(10)
     print("STANDARD PHASE ENDED")
     return data_sum
 def handle_message(data):
@@ -187,27 +186,24 @@ time.sleep(2.5)
 clock = TimerL(slot)
 while True:
     if isListening:
-
+        print("I am awake")
         pycom.rgbled(0x007f00) # green
         data = s.recv(128)
         handle_message(data)
-        time.sleep(1.500)
-        handle_message(data)
-        time.sleep(1.500)
+        time.sleep(0.500)
         recolte=standard()
+        print(recolte)
+        time.sleep(0.500)
         if recolte !="" :
-            #changetoLW()
+            changetoLW()
             s.setblocking(True)
-            print(recolte)
-            time.sleep(2)
-            #send_datatoLWGW(s,recolte)
+            send_datatoLWGW(s,recolte)
             s.setblocking(False)
-            #changetoLoRa(lora)
+            changetoLoRa(lora)
     else:
         pycom.rgbled(0x7f0000) #red
         print("I am sleeping")
         time.sleep(slot)
-        print("I am awake")
         isListening=True
         del clock
         clock = TimerL(slot)

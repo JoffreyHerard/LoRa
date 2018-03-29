@@ -20,9 +20,9 @@ class messageLoRa:
     def fillMessage(self, data):
         message=data.decode()
         if message != '':
-            print("Received something -> "+str(message))
-            if(len(message.split(","))== 8):
-                self.messageName,self.kind,self.frequency,self.slots,self.id_src,self.id_dest,self.data,self.listeningtime= message.split(",")
+            self.messageName,self.kind,self.frequency,self.slots,self.id_src,self.id_dest,self.data,self.listeningtime= message.split(",")
+        else:
+            print("Received nothing")
     def get_name(self):
         return self.messageName
 
@@ -40,6 +40,7 @@ class messageLoRa:
 
     def set_slots(self, x):
         self.slots=x
+
     def get_src(self):
         return self.id_src
 
