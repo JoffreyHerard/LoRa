@@ -24,17 +24,17 @@ dev_eui = binascii.unhexlify('70B3D5499C3DD0AC')
 lora.join(activation=LoRa.OTAA, auth=(dev_eui,app_eui, app_key), timeout=0)
 
 # wait until the module has joined the network
-#while not lora.has_joined():
-#    time.sleep(2.5)
-#    print('Not yet joined...')
+while not lora.has_joined():
+    time.sleep(2.5)
+    print('Not yet joined...')
 print('Connected to Objenious LoRaWAN!')
 
 s = socket.socket(socket.AF_LORA, socket.SOCK_RAW)
 s.setsockopt(socket.SOL_LORA, socket.SO_DR, 5)
-#s.setblocking(True)
+s.setblocking(True)
 
 # send some data
-#s.send(bytes([0x01, 0x02, 0x03]))
+s.send(bytes([0x01, 0x02, 0x03]))
 
 # make the socket non-blocking
 # (because if there's no data received it will block forever...)
@@ -199,13 +199,13 @@ while True:
         time.sleep(1.500)
         recolte=standard()
         if recolte !="" :
-            #changetoLW()
+            changetoLW()
             s.setblocking(True)
             print(recolte)
             time.sleep(2)
-            #send_datatoLWGW(s,recolte)
+            send_datatoLWGW(s,recolte)
             s.setblocking(False)
-            #changetoLoRa(lora)
+            changetoLoRa(lora)
     else:
         pycom.rgbled(0x7f0000) #red
         print("I am sleeping")
