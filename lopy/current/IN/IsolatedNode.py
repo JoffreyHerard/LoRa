@@ -10,7 +10,7 @@ from machine import Timer
 
 pycom.heartbeat(False)
 def Random():
-    result = (uos.urandom(1)[0] / 256)*1
+    result = ((uos.urandom(1)[0] / 256 )*3)+2
     return result
 def change_frequency(frequency_d):
     current_frequency=lora.frequency()

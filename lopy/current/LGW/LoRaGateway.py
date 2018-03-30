@@ -55,7 +55,7 @@ nb_harvest=0
 mycolor="blue"
 isListening=True
 def Random():
-    result = (uos.urandom(1)[0] / 256)*5
+    result = ((uos.urandom(1)[0] / 256 )*3)+2
     return result
 def change_frequency(frequency_d):
     current_frequency=lora.frequency()
@@ -94,14 +94,16 @@ class TimerL:
         alarm.cancel() # stop it
         if isListening:
             isListening=False
-def changetoLW():
+def changetoLW(lora):
     global app_eui
     global app_key
     global dev_eui
-    global lora
     global s
+    #print("FONCTION CHANGE TO LW 1")
     lora = LoRa(mode=LoRa.LORAWAN, region=LoRa.EU868)
+    #print("FONCTION CHANGE TO LW 2 "+str(app_eui)+str(app_key)+str(dev_eui))
     lora.join(activation=LoRa.OTAA, auth=(dev_eui,app_eui, app_key), timeout=0)
+    #print("FONCTION CHANGE TO LW 3")
     while not lora.has_joined():
         print('CtLW : Not yet joined...')
         time.sleep(2.5)
@@ -173,7 +175,6 @@ def standard():
             msgH.fillMessage(dataHarvested)
             print("msg data =========>"+dataHarvested.decode())
         data_sum=data_sum+str(idDest)+","+str(msgH.data)+":"
-
     print("STANDARD PHASE ENDED")
     return data_sum
 def handle_message(data):
@@ -184,14 +185,16 @@ def handle_message(data):
     if msg.kind == "3" and msg.id_dest == str(id):
         registering_phase(msg)
     if msg.kind == "3" and msg.id_dest != str(id):
-        idRegistered.remove(msg.id_src)
-        print("Delete ID:"+str(msg.id_src)+"from the table idRegistered")
+        if msg.id_src in idRegistered:
+            idRegistered.remove(msg.id_src)
+            print("Delete ID:"+str(msg.id_src)+"from the table idRegistered")
 changetoLoRa(lora)
 time.sleep(2.5)
 clock = TimerL(slot)
+
+
 while True:
     if isListening:
-
         pycom.rgbled(0x007f00) # green
         data = s.recv(128)
         handle_message(data)
@@ -200,13 +203,13 @@ while True:
         time.sleep(1.500)
         recolte=standard()
         if recolte !="" :
-            changetoLW()
             s.setblocking(True)
+            changetoLW(lora)
             print(recolte)
             time.sleep(2)
             send_datatoLWGW(s,recolte)
-            s.setblocking(False)
             changetoLoRa(lora)
+            s.setblocking(False)
     else:
         pycom.rgbled(0x7f0000) #red
         print("I am sleeping")

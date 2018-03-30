@@ -30,7 +30,7 @@ def send_datatoLWGW(socket,dataString):
 lora = LoRa(mode=LoRa.LORAWAN, region=LoRa.EU868)
 app_eui = binascii.unhexlify('70 B3 D5 7E F0 00 49 E1'.replace(' ',''))
 app_key = binascii.unhexlify('30 4C 99 26 3E A5 E6 43 B5 A0 8C B3 25 4A 61 FA'.replace(' ',''))
-dev_eui = binascii.unhexlify('70B3D5499C3DD0AC')
+dev_eui = binascii.unhexlify((binascii.hexlify(lora.mac()).decode('ascii')).upper())
 #dev_addr = struct.unpack(">l", binascii.unhexlify('00 00 00 05'.replace(' ','')))[0]
 lora.join(activation=LoRa.OTAA, auth=(dev_eui,app_eui, app_key), timeout=0)
 while not lora.has_joined():
