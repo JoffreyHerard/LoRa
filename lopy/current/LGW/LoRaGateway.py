@@ -84,21 +84,25 @@ def change_frequency(frequency_d):
             print("864500000")
     else:
         print("FREQUENCY ALREADY CHANGED")
-class TimerL:
-    def __init__(self,timing):
-        self.seconds = 0
-        self.__alarm = Timer.Alarm(self._seconds_handler, timing, periodic=True)
 
+listeningTime=10.0
+class TimerL:
+    def __init__(self,timing,kind):
+        self.seconds = 0
+        if kind == 1:
+            self.__alarm = Timer.Alarm(self._first_handler, timing, periodic=True)
+        else:
+            self.__alarm = Timer.Alarm(self._seconds_handler, timing, periodic=True)
+
+    def _first_handler(self, alarm):
+        global isListening
+        alarm.cancel() # stop it
+        isListening=True
     def _seconds_handler(self, alarm):
         global isListening
         alarm.cancel() # stop it
-        if isListening:
-            isListening=False
-def changetoLW(lora):
-    global app_eui
-    global app_key
-    global dev_eui
-    global s
+        isListening=False
+def changetoLW(s,dev_eui,app_key,app_eui,lora):
     #print("FONCTION CHANGE TO LW 1")
     lora = LoRa(mode=LoRa.LORAWAN, region=LoRa.EU868)
     #print("FONCTION CHANGE TO LW 2 "+str(app_eui)+str(app_key)+str(dev_eui))
@@ -190,9 +194,7 @@ def handle_message(data):
             print("Delete ID:"+str(msg.id_src)+"from the table idRegistered")
 changetoLoRa(lora)
 time.sleep(2.5)
-clock = TimerL(slot)
-
-
+clock = TimerL(slot,1)
 while True:
     if isListening:
         pycom.rgbled(0x007f00) # green
@@ -202,9 +204,10 @@ while True:
         handle_message(data)
         time.sleep(1.500)
         recolte=standard()
+        time.sleep(1.500)
         if recolte !="" :
+            changetoLW(s,dev_eui,app_key,app_eui,lora)
             s.setblocking(True)
-            changetoLW(lora)
             print(recolte)
             time.sleep(2)
             send_datatoLWGW(s,recolte)
@@ -214,7 +217,6 @@ while True:
         pycom.rgbled(0x7f0000) #red
         print("I am sleeping")
         time.sleep(slot)
-        print("I am awake")
-        isListening=True
         del clock
-        clock = TimerL(slot)
+        clock = TimerL(listeningTime,2)
+        isListening=True

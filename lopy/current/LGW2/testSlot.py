@@ -54,7 +54,6 @@ slot=10
 myLoRa=-1
 tryDataReq=-1
 isListening=True
-clock=None
 listeningTime=10.0
 class TimerL:
     def __init__(self,timing,kind):
@@ -127,35 +126,21 @@ def sendData():
     #time.sleep(20)
     print("DataResponse sent")
     #print("PHASE SEND DATA ENDED\n")
+clock = TimerL(10.0,1)
+toto=True
 while True:
     if isListening:
-        #print("I am awake : my LoRaGW is "+str(myLoRa)+" and my slot is "+str(slot))
         pycom.rgbled(0x007f00) # green
         #We are not discovered yet
-        while not discovered:
-            notDiscovered()
-            rnd=Random()
-            print("Try Discover in "+str(rnd))
-            time.sleep(rnd)
-        while not registered and discovered:
-            notRegistered()
-            rnd=Random()
-            print("Try Register in "+str(rnd))
-            time.sleep(rnd)
-        dataR=s.recv(128)
-        msg =messageLoRa()
-        msg.fillMessage(dataR)
-        if msg.kind=="4" and msg.id_dest == str(id):
-            sendData()
-            print("I sent my data")
+        print("I am awake")
+        if toto:
             print("I try to change my slot and listening time")
-            slot=float(msg.slots)
-            listeningTime=float(msg.listeningtime) #slot d'une duree de 40 seconde
+            slot=10.0#prochaine slot est dans
+            listeningTime=20.0 #slot d'une duree de 40 seconde
             isListening=False
             del clock
             clock = TimerL(slot,1)
             toto=False
-
     else:
         pycom.rgbled(0x7f0000) #red
         print("I am sleeping")

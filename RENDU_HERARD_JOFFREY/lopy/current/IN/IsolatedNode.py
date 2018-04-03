@@ -54,24 +54,16 @@ slot=10
 myLoRa=-1
 tryDataReq=-1
 isListening=True
-clock=None
-listeningTime=10.0
-class TimerL:
-    def __init__(self,timing,kind):
-        self.seconds = 0
-        if kind == 1:
-            self.__alarm = Timer.Alarm(self._first_handler, timing, periodic=True)
-        else:
-            self.__alarm = Timer.Alarm(self._seconds_handler, timing, periodic=True)
 
-    def _first_handler(self, alarm):
-        global isListening
-        alarm.cancel() # stop it
-        isListening=True
+class TimerL:
+    def __init__(self,timing):
+        self.seconds = 0
+        self.__alarm = Timer.Alarm(self._seconds_handler, timing, periodic=True)
     def _seconds_handler(self, alarm):
         global isListening
         alarm.cancel() # stop it
-        isListening=False
+        if isListening:
+            isListening=False
 def notDiscovered():
     global tryDiscover
     global discovered
@@ -147,19 +139,14 @@ while True:
         msg.fillMessage(dataR)
         if msg.kind=="4" and msg.id_dest == str(id):
             sendData()
+            slot=int(msg.listeningtime)
+            clock = TimerL(float(msg.listeningtime))
             print("I sent my data")
-            print("I try to change my slot and listening time")
-            slot=float(msg.slots)
-            listeningTime=float(msg.listeningtime) #slot d'une duree de 40 seconde
-            isListening=False
-            del clock
-            clock = TimerL(slot,1)
-            toto=False
 
     else:
         pycom.rgbled(0x7f0000) #red
         print("I am sleeping")
-        time.sleep(slot)
         del clock
-        clock = TimerL(listeningTime,2)
+        time.sleep(slot)
         isListening=True
+        clock = TimerL(slot)

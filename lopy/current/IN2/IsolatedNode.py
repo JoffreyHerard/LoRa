@@ -54,16 +54,24 @@ slot=10
 myLoRa=-1
 tryDataReq=-1
 isListening=True
-
+clock=None
+listeningTime=10.0
 class TimerL:
-    def __init__(self,timing):
+    def __init__(self,timing,kind):
         self.seconds = 0
-        self.__alarm = Timer.Alarm(self._seconds_handler, timing, periodic=True)
+        if kind == 1:
+            self.__alarm = Timer.Alarm(self._first_handler, timing, periodic=True)
+        else:
+            self.__alarm = Timer.Alarm(self._seconds_handler, timing, periodic=True)
+
+    def _first_handler(self, alarm):
+        global isListening
+        alarm.cancel() # stop it
+        isListening=True
     def _seconds_handler(self, alarm):
         global isListening
         alarm.cancel() # stop it
-        if isListening:
-            isListening=False
+        isListening=False
 def notDiscovered():
     global tryDiscover
     global discovered
@@ -71,13 +79,13 @@ def notDiscovered():
     global id
     global frequency
     global slot
-    print("PHASE NOT DISCOVERED STARTED "+str(tryDiscover))
+    #print("PHASE NOT DISCOVERED STARTED "+str(tryDiscover))
     s.send('Discover,'+str(1)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(-1)+','+str(-1)+','+str(-1))
     print("Discover sent by "+str(id))
     data=s.recv(128)
     msg =messageLoRa()
     msg.fillMessage(data)
-    print("dest ==="+str(msg.get_dest()))
+    #print("dest ==="+str(msg.get_dest()))
     if msg.messageName == "Accept" and msg.id_dest == str(id):
         myLoRa=msg.id_src
         frequency=msg.frequency
@@ -87,13 +95,13 @@ def notDiscovered():
     else:
         time.sleep(1)
     tryDiscover+=1
-    print("PHASE NOT DISCOVERED ENDED\n")
+    #print("PHASE NOT DISCOVERED ENDED\n")
 def notRegistered():
     #send some data
     global tryRegister
     global registered
     global myLoRa
-    print("PHASE NOT REGISTERED STARTED\n")
+    #print("PHASE NOT REGISTERED STARTED\n")
     s.send('Register,'+str(3)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(myLoRa)+','+str(-1)+','+str(-1))
     print("Register sent")
     # get any data received...
@@ -104,7 +112,7 @@ def notRegistered():
         registered=True
     else:
         tryRegister+=1
-    print("PHASE NOT REGISTERED ENDED\n")
+    #print("PHASE NOT REGISTERED ENDED\n")
 def sendData():
     #send some data
     global tryDataReq
@@ -113,12 +121,12 @@ def sendData():
     global id
     global slot
     global frequency
-    print("PHASE SEND DATA STARTED\n")
-    print('DataRes,'+str(5)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(myLoRa)+','+str(data)+','+str(70))
+    #print("PHASE SEND DATA STARTED\n")
+    #print('DataRes,'+str(5)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(myLoRa)+','+str(data)+','+str(70))
     s.send('DataRes,'+str(5)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(myLoRa)+','+str(data)+','+str(70))
     #time.sleep(20)
     print("DataResponse sent")
-    print("PHASE SEND DATA ENDED\n")
+    #print("PHASE SEND DATA ENDED\n")
 while True:
     if isListening:
         #print("I am awake : my LoRaGW is "+str(myLoRa)+" and my slot is "+str(slot))
@@ -139,14 +147,20 @@ while True:
         msg.fillMessage(dataR)
         if msg.kind=="4" and msg.id_dest == str(id):
             sendData()
-            slot=int(msg.listeningtime)
-            clock = TimerL(float(msg.listeningtime))
             print("I sent my data")
+            print("I try to change my slot and listening time")
+            slot=float(msg.slots)
+            listeningTime=float(msg.listeningtime) #slot d'une duree de 40 seconde
+            isListening=False
+            del clock
+            clock = TimerL(slot,1)
+            toto=False
 
     else:
         pycom.rgbled(0x7f0000) #red
         print("I am sleeping")
-        del clock
         time.sleep(slot)
+        del clock
+        clock = TimerL(listeningTime,2)
         isListening=True
-        clock = TimerL(slot)
+        print("I am awake")

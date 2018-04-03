@@ -19,7 +19,6 @@ app_eui = binascii.unhexlify('70 B3 D5 7E F0 00 49 E1'.replace(' ',''))
 #objenious
 app_key = binascii.unhexlify('30 4C 99 26 3E A5 E6 43 B5 A0 8C B3 25 4A 61 FA'.replace(' ',''))
 dev_eui = binascii.unhexlify((binascii.hexlify(lora.mac()).decode('ascii')).upper())
-
 #dev_addr = struct .unpack(">l", binascii.unhexlify('00 00 00 05'.replace(' ','')))[0]
 # join a network using OTAA (Over the Air Activation)
 lora.join(activation=LoRa.OTAA, auth=(dev_eui,app_eui, app_key), timeout=0)
@@ -84,25 +83,21 @@ def change_frequency(frequency_d):
             print("864500000")
     else:
         print("FREQUENCY ALREADY CHANGED")
-
-listeningTime=10.0
 class TimerL:
-    def __init__(self,timing,kind):
+    def __init__(self,timing):
         self.seconds = 0
-        if kind == 1:
-            self.__alarm = Timer.Alarm(self._first_handler, timing, periodic=True)
-        else:
-            self.__alarm = Timer.Alarm(self._seconds_handler, timing, periodic=True)
+        self.__alarm = Timer.Alarm(self._seconds_handler, timing, periodic=True)
 
-    def _first_handler(self, alarm):
-        global isListening
-        alarm.cancel() # stop it
-        isListening=True
     def _seconds_handler(self, alarm):
         global isListening
         alarm.cancel() # stop it
-        isListening=False
-def changetoLW(s,dev_eui,app_key,app_eui,lora):
+        if isListening:
+            isListening=False
+def changetoLW(lora):
+    global app_eui
+    global app_key
+    global dev_eui
+    global s
     #print("FONCTION CHANGE TO LW 1")
     lora = LoRa(mode=LoRa.LORAWAN, region=LoRa.EU868)
     #print("FONCTION CHANGE TO LW 2 "+str(app_eui)+str(app_key)+str(dev_eui))
@@ -194,7 +189,9 @@ def handle_message(data):
             print("Delete ID:"+str(msg.id_src)+"from the table idRegistered")
 changetoLoRa(lora)
 time.sleep(2.5)
-clock = TimerL(slot,1)
+clock = TimerL(slot)
+
+
 while True:
     if isListening:
         pycom.rgbled(0x007f00) # green
@@ -204,10 +201,9 @@ while True:
         handle_message(data)
         time.sleep(1.500)
         recolte=standard()
-        time.sleep(1.500)
         if recolte !="" :
-            changetoLW(s,dev_eui,app_key,app_eui,lora)
             s.setblocking(True)
+            changetoLW(lora)
             print(recolte)
             time.sleep(2)
             send_datatoLWGW(s,recolte)
@@ -217,6 +213,7 @@ while True:
         pycom.rgbled(0x7f0000) #red
         print("I am sleeping")
         time.sleep(slot)
-        del clock
-        clock = TimerL(listeningTime,2)
+        print("I am awake")
         isListening=True
+        del clock
+        clock = TimerL(slot)
