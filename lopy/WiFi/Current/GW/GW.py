@@ -19,6 +19,7 @@ timer=0
 NbIN=0
 idRegistered=[]
 isRegistered=[]
+SSIDArray=[]
 frequency=1
 discovered=False
 old_phase=frequency
@@ -67,6 +68,7 @@ def registering_phase(msg,s):
         print("titi")
     else:
         isRegistered.append(msg.id_src)
+        SSIDArray.append(msg.bssid)
 def handle_message(data,connection):
     msg =messageLoRa()
     msg.fillMessage(data)
@@ -79,7 +81,44 @@ def handle_message(data,connection):
     if msg.kind == "5" and msg.id_dest == str(id):
         recolte=""+msg.id_src+","+msg.data+":"
         nb_harvest=nb_harvest+1
-
+def standard():
+    print("STANDARD PHASE STARTED")
+    global isRegistered
+    global SSIDArray
+    global slot
+    global wlan
+    data_sum=""
+    for idDest in SSIDArray:
+        print(idDest)
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        data=None
+        time.sleep(1)
+        wlan.connect(idDest, auth=(network.WLAN.WPA2, 'www.python.com'))
+        time.sleep_ms(50)
+        while not wlan.isconnected():
+            time.sleep_ms(50)
+        # Connect the socket to the port where the server is listening
+        server_address = ('192.168.4.1', 10000)
+        print('connecting to {} port {}'.format(*server_address))
+        sock.connect(server_address)
+        sock.settimeout(slot)
+        pycom.heartbeat(False)
+        pycom.rgbled(0x3333ff) # blue
+        try:
+            print('DataReq,'+str(4)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(idDest)+','+str(-1)+','+str(slot*3)+','+idDest)
+            payload='DataReq,'+str(4)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(idDest)+','+str(-1)+','+str(slot*3)+','+idDest
+            message=payload.encode('utf-8')
+            print('sending {!r}'.format(message))
+            sock.sendall(message)
+            data = sock.recv(128)
+            print('received {!r}'.format(data))
+        finally:
+            print('closing socket')
+            sock.close()
+        msg =messageLoRa()
+        msg.fillMessage(data)
+        data_sum=data_sum+str(msg.id_src)+","+str(msg.data)+":"
+    return data_sum
 wlan = WLAN()
 mySSID="WGW_lopy_"+binascii.hexlify(wlan.mac().decode('utf-8')).decode()
 print("My AP name is : "+mySSID)
@@ -105,31 +144,57 @@ pycom.heartbeat(False)
 pycom.rgbled(0x007f00) # green
 
 time.sleep(2.5)
-clock = TimerL(slot,1)
-
+clock = TimerL(slot,0)
 while True:
     if isListening:
         pycom.rgbled(0x007f00) # green
         # Wait for a connection
         print('waiting for a connection')
-        connection, client_address = sock.accept()
+        #sock.settimeout(slot/2)
         try:
-            print('connection from', client_address)
-            while isListening:
-                data = connection.recv(128)
-                print('received {!r}'.format(data))
-                if data:
-                    handle_message(data,connection)
-                    time.sleep(1.500)
-                else:
-                    print('no data from', client_address)
-                    break
-        finally:
-            connection.close()
+            connection, client_address = sock.accept()
+            try:
+                print('connection from', client_address)
+                while isListening:
+                    data = connection.recv(128)
+                    print('received {!r}'.format(data))
+                    if data:
+                        handle_message(data,connection)
+                        time.sleep(1.500)
+                    else:
+                        print('no data from', client_address)
+                        break
+            finally:
+                connection.close()
+        except OSError as err:
+            print("OS error: {0}".format(err))
+        except EAGAIN as err:
+            print("EAGAIN error: {0}".format(err))
+        sock.close()
+        del sock
+        #start harvest
+        wlan.init(mode=WLAN.STA)
+        data=standard()
+        print("Data harvested : ")
+        print(data)
+        time.sleep(5)
+        #ending harvest
+        wlan.init(mode=WLAN.AP, ssid=mySSID,auth=(WLAN.WPA2,'www.python.com'), channel=7, antenna=WLAN.INT_ANT)
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+        # Bind the socket to the port
+        server_address = ('192.168.4.1', 10000)
+        print('starting up on {} port {}'.format(*server_address))
+        sock.bind(server_address)
+        # Listen for incoming connections
+        sock.listen(1)
+        pycom.heartbeat(False)
+        pycom.rgbled(0x007f00) # green
+        time.sleep(2.5)
     else:
         pycom.rgbled(0x7f0000) #red
         print("I am sleeping")
         time.sleep(slot)
         del clock
-        clock = TimerL(listeningTime,2)
+        clock = TimerL(listeningTime,1)
         isListening=True

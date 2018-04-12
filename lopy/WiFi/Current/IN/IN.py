@@ -58,6 +58,8 @@ def notDiscovered(wlan,nameAP):
         sock.sendall(message)
         data = sock.recv(128)
         print('received {!r}'.format(data))
+    except OSError as err:
+        print("OS error: {0}".format(err))
     finally:
         print('closing socket')
         sock.close()
@@ -81,7 +83,13 @@ def notRegistered():
       data=None
       server_address = ('192.168.4.1', 10000)
       print('connecting to {} port {}'.format(*server_address))
-      sock.connect(server_address)
+      sock.settimeout(slot)
+      try:
+          sock.connect(server_address)
+      except OSError as err:
+          print("OS error: {0}".format(err))
+      except EAGAIN as err:
+          print("EAGAIN error: {0}".format(err))
       pycom.heartbeat(False)
       pycom.rgbled(0x3333ff) # blue
       try:
@@ -91,11 +99,15 @@ def notRegistered():
           sock.sendall(message)
           data = sock.recv(128)
           print('received {!r}'.format(data))
+      except OSError as err:
+          print("OS error: {0}".format(err))
       finally:
           print('closing socket')
           sock.close()
       msg =messageLoRa()
-      msg.fillMessage(data)
+
+      if data !=None :
+          msg.fillMessage(data)
       if msg.messageName == "DataReq":
           registered=True
           print("I am registered")
@@ -114,7 +126,6 @@ def sendData(connection):
     global id
     global slot
     global frequency
-    data=None
     pycom.heartbeat(False)
     pycom.rgbled(0x3333ff) # blue
     try:
@@ -186,7 +197,7 @@ while True:
             if dataR:
                 msg =messageLoRa()
                 msg.fillMessage(dataR)
-                if msg.kind=="4" and msg.id_dest == str(id):
+                if msg.kind=="4" and msg.bssid == mySSID:
                     sendData(connection)
                     print("I sent my data")
                     print("I try to change my slot and listening time")
@@ -195,15 +206,19 @@ while True:
                     listeningTime=float(msg.listeningtime) #slot d'une duree de 40 seconde
                     isListening=False
                     del clock
-                    clock = TimerL(slot,1)
+                    clock = TimerL(slot,0)
                 time.sleep(1.500)
             else:
                 print('no data Request from', client_address)
                 break
         except OSError as err:
             print("OS error: {0}".format(err))
+            if connection !=None:
+                connection.close()
         except EAGAIN as err:
             print("EAGAIN error: {0}".format(err))
+            if connection !=None:
+                connection.close()
         finally:
             if connection !=None:
                 connection.close()
@@ -214,5 +229,5 @@ while True:
         print("I am sleeping")
         time.sleep(slot)
         del clock
-        clock = TimerL(listeningTime,2)
+        clock = TimerL(listeningTime,0)
         isListening=True
