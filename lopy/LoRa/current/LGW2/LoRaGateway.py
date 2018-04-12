@@ -206,7 +206,9 @@ while True:
         recolte=standard()
         time.sleep(1.500)
         if recolte !="" :
+            time.sleep(1.500)
             changetoLW(s,dev_eui,app_key,app_eui,lora)
+            time.sleep(1.500)
             s.setblocking(True)
             print(recolte)
             time.sleep(2)

@@ -1,46 +1,19 @@
-from network import LoRa
+
 import socket
 import time
 import pycom
 import uos
-import messageLoRa
 import binascii
 import struct
+import machine
+import sys
+import network
+from network import LoRa
+from network import WLAN
 from machine import Timer
 from messageLoRa import messageLoRa
 pycom.heartbeat(False)
 pycom.rgbled(0xff00)
-lora = LoRa(mode=LoRa.LORAWAN, region=LoRa.EU868)
-
-# create an OTAA authentication parameters
-app_eui = binascii.unhexlify('70 B3 D5 7E F0 00 49 E1'.replace(' ',''))
-#TTN
-#app_key = binascii.unhexlify('7D 10 63 DB 28 2D A8 8E 66 39 7B 70 06 07 1A 6A'.replace(' ',''))
-#objenious
-app_key = binascii.unhexlify('30 4C 99 26 3E A5 E6 43 B5 A0 8C B3 25 4A 61 FA'.replace(' ',''))
-dev_eui = binascii.unhexlify((binascii.hexlify(lora.mac()).decode('ascii')).upper())
-
-#dev_addr = struct .unpack(">l", binascii.unhexlify('00 00 00 05'.replace(' ','')))[0]
-# join a network using OTAA (Over the Air Activation)
-lora.join(activation=LoRa.OTAA, auth=(dev_eui,app_eui, app_key), timeout=0)
-
-# wait until the module has joined the network
-while not lora.has_joined():
-    time.sleep(2.5)
-    print('Not yet joined...')
-print('Connected to Objenious LoRaWAN!')
-
-s = socket.socket(socket.AF_LORA, socket.SOCK_RAW)
-s.setsockopt(socket.SOL_LORA, socket.SO_DR, 5)
-s.setblocking(True)
-
-# send some data
-s.send(bytes([0x01, 0x02, 0x03]))
-
-# make the socket non-blocking
-# (because if there's no data received it will block forever...)
-s.setblocking(False)
-
 id=3
 timer=0
 NbIN=0
@@ -54,38 +27,12 @@ MyLW=0
 nb_harvest=0
 mycolor="blue"
 isListening=True
+listeningTime=10.0
+recolte=""
+bssid=""
 def Random():
     result = ((uos.urandom(1)[0] / 256 )*3)+2
     return result
-def change_frequency(frequency_d):
-    current_frequency=lora.frequency()
-    if current_frequency != frequency_d:
-        print("FREQUENCY WAS CHANGED FROM :"+str(current_frequency)+" TO= ")
-        if frequency_d == 1:
-            lora.frequency(868000000)
-            print("868000000")
-        if frequency_d == 2:
-            lora.frequency(868100000)
-            print("868100000")
-        if frequency_d == 3:
-            lora.frequency(868300000)
-            print("868300000")
-        if frequency_d == 4:
-            lora.frequency(868500000)
-            print("868500000")
-        if frequency_d == 5:
-            lora.frequency(864100000)
-            print("864100000")
-        if frequency_d == 6:
-            lora.frequency(864300000)
-            print("864300000")
-        if frequency_d == 7:
-            lora.frequency(864500000)
-            print("864500000")
-    else:
-        print("FREQUENCY ALREADY CHANGED")
-
-listeningTime=10.0
 class TimerL:
     def __init__(self,timing,kind):
         self.seconds = 0
@@ -93,126 +40,92 @@ class TimerL:
             self.__alarm = Timer.Alarm(self._first_handler, timing, periodic=True)
         else:
             self.__alarm = Timer.Alarm(self._seconds_handler, timing, periodic=True)
-
     def _first_handler(self, alarm):
         global isListening
-        alarm.cancel() # stop it
+        alarm.cancel()
         isListening=True
     def _seconds_handler(self, alarm):
         global isListening
-        alarm.cancel() # stop it
+        alarm.cancel()
         isListening=False
-def changetoLW(s,dev_eui,app_key,app_eui,lora):
-    #print("FONCTION CHANGE TO LW 1")
-    lora = LoRa(mode=LoRa.LORAWAN, region=LoRa.EU868)
-    #print("FONCTION CHANGE TO LW 2 "+str(app_eui)+str(app_key)+str(dev_eui))
-    lora.join(activation=LoRa.OTAA, auth=(dev_eui,app_eui, app_key), timeout=0)
-    #print("FONCTION CHANGE TO LW 3")
-    while not lora.has_joined():
-        print('CtLW : Not yet joined...')
-        time.sleep(2.5)
-    print('Connected to Objenious LoRaWAN again !')
-    s = socket.socket(socket.AF_LORA, socket.SOCK_RAW)
-    s.setsockopt(socket.SOL_LORA, socket.SO_DR, 5)
-def changetoLoRa(lora):
-    lora = LoRa(mode=LoRa.LORA, region=LoRa.EU868)
-    print('Radio mode is LoRa now !')
-    time.sleep(5)
-def send_datatoLWGW(socket,dataString):
-    data=dataString
-    taille=str(len(data))+'s'
-    databytes = struct.pack(taille, data)
-    socket.send(databytes)
-    data=""
-def pairing_phase(msg):
+def pairing_phase(msg,s):
     global slot
     global idRegistered
-    #print("PAIRING PHASE WITH "+str(msg.id_src)+" STARTED")
-    s.send('Accept,'+str(2)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(msg.id_src)+','+str(-1)+','+str(slot*3))
+    s.sendall('Accept,'+str(2)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(msg.id_src)+','+str(-1)+','+str(slot*3)+","+mySSID)
     if msg.id_src in idRegistered:
         print("Added before")
     else:
         idRegistered.append(msg.id_src)
-    #print("PAIRING PHASE WITH "+str(msg.id_src)+" ENDED")
-def registering_phase(msg):
+def registering_phase(msg,s):
     global isRegistered
     global slot
-    #print("REGISTERING PHASE WITH "+str(msg.id_src)+" STARTED")
-    if msg.id_src in idRegistered:
-        s.send('DataReq,'+str(4)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(msg.id_src)+','+str(-1)+','+str(slot*3))
-
+    global bssid
+    print("Registering phase ")
+    s.sendall('DataReq,'+str(4)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(msg.id_src)+','+str(-1)+','+str(slot*3)+","+mySSID)
     if msg.id_src in isRegistered:
         print("Added before")
+        print("titi")
     else:
         isRegistered.append(msg.id_src)
-    #print("REGISTERING PHASE WITH "+str(msg.id_src)+" ENDED")
-def ack_data(msg):
-    #print("STANDARD PHASE STARTED")
-    global slot
-    #print("I received data : "+str(msg.data))
-    s.send('ack,'+str(4)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(msg.id_src)+','+str(-1)+','+str(slot*3))
-    #print("STANDARD PHASE ENDED")
-def standard():
-    print("STANDARD PHASE STARTED")
-    global isRegistered
-    global slot
-    data_sum=""
-    for idDest in isRegistered:
-        print(idDest)
-        print('DataReq,'+str(4)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(idDest)+','+str(-1)+','+str(slot*3))
-        s.send('DataReq,'+str(4)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(idDest)+','+str(-1)+','+str(slot*3))
-
-        dataHarvested = s.recv(128)
-        msgH =messageLoRa()
-        msgH.fillMessage(dataHarvested)
-        rnd=Random()
-        print("[FIRST Send] for "+str(idDest)+" Request data in "+str(rnd))
-        print(dataHarvested)
-        time.sleep(rnd)
-        while msgH.id_src != str(idDest) or msgH.id_dest != str(id) or msgH.kind != "5" or msgH.messageName != "DataRes":
-            rnd=Random()
-            print("[Try] for "+str(idDest)+" send Request data in "+str(rnd))
-            time.sleep(rnd)
-            s.send('DataReq,'+str(4)+','+str(frequency)+','+str(slot)+','+str(id)+','+str(idDest)+','+str(-1)+','+str(slot*3))
-            dataHarvested = s.recv(128)
-            msgH =messageLoRa()
-            msgH.fillMessage(dataHarvested)
-            print("msg data =========>"+dataHarvested.decode())
-        data_sum=data_sum+str(idDest)+","+str(msgH.data)+":"
-    print("STANDARD PHASE ENDED")
-    return data_sum
-def handle_message(data):
+def handle_message(data,connection):
     msg =messageLoRa()
     msg.fillMessage(data)
+    global recolte
+    global nb_harvest
     if msg.kind == "1":
-        pairing_phase(msg)
-    if msg.kind == "3" and msg.id_dest == str(id):
-        registering_phase(msg)
+        pairing_phase(msg,connection)
     if msg.kind == "3" and msg.id_dest != str(id):
-        if msg.id_src in idRegistered:
-            idRegistered.remove(msg.id_src)
-            print("Delete ID:"+str(msg.id_src)+"from the table idRegistered")
-changetoLoRa(lora)
+        registering_phase(msg,connection)
+    if msg.kind == "5" and msg.id_dest == str(id):
+        recolte=""+msg.id_src+","+msg.data+":"
+        nb_harvest=nb_harvest+1
+
+wlan = WLAN()
+mySSID="WGW_lopy_"+binascii.hexlify(wlan.mac().decode('utf-8')).decode()
+print("My AP name is : "+mySSID)
+# configure the WLAN subsystem in station mode (the default is AP)
+wlan.init(mode=WLAN.AP, ssid=mySSID,auth=(WLAN.WPA2,'www.python.com'), channel=7, antenna=WLAN.INT_ANT)
+#STA config
+#wlan.ifconfig(id=0,config=('10.0.0.114', '255.255.0.0', '10.0.0.1', '10.0.0.1'))
+#AP config
+#wlan.ifconfig(id=1,config=('192.168.4.1', '255.255.255.0', '192.168.4.10', '192.168.0.1'))
+print("My ip on the network [AP] is : "+wlan.ifconfig(id=1)[0])
+print("My ip on the network [STA] is : "+wlan.ifconfig(id=0)[0])
+# Create a TCP/IP socket
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# Bind the socket to the port
+server_address = ('192.168.4.1', 10000)
+print('starting up on {} port {}'.format(*server_address))
+sock.bind(server_address)
+
+# Listen for incoming connections
+sock.listen(1)
+pycom.heartbeat(False)
+pycom.rgbled(0x007f00) # green
+
 time.sleep(2.5)
 clock = TimerL(slot,1)
+
 while True:
     if isListening:
         pycom.rgbled(0x007f00) # green
-        data = s.recv(128)
-        handle_message(data)
-        time.sleep(1.500)
-        handle_message(data)
-        time.sleep(1.500)
-        recolte=standard()
-        time.sleep(1.500)
-        if recolte !="" :
-            changetoLW(s,dev_eui,app_key,app_eui,lora)
-            s.setblocking(True)
-            print(recolte)
-            time.sleep(2)
-            send_datatoLWGW(s,recolte)
-            changetoLoRa(lora)
-            s.setblocking(False)
+        # Wait for a connection
+        print('waiting for a connection')
+        connection, client_address = sock.accept()
+        try:
+            print('connection from', client_address)
+            while isListening:
+                data = connection.recv(128)
+                print('received {!r}'.format(data))
+                if data:
+                    handle_message(data,connection)
+                    time.sleep(1.500)
+                else:
+                    print('no data from', client_address)
+                    break
+        finally:
+            connection.close()
     else:
         pycom.rgbled(0x7f0000) #red
         print("I am sleeping")
