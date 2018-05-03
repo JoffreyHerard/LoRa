@@ -40,9 +40,9 @@ def change_frequency(frequency_d):
 lora = LoRa(mode=LoRa.LORA, region=LoRa.EU868)
 s = socket.socket(socket.AF_LORA, socket.SOCK_RAW)
 s.setblocking(False)
-id=2
+id=1
 timer=0
-data=66
+data=42
 tryDiscover=0
 tryRegister=0
 discovered=False
@@ -131,36 +131,51 @@ while True:
     if isListening:
         #print("I am awake : my LoRaGW is "+str(myLoRa)+" and my slot is "+str(slot))
         pycom.rgbled(0x007f00) # green
-        #We are not discovered yet
-        while not discovered:
-            notDiscovered()
-            rnd=Random()
-            print("Try Discover in "+str(rnd))
-            time.sleep(rnd)
-        while not registered and discovered:
-            notRegistered()
-            rnd=Random()
-            print("Try Register in "+str(rnd))
-            time.sleep(rnd)
-        dataR=s.recv(128)
-        msg =messageLoRa()
-        msg.fillMessage(dataR)
-        if msg.kind=="4" and msg.id_dest == str(id):
-            sendData()
-            print("I sent my data")
-            print("I try to change my slot and listening time")
-            slot=float(msg.slots)
-            listeningTime=float(msg.listeningtime) #slot d'une duree de 40 seconde
-            isListening=False
-            del clock
-            clock = TimerL(slot,1)
-            toto=False
-
+        try:    #We are not discovered yet
+            while not discovered:
+                notDiscovered()
+                rnd=Random()
+                print("Try Discover in "+str(rnd))
+                time.sleep(rnd)
+            while not registered and discovered:
+                notRegistered()
+                rnd=Random()
+                print("Try Register in "+str(rnd))
+                time.sleep(rnd)
+            dataR=s.recv(128)
+            msg =messageLoRa()
+            msg.fillMessage(dataR)
+            if msg.kind=="4" and msg.id_dest == str(id):
+                sendData()
+                print("I sent my data")
+                print("I try to change my slot and listening time")
+                slot=float(msg.slots)
+                listeningTime=float(msg.listeningtime) #slot d'une duree de 40 seconde
+                isListening=False
+                del clock
+                clock = TimerL(slot,1)
+                toto=False
+        except OSError as err:
+            print("OS error: {0}".format(err))
+            if connection !=None:
+                connection.close()
+        except EAGAIN as err:
+            print("EAGAIN error: {0}".format(err))
+            if connection !=None:
+                connection.close()
     else:
         pycom.rgbled(0x7f0000) #red
-        print("I am sleeping")
-        time.sleep(slot)
-        del clock
-        clock = TimerL(listeningTime,2)
-        isListening=True
-        print("I am awake")
+        try:
+            print("I am sleeping")
+            time.sleep(slot)
+            del clock
+            clock = TimerL(listeningTime,2)
+            isListening=True
+        except OSError as err:
+            print("OS error: {0}".format(err))
+            if connection !=None:
+                connection.close()
+        except EAGAIN as err:
+            print("EAGAIN error: {0}".format(err))
+            if connection !=None:
+                connection.close()

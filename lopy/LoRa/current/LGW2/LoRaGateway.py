@@ -41,7 +41,7 @@ s.send(bytes([0x01, 0x02, 0x03]))
 # (because if there's no data received it will block forever...)
 s.setblocking(False)
 
-id=4
+id=3
 timer=0
 NbIN=0
 idRegistered=[]
@@ -197,28 +197,46 @@ time.sleep(2.5)
 clock = TimerL(slot,1)
 while True:
     if isListening:
-        pycom.rgbled(0x007f00) # green
-        data = s.recv(128)
-        handle_message(data)
-        time.sleep(1.500)
-        handle_message(data)
-        time.sleep(1.500)
-        recolte=standard()
-        time.sleep(1.500)
-        if recolte !="" :
+        try:
+            pycom.rgbled(0x007f00) # green
+            data = s.recv(128)
+            handle_message(data)
             time.sleep(1.500)
-            changetoLW(s,dev_eui,app_key,app_eui,lora)
+            handle_message(data)
             time.sleep(1.500)
-            s.setblocking(True)
-            print(recolte)
-            time.sleep(2)
-            send_datatoLWGW(s,recolte)
-            changetoLoRa(lora)
-            s.setblocking(False)
+            recolte=standard()
+            time.sleep(1.500)
+            if recolte !="" :
+                time.sleep(1.500)
+                changetoLW(s,dev_eui,app_key,app_eui,lora)
+                time.sleep(1.500)
+                s.setblocking(True)
+                print(recolte)
+                time.sleep(2)
+                send_datatoLWGW(s,recolte)
+                changetoLoRa(lora)
+                s.setblocking(False)
+        except OSError as err:
+            print("OS error: {0}".format(err))
+            if connection !=None:
+                connection.close()
+        except EAGAIN as err:
+            print("EAGAIN error: {0}".format(err))
+            if connection !=None:
+                connection.close()
     else:
         pycom.rgbled(0x7f0000) #red
-        print("I am sleeping")
-        time.sleep(slot)
-        del clock
-        clock = TimerL(listeningTime,2)
-        isListening=True
+        try:
+            print("I am sleeping")
+            time.sleep(slot)
+            del clock
+            clock = TimerL(listeningTime,2)
+            isListening=True
+        except OSError as err:
+            print("OS error: {0}".format(err))
+            if connection !=None:
+                connection.close()
+        except EAGAIN as err:
+            print("EAGAIN error: {0}".format(err))
+            if connection !=None:
+                connection.close()
