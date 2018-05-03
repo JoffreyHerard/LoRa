@@ -14,14 +14,14 @@ void IsoN::initialize()
     this->slot=1;
 
     cDisplayString& dispStr = getDisplayString();
-    dispStr.parse("p=150,250,r,100;i=device/devicegreen");
-    if(this->id == 22){
+    dispStr.setTagArg("i",0,"device/devicegreen");
+    /*if(this->id == 22){
         dispStr.parse("p=250,350;i=device/devicegreen");
     }
 
     if( this->id == 25){
         dispStr.parse("p=550,350;i=device/devicegreen");
-    }
+    }*/
 
 
     /* generate number between 1 and 100: */
@@ -89,22 +89,70 @@ void IsoN::handleMessage(cMessage *msg)
                 /*There is a LoRa Gateway Near and I'm not registered yet*/
                 this->myLoRa=((messageLoRA*)msg)->getIdSrc();
                 switch(this->myLoRa){
-                       case 1:{
-                           this->mycolor="device/device_cyan";
-                           break;
-                       }
-                       case 2:{
-                           this->mycolor="device/device_pink";
-                           break;
-                       }
-                       case 3:{
-                           this->mycolor="device/device_purple";
-                           break;
-                       }
-                       case 4:{
-                           this->mycolor="device/device_yellow";
-                           break;
-                       }
+                    case 9:{
+                        this->mycolor="device/device_cyan";
+                        break;
+                    }
+                    case 10:{
+                        this->mycolor="device/device_pink";
+                        break;
+                    }
+                    case 11:{
+                        this->mycolor="device/device_purple";
+                        break;
+                    }
+                    case 12:{
+                        this->mycolor="device/device_yellow";
+                        break;
+                    }
+                    case 13:{
+                        this->mycolor="device/device_cyan";
+                        break;
+                    }
+                    case 14:{
+                        this->mycolor="device/device_pink";
+                        break;
+                    }
+                    case 15:{
+                        this->mycolor="device/device_purple";
+                        break;
+                    }
+                    case 16:{
+                        this->mycolor="device/device_yellow";
+                        break;
+                    }
+                    case 17:{
+                        this->mycolor="device/device_cyan";
+                        break;
+                    }
+                    case 18:{
+                        this->mycolor="device/device_pink";
+                        break;
+                    }
+                    case 19:{
+                        this->mycolor="device/device_purple";
+                        break;
+                    }
+                    case 20:{
+                        this->mycolor="device/device_yellow";
+                        break;
+                    }
+                    case 21:{
+                        this->mycolor="device/device_cyan";
+                        break;
+                    }
+                    case 22:{
+                        this->mycolor="device/device_pink";
+                        break;
+                    }
+                    case 23:{
+                        this->mycolor="device/device_purple";
+                        break;
+                    }
+                    case 24:{
+                        this->mycolor="device/device_yellow";
+                        break;
+                    }
                 }
 
                 const char* tmpColor= this->mycolor.c_str();

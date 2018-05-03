@@ -18,7 +18,7 @@ void LGW::initialize()
 
 
    cDisplayString& dispStr = getDisplayString();
-   dispStr.parse("p=200,100,r,100");
+   //dispStr.parse("p=200,100,r,100");
    const char* tmpColor= this->mycolor.c_str();
    dispStr.setTagArg("i", 0, tmpColor);
 
@@ -30,19 +30,67 @@ void LGW::initialize()
 
 
    switch(this->id){
-       case 1:{
+       case 9:{
            this->mycolor="device/device_cyan";
            break;
        }
-       case 2:{
+       case 10:{
            this->mycolor="device/device_pink";
            break;
        }
-       case 3:{
+       case 11:{
            this->mycolor="device/device_purple";
            break;
        }
-       case 4:{
+       case 12:{
+           this->mycolor="device/device_yellow";
+           break;
+       }
+       case 13:{
+           this->mycolor="device/device_cyan";
+           break;
+       }
+       case 14:{
+           this->mycolor="device/device_pink";
+           break;
+       }
+       case 15:{
+           this->mycolor="device/device_purple";
+           break;
+       }
+       case 16:{
+           this->mycolor="device/device_yellow";
+           break;
+       }
+       case 17:{
+           this->mycolor="device/device_cyan";
+           break;
+       }
+       case 18:{
+           this->mycolor="device/device_pink";
+           break;
+       }
+       case 19:{
+           this->mycolor="device/device_purple";
+           break;
+       }
+       case 20:{
+           this->mycolor="device/device_yellow";
+           break;
+       }
+       case 21:{
+           this->mycolor="device/device_cyan";
+           break;
+       }
+       case 22:{
+           this->mycolor="device/device_pink";
+           break;
+       }
+       case 23:{
+           this->mycolor="device/device_purple";
+           break;
+       }
+       case 24:{
            this->mycolor="device/device_yellow";
            break;
        }

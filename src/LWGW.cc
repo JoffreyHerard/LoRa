@@ -9,7 +9,8 @@ void LWGW::initialize()
     this->id = par("id").longValue();
 
     cDisplayString& dispStr = getDisplayString();
-    dispStr.parse("p=350,20;i=device/antennatower");
+    //dispStr.parse("p=350,20;i=device/antennatower");
+    dispStr.setTagArg("i", 0, "device/antennatower");
 }
 
 void LWGW::handleMessage(cMessage *msg)
