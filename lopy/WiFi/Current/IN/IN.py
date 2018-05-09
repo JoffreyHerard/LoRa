@@ -60,9 +60,9 @@ def notDiscovered(wlan,nameAP):
         print('received {!r}'.format(data))
     except OSError as err:
         print("OS error: {0}".format(err))
-    finally:
-        print('closing socket')
-        sock.close()
+    #finally:
+    #    print('closing socket')
+    #    sock.close()
     msg =messageLoRa()
     msg.fillMessage(data)
     if msg.messageName == "Accept":
