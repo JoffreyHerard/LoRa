@@ -31,6 +31,7 @@ class IsoN : public cSimpleModule
     int slot;
     int myLoRa;
     string mycolor;
+    long long messageSend;
   protected:
     virtual void initialize();
     virtual void handleMessage(cMessage *msg);

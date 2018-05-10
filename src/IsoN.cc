@@ -12,7 +12,7 @@ void IsoN::initialize()
     this->registered=false;
     this->id = par("id").longValue();
     this->slot=1;
-
+    this->messageSend = 0 ;
     cDisplayString& dispStr = getDisplayString();
     dispStr.setTagArg("i",0,"device/devicegreen");
     /*if(this->id == 22){

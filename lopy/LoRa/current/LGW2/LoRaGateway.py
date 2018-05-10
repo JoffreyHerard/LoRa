@@ -184,8 +184,11 @@ def standard():
 def handle_message(data):
     msg =messageLoRa()
     msg.fillMessage(data)
+    print(data)
     if msg.kind == "1":
         pairing_phase(msg)
+    else:
+        print(msg.kind )
     if msg.kind == "3" and msg.id_dest == str(id):
         registering_phase(msg)
     if msg.kind == "3" and msg.id_dest != str(id):
@@ -218,12 +221,8 @@ while True:
                 s.setblocking(False)
         except OSError as err:
             print("OS error: {0}".format(err))
-            if connection !=None:
-                connection.close()
         except EAGAIN as err:
             print("EAGAIN error: {0}".format(err))
-            if connection !=None:
-                connection.close()
     else:
         pycom.rgbled(0x7f0000) #red
         try:
@@ -234,9 +233,5 @@ while True:
             isListening=True
         except OSError as err:
             print("OS error: {0}".format(err))
-            if connection !=None:
-                connection.close()
         except EAGAIN as err:
             print("EAGAIN error: {0}".format(err))
-            if connection !=None:
-                connection.close()

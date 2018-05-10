@@ -31,6 +31,7 @@ class LGW : public cSimpleModule{
         bool discovered;
         double old_phase;
         string mycolor;
+        long long messageSend;
   protected:
         virtual void initialize();
         virtual void handleMessage(cMessage *msg);

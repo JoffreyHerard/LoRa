@@ -28,6 +28,7 @@ public:
     vector<int> idRegistered;
     vector<int> idRegisteredLGW;
     int slot,id;
+    long long messageSend;
   protected:
     virtual void initialize();
     virtual void handleMessage(cMessage *msg);

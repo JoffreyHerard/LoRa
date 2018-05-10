@@ -13,6 +13,7 @@ void LGW::initialize()
    this->isRegistered =  vector<bool>();
    this->MyLW=-1;
    this->nb_harvest=0;
+   this->messageSend = 0 ;
    /* generate number between 1 and 100: */
    this->time = this->slot +1;
 

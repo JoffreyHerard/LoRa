@@ -7,6 +7,7 @@ void LWGW::initialize()
     this->frequency=1;
     this->slot=5;
     this->id = par("id").longValue();
+    this->messageSend = 0 ;
 
     cDisplayString& dispStr = getDisplayString();
     //dispStr.parse("p=350,20;i=device/antennatower");

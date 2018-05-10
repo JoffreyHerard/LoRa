@@ -157,12 +157,8 @@ while True:
                 toto=False
         except OSError as err:
             print("OS error: {0}".format(err))
-            if connection !=None:
-                connection.close()
         except EAGAIN as err:
             print("EAGAIN error: {0}".format(err))
-            if connection !=None:
-                connection.close()
     else:
         pycom.rgbled(0x7f0000) #red
         try:
@@ -173,9 +169,5 @@ while True:
             isListening=True
         except OSError as err:
             print("OS error: {0}".format(err))
-            if connection !=None:
-                connection.close()
         except EAGAIN as err:
             print("EAGAIN error: {0}".format(err))
-            if connection !=None:
-                connection.close()
