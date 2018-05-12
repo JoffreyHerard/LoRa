@@ -1,9 +1,11 @@
 #ifndef __LORA_LGW_H_
 #define __LORA_LGW_H_
 #include <omnetpp.h>
+#include <sys/stat.h>
 #include <time.h>
 #include <unistd.h>
 #include <vector>
+#include <fstream>
 #include "messageLoRA.h"
 using namespace omnetpp;
 using namespace std;
@@ -33,7 +35,7 @@ class LGW : public cSimpleModule{
         string mycolor;
         long long messageSend;
         static long long sumMessagesend;
-        string filename_result;
+        string file;
         bool agreg;
         double batterie; // en mAs
         double const ce= 107.3; // en mA

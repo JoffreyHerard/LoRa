@@ -12,7 +12,7 @@ void IsoN::initialize()
     this->discovered=false;
     this->registered=false;
     this->id = par("id").longValue();
-    this->filename_result= par("file").stringValue();
+    this->file= par("file").stringValue();
     this->batterie= par("battery").longValue();
     this->tv=0;
     this->cout_envoi=this->te*this->ce;
@@ -499,8 +499,19 @@ void IsoN::isListeningHandleMessage(messageLoRA *msg)
 void IsoN::finish()
 {
     this->sumMessagesend= this->sumMessagesend+ this->messageSend;
-    recordScalar("#sent", this->messageSend);
-    recordScalar("#battery", this->batterie);
+    //this->sumMessagesend= this->sumMessagesend+ this->messageSend;
+    ofstream objetfichier;
+    string path="results/"+this->file+"/IN_"+std::to_string(this->id);
+    objetfichier.open(path, ios::out);
+    if (objetfichier.bad())
+    {
+       LOG EV << "Failed to open file"<< endl;
+    }
+    else{
+       objetfichier <<this->messageSend << endl;
+       objetfichier <<this->batterie << endl;
+       objetfichier.close();
+    }
 }
 int IsoN::getData() const
 {

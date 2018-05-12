@@ -1,9 +1,12 @@
 #ifndef __LORA_ISON_H_
 #define __LORA_ISON_H_
 #include <omnetpp.h>
+#include <unistd.h>
+#include <sys/stat.h>
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
 #include <unistd.h>
+#include <fstream>
 #include "messageLoRA.h"
 using namespace omnetpp;
 using namespace std;
@@ -33,7 +36,7 @@ class IsoN : public cSimpleModule
     string mycolor;
     long long messageSend;
     static long long sumMessagesend;
-    string filename_result;
+    string file;
     double batterie; // en mAs
     double const ce= 107.3; // en mA
     double const cr = 37 ; // en mA

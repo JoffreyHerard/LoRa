@@ -1,4 +1,5 @@
 #include "LWGW.h"
+
 Define_Module(LWGW);
 long long LWGW::sumMessagesend;
 void LWGW::initialize()
@@ -159,8 +160,20 @@ void LWGW::isListeningHandleMessage(messageLoRA *msg)
 void LWGW::finish()
 {
     this->sumMessagesend= this->sumMessagesend+ this->messageSend;
-    recordScalar("#sent", this->messageSend);
+
+    ofstream objetfichier;
+    string path="results/"+this->file+"/WELL_"+std::to_string(this->id);
+    objetfichier.open(path, ios::out);
+    if (objetfichier.bad())
+    {
+        LOG EV << "Failed to open file"<< endl;
+    }
+    else{
+        objetfichier <<this->messageSend << endl;
+        objetfichier.close();
+    }
 }
+
 bool LWGW::isDiscovered() const
 {
     return discovered;

@@ -9,7 +9,7 @@ void LGW::initialize()
    this->discovered=false;
    this->frequency=0;
    this->id = par("id").longValue();
-   this->filename_result= par("file").stringValue();
+   this->file= par("file").stringValue();
    this->batterie= par("battery").longValue();
    this->idRegistered =  vector<int>();
    this->isRegistered =  vector<bool>();
@@ -530,8 +530,18 @@ void LGW::isListeningHandleMessage(messageLoRA *msg)
 void LGW::finish()
 {
     //this->sumMessagesend= this->sumMessagesend+ this->messageSend;
-    recordScalar("#sent", this->messageSend);
-    recordScalar("#battery", this->batterie);
+    ofstream objetfichier;
+    string path="results/"+this->file+"/WGW_"+std::to_string(this->id);
+    objetfichier.open(path, ios::out);
+    if (objetfichier.bad())
+    {
+        LOG EV << "Failed to open file"<< endl;
+    }
+    else{
+        objetfichier <<this->messageSend << endl;
+        objetfichier <<this->batterie << endl;
+        objetfichier.close();
+    }
 }
 
 bool LGW::isDiscovered() const

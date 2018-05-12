@@ -1,6 +1,9 @@
 #ifndef __LORA_LWGW_H_
 #define __LORA_LWGW_H_
 #include <omnetpp.h>
+#include <unistd.h>
+#include <sys/stat.h>
+#include <fstream>
 #include "messageLoRA.h"
 
 using namespace omnetpp;
