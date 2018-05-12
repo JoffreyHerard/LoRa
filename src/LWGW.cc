@@ -1,14 +1,14 @@
 #include "LWGW.h"
 Define_Module(LWGW);
-
+long long LWGW::sumMessagesend;
 void LWGW::initialize()
 {
     LOG EV << "LoRaWAN Gateway Started"<< endl;
     this->frequency=1;
-    this->slot=5;
     this->id = par("id").longValue();
-    this->messageSend = 0 ;
-
+    this->messageSend = 0;
+    this->file= par("file").stdstringValue();
+    this->slot=par("slot").longValue();
     cDisplayString& dispStr = getDisplayString();
     //dispStr.parse("p=350,20;i=device/antennatower");
     dispStr.setTagArg("i", 0, "device/antennatower");
@@ -96,6 +96,7 @@ void LWGW::isListeningHandleMessage(messageLoRA *msg)
               messageLoRA *copy = m->dup();
               send(copy, "channelsO", i);
            }
+           this->messageSend++;
            LOG EV << "LoRaWAN Gateway registered a LoRa Gateway" << endl;
            this->discovered=true;
            this->idRegistered.push_back(msg->getIdSrc());
@@ -155,6 +156,11 @@ void LWGW::isListeningHandleMessage(messageLoRA *msg)
 
 }
 
+void LWGW::finish()
+{
+    this->sumMessagesend= this->sumMessagesend+ this->messageSend;
+    recordScalar("#sent", this->messageSend);
+}
 bool LWGW::isDiscovered() const
 {
     return discovered;

@@ -20,6 +20,8 @@ simple IsoN
 {
     parameters:
         int id;
+        string file;
+        double battery;
         @display("i=old/bwcomp");
     gates:
         input channelsI[];

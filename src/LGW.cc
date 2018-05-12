@@ -1,7 +1,7 @@
 #include "LGW.h"
 
 Define_Module(LGW);
-
+long long LGW::sumMessagesend;
 void LGW::initialize()
 {
    LOG  EV << "LoRA Gateway started"<< endl;
@@ -9,11 +9,23 @@ void LGW::initialize()
    this->discovered=false;
    this->frequency=0;
    this->id = par("id").longValue();
+   this->filename_result= par("file").stringValue();
+   this->batterie= par("battery").longValue();
    this->idRegistered =  vector<int>();
    this->isRegistered =  vector<bool>();
+   this->agreg=par("agreg").boolValue();
    this->MyLW=-1;
    this->nb_harvest=0;
    this->messageSend = 0 ;
+   this->tv=0;
+   this->cout_envoi=this->te*this->ce;
+   this->cout_receive=this->tr*this->cr;
+   this->slot=1;
+   this->cout_veille=this->slot*this->cv;
+   //this->batterie=this->batterie-this->cout_envoi;
+   //this->batterie=this->batterie-this->cout_receive;
+   //this->batterie=this->batterie-this->cout_veille;
+
    /* generate number between 1 and 100: */
    this->time = this->slot +1;
 
@@ -108,6 +120,12 @@ void LGW::initialize()
        messageLoRA *copy = m->dup();
        send(copy, "channelsO", i);
    }
+
+   this->batterie=this->batterie-this->cout_envoi;
+   this->messageSend++;
+   if(this->batterie<0){
+       finish();
+   }
    delete m;
    LOG EV << "Join Request LoRaWAN message sent from: " << this->id  << endl;
    this->old_phase =2;
@@ -138,6 +156,10 @@ void LGW::handleMessage(cMessage *msg)
     DEBUG  EV <<"Id registered ARRAY i:"<< i << " : "<< this->idRegistered[i] <<endl;
     if(this->frequency > 0)
     {
+        this->batterie=this->batterie-this->cout_receive;
+        if(this->batterie<0){
+             finish();
+        }
         isListeningHandleMessage((messageLoRA*)msg);
     }
     else
@@ -147,6 +169,10 @@ void LGW::handleMessage(cMessage *msg)
     if( ( !((messageLoRA*)msg)->isSelfMessage() ) && (this->frequency == 0) && !(this->discovered))
     {
         /*There is a LoRaWAN Gateway Near and I'm not registered yet*/
+        this->batterie=this->batterie-this->cout_receive;
+        if(this->batterie<0){
+             finish();
+        }
         LOG EV << "LoRa Gateway has received the Join request Message with timeout process " << endl;
         this->discovered=true;
         this->MyLW=((messageLoRA*)msg)->getIdSrc();
@@ -174,7 +200,10 @@ void LGW::notListeningHandleMessage(messageLoRA *msg)
             {
 
                 /*LoRaGateway is required to harvest data*/
-
+                this->batterie=this->batterie-this->cout_veille;
+                if(this->batterie<0){
+                    finish();
+                }
                 cDisplayString& dispStr = getDisplayString();
                 const char* tmpColor= this->mycolor.c_str();
                 dispStr.setTagArg("i", 0, tmpColor);
@@ -194,6 +223,12 @@ void LGW::notListeningHandleMessage(messageLoRA *msg)
                     {
                         messageLoRA *copy = m1->dup();
                         send(copy, "channelsO", i);
+                    }
+
+                    this->batterie=this->batterie-this->cout_envoi;
+                    this->messageSend++;
+                    if(this->batterie<0){
+                        finish();
                     }
                 }
                 delete m1;
@@ -229,6 +264,12 @@ void LGW::notListeningHandleMessage(messageLoRA *msg)
                     {
                         messageLoRA *copy = m->dup();
                         send(copy, "channelsO", i);
+                    }
+
+                    this->batterie=this->batterie-this->cout_envoi;
+                    this->messageSend++;
+                    if(this->batterie<0){
+                        finish();
                     }
                     delete m;
                     LOG EV << "Join Request LoRaWAN message sent from: " << this->id  << endl;
@@ -316,6 +357,12 @@ void LGW::isListeningHandleMessage(messageLoRA *msg)
                     messageLoRA *copy = m->dup();
                     send(copy, "channelsO", i);
                 }
+
+                this->batterie=this->batterie-this->cout_envoi;
+                this->messageSend++;
+                if(this->batterie<0){
+                    finish();
+                }
                 delete m;
                 LOG EV << "Accept Message sent from: " << this->id  << endl;
             }
@@ -364,6 +411,12 @@ void LGW::isListeningHandleMessage(messageLoRA *msg)
                     messageLoRA *copy = m_ACK_J_IN->dup();
                     send(copy,"channelsO", i);
                 }
+
+                this->batterie=this->batterie-this->cout_envoi;
+                this->messageSend++;
+                if(this->batterie<0){
+                    finish();
+                }
                 delete m_ACK_J_IN;
 
                 m->setName("Data request");
@@ -373,6 +426,12 @@ void LGW::isListeningHandleMessage(messageLoRA *msg)
                 {
                     messageLoRA *copy = m->dup();
                     sendDelayed(copy,0.1, "channelsO", i);
+                }
+
+                this->batterie=this->batterie-this->cout_envoi;
+                this->messageSend++;
+                if(this->batterie<0){
+                    finish();
                 }
                 delete m;
                 LOG EV << "Data request Message sent from: " << this->id  << endl;
@@ -397,15 +456,34 @@ void LGW::isListeningHandleMessage(messageLoRA *msg)
                 m->setIdDest(this->MyLW);
                 m->setIsolated(true);
                 int i;
-                for (i = 0; i < this->gateSize("channelsO"); i++)
-                {
-                   messageLoRA *copy = m->dup();
-                   send(copy, "channelsO", i);
+                if(!this->agreg){
+                    for (i = 0; i < this->gateSize("channelsO"); i++)
+                    {
+                       messageLoRA *copy = m->dup();
+                       send(copy, "channelsO", i);
+                    }
+                    this->batterie=this->batterie-this->cout_envoi;
+                    this->messageSend++;
+                    if(this->batterie<0){
+                        finish();
+                    }
+                    LOG EV << "Forwarding Data Message sent from: " << msg->getIdSrc()<< endl;
                 }
                 this->nb_harvest++;
-                LOG EV << "Forwarding Data Message sent from: " << msg->getIdSrc()<< endl;
                 /*On va faire hiberner le tout .*/
                 if(this->nb_harvest == this->idRegistered.size()){
+                    if(this->agreg){
+                        for (i = 0; i < this->gateSize("channelsO"); i++)
+                        {
+                              messageLoRA *copy = m->dup();
+                              send(copy, "channelsO", i);
+                        }
+                    }
+                    this->batterie=this->batterie-this->cout_envoi;
+                    this->messageSend++;
+                    if(this->batterie<0){
+                        finish();
+                    }
                     this->frequency=0;
                     messageLoRA *mHibernate = new messageLoRA();
                     mHibernate->setName("Hibernate_deactivate");
@@ -449,6 +527,12 @@ void LGW::isListeningHandleMessage(messageLoRA *msg)
 
 }
 
+void LGW::finish()
+{
+    //this->sumMessagesend= this->sumMessagesend+ this->messageSend;
+    recordScalar("#sent", this->messageSend);
+    recordScalar("#battery", this->batterie);
+}
 
 bool LGW::isDiscovered() const
 {

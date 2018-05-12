@@ -2,6 +2,7 @@
 #include <string.h>
 Define_Module(IsoN);
 using namespace std;
+long long IsoN::sumMessagesend;
 void IsoN::initialize()
 {
     int i;
@@ -11,7 +12,16 @@ void IsoN::initialize()
     this->discovered=false;
     this->registered=false;
     this->id = par("id").longValue();
+    this->filename_result= par("file").stringValue();
+    this->batterie= par("battery").longValue();
+    this->tv=0;
+    this->cout_envoi=this->te*this->ce;
+    this->cout_receive=this->tr*this->cr;
     this->slot=1;
+    this->cout_veille=this->slot*this->cv;
+    //this->batterie=this->batterie-this->cout_envoi;
+    //this->batterie=this->batterie-this->cout_receive;
+    //this->batterie=this->batterie-this->cout_veille;
     this->messageSend = 0 ;
     cDisplayString& dispStr = getDisplayString();
     dispStr.setTagArg("i",0,"device/devicegreen");
@@ -40,6 +50,13 @@ void IsoN::initialize()
     {
         messageLoRA *copy = m->dup();
         send(copy, "channelsO", i);
+
+    }
+
+    this->batterie=this->batterie-this->cout_envoi;
+    this->messageSend++;
+    if(this->batterie<0){
+        finish();
     }
     delete m;
 
@@ -63,9 +80,13 @@ void IsoN::handleMessage(cMessage *msg)
 
     if(this->frequency > 0)
     {
+
+         this->batterie=this->batterie-this->cout_receive;
+         if(this->batterie<0){
+             finish();
+         }
          DEBUG EV << "Je vais la 1" << endl;
          isListeningHandleMessage((messageLoRA*)msg);
-
     }
     else
     {
@@ -80,7 +101,10 @@ void IsoN::handleMessage(cMessage *msg)
         messageLoRA *m = new messageLoRA();
         m->setIdSrc(this->id);
         /* I receive an accept request*/
-
+        this->batterie=this->batterie-this->cout_receive;
+        if(this->batterie<0){
+            finish();
+        }
         if(msg->getKind() == 2)
         {
             if(!(this->discovered) && ((messageLoRA*)msg)->getIdDest()==this->id){
@@ -170,11 +194,17 @@ void IsoN::handleMessage(cMessage *msg)
                     messageLoRA *copy = m->dup();
                     send(copy, "channelsO", i);
                 }
+
+                this->batterie=this->batterie-this->cout_envoi;
+                this->messageSend++;
+                if(this->batterie<0){
+                    finish();
+                }
                 delete m;
                 LOG EV << "Register Message sent from: " << this->id << endl;
                 this->discovered=true;
                 this->slot=((messageLoRA*)msg)->getSlots();
-
+                this->cout_veille=this->slot*this->cv;
                 dispStr.setTagArg("i", 0, "device/devicered");
                 messageLoRA *mHibernate = new messageLoRA();
                 mHibernate->setIdSrc(this->id);
@@ -207,6 +237,12 @@ void IsoN::handleMessage(cMessage *msg)
                 messageLoRA *copy = m->dup();
                 send(copy, "channelsO", i);
             }
+
+            this->batterie=this->batterie-this->cout_envoi;
+            this->messageSend++;
+            if(this->batterie<0){
+                finish();
+            }
             delete m;
             LOG EV << "Data Response sent from: " << this->id << endl;
 
@@ -221,6 +257,7 @@ void IsoN::handleMessage(cMessage *msg)
             const char* tmpColor= this->mycolor.c_str();
             dispStr.setTagArg("i", 0, tmpColor);
         }
+
     }
     delete msg;
 }
@@ -237,6 +274,11 @@ void IsoN::notListeningHandleMessage(messageLoRA *msg)
         {
             case 15:
             {
+
+                this->batterie=this->batterie-this->cout_veille;
+                if(this->batterie<0){
+                    finish();
+                }
                 /*LoRaGateway is required to harvest data*/
                 LOG EV << "Isolated Node is waking up " << endl;
                 this->frequency = this->old_phase ;
@@ -265,6 +307,12 @@ void IsoN::notListeningHandleMessage(messageLoRA *msg)
                     {
                         messageLoRA *copy = m->dup();
                         send(copy, "channelsO", i);
+                    }
+
+                    this->batterie=this->batterie-this->cout_envoi;
+                    this->messageSend++;
+                    if(this->batterie<0){
+                        finish();
                     }
                     delete m;
                     LOG EV << "Discovery Message sent from: " << this->id <<" number: "<< data << endl;
@@ -297,6 +345,12 @@ void IsoN::notListeningHandleMessage(messageLoRA *msg)
                     {
                         messageLoRA *copy = m->dup();
                         send(copy, "channelsO", i);
+                    }
+
+                    this->batterie=this->batterie-this->cout_envoi;
+                    this->messageSend++;
+                    if(this->batterie<0){
+                        finish();
                     }
                     delete m;
                     LOG EV << "NotListeningPhase : Register Message sent from: " << this->id << endl;
@@ -370,11 +424,17 @@ void IsoN::isListeningHandleMessage(messageLoRA *msg)
                     messageLoRA *copy = m->dup();
                     send(copy, "channelsO", i);
                 }
+
+                this->batterie=this->batterie-this->cout_envoi;
+                this->messageSend++;
+                if(this->batterie<0){
+                    finish();
+                }
                 delete m;
                 LOG EV << "Register Message sent from: " << this->id << endl;
                 this->discovered=true;
                 this->slot=msg->getSlots();
-
+                this->cout_veille=this->slot*this->cv;
                 messageLoRA *mHibernate = new messageLoRA();
                 mHibernate->setIdSrc(this->id);
                 mHibernate->setName("Hibernate_registered?");
@@ -409,6 +469,12 @@ void IsoN::isListeningHandleMessage(messageLoRA *msg)
                     messageLoRA *copy = m->dup();
                     send(copy, "channelsO", i);
                 }
+
+                this->batterie=this->batterie-this->cout_envoi;
+                this->messageSend++;
+                if(this->batterie<0){
+                    finish();
+                }
                 delete m;
                 LOG EV << "Data Response sent from: " << this->id << endl;
 
@@ -420,6 +486,7 @@ void IsoN::isListeningHandleMessage(messageLoRA *msg)
                 mHibernate->setKind(15);
                 scheduleAt(simTime()+this->slot, mHibernate);
 
+                //this->batterie=this->batterie-this->cout_veille;
                 dispStr.setTagArg("i", 0, "device/deviceblack");
                 break;
                 }
@@ -429,6 +496,12 @@ void IsoN::isListeningHandleMessage(messageLoRA *msg)
 
 }
 
+void IsoN::finish()
+{
+    this->sumMessagesend= this->sumMessagesend+ this->messageSend;
+    recordScalar("#sent", this->messageSend);
+    recordScalar("#battery", this->batterie);
+}
 int IsoN::getData() const
 {
     return data;

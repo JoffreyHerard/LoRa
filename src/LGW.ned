@@ -20,6 +20,9 @@ simple LGW
 {
     parameters:
         int id;
+   		string file ;
+        int battery;
+        bool agreg;
         @display("i=old/bwcomp");
     gates:
         input channelsI[];

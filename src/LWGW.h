@@ -20,20 +20,23 @@ public:
     void setOldPhase(double oldPhase);
     int getSlot() const;
     void setSlot(int slot);
-
   private:
     bool discovered;
     double frequency;
     double old_phase;
     vector<int> idRegistered;
     vector<int> idRegisteredLGW;
-    int slot,id;
+    int slot;
+    int id;
     long long messageSend;
+    static long long sumMessagesend;
+    string file;
   protected:
     virtual void initialize();
     virtual void handleMessage(cMessage *msg);
     void notListeningHandleMessage(messageLoRA *msg);
     void isListeningHandleMessage(messageLoRA *msg);
+    virtual void finish();
 };
 
 #endif

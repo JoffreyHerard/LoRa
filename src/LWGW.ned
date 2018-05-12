@@ -21,6 +21,8 @@ simple LWGW
     
      parameters:
         int id;
+        string file;
+        int slot ;
         @display("i=device/antennatower");
     gates:
         input channelsI[];
